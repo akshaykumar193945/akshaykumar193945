@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+    <h2>Admission Successful</h2>
+    <p>Thank you for submitting your admission form. Here's a summary of your information:</p>
+    <ul>
+        <li><strong>Name:</strong> {{ admission_record.name }}</li>
+        <li><strong>Email:</strong> {{ admission_record.email }}</li>
+        <li><strong>Date of Birth:</strong> {{ admission_record.dob }}</li>
+    </ul>
+    <p><a href="{{ url_for('admission_form') }}">Back to Form</a></p>
+
+    <p><a href="{{ url_for('layout') }}">Back to Home</a></p>
+
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<h1>Searched records are</h1>
+
+<ul>
+    {% for record in records %}
+        <li>ID: {{ record.id }}, Name: {{ record.name }}, Email: {{ record.email }}, Date of Birth: {{ record.dob }}</li>
+    {% endfor %}
+</ul>
+
+<p><a href="{{ url_for('layout') }}">Back to Home</a></p>
+
+{% endblock %}
