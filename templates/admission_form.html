@@ -5,7 +5,7 @@
     <!-- <div class="container"> -->
         <form action="{{ url_for('admit') }}" method="POST">
             <label for="name">Full Name:</label>
-            <input type="text" id="name" name="name" required>
+            <input type="text" id="name" name="name" oninput="validateName()" required>
     
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" required>
@@ -19,6 +19,7 @@
             <input type="submit" value="Submit">
         </form>
     <!-- </div> -->
+    <script src="client_side_validation.js"></script>
     <p><a href="{{ url_for('layout') }}">Back to Home</a></p>
 
 {% endblock %}
