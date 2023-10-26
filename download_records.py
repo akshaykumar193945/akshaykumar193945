@@ -25,7 +25,10 @@ def mkdir():
 
 def download_records():
 
-    connection = sqlite3.connect(r'F:\ROTA\instance\mydatabase.db')
+    current_directory = os.getcwd()
+    database_path = current_directory + os.sep + "instance" + os.sep + "mydatabase.db"
+    connection = sqlite3.connect(database_path)
+
     cursor = connection.cursor()
     query = "SELECT name FROM sqlite_master WHERE type='table';"
 
