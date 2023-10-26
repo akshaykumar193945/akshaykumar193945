@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for
 from models import db, AdmissionRecord
 
 import download_records as dwnld_rcds
