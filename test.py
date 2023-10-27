@@ -127,7 +127,15 @@ def update_record(id):
 @app.route('/delete_record/<int:id>', methods=['POST'])
 def delete_record(id):
     record = AdmissionRecord.query.get(id)
-    
+    model_dict = {}
+    # print(record, type(record))
+    # print(record)
+    for column in record.__table__.columns:
+        attribute_name = column.key
+        attribute_value = getattr(record, attribute_name)
+        model_dict[attribute_name] = attribute_value
+    print(model_dict)  # dump to files as temp
+
     if record:
         db.session.delete(record)
         db.session.commit()
