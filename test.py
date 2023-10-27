@@ -119,5 +119,22 @@ def about():
 def contact():
     return render_template('contact.html')
 
+@app.route('/update_record/<int:id>', methods=['GET', 'POST'])
+def update_record(id):
+    # Perform Operation
+    return render_template('contact.html')
+
+@app.route('/delete_record/<int:id>', methods=['POST'])
+def delete_record(id):
+    record = AdmissionRecord.query.get(id)
+    
+    if record:
+        db.session.delete(record)
+        db.session.commit()
+        return redirect(url_for('admission_records'))
+    else:
+        return render_template('error.html')
+    # return render_template('contact.html')
+
 if __name__ == '__main__':
     app.run(debug=True)
