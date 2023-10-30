@@ -64,7 +64,6 @@ def display_record():
 def edit_record_by_id():
     if request.method == 'POST':
         record_id = request.form['record_id']
-        print("2222222222222222222222", record_id)
         record = AdmissionRecord.query.get(record_id)
         print(record)
     return render_template('edit_record.html', record=record)
@@ -122,7 +121,9 @@ def contact():
 @app.route('/update_record/<int:id>', methods=['GET', 'POST'])
 def update_record(id):
     # Perform Operation
-    return render_template('contact.html')
+    record = AdmissionRecord.query.get(id)
+    print(record)
+    return render_template('edit_record.html', record=record)
 
 @app.route('/delete_record/<int:id>', methods=['POST'])
 def delete_record(id):
@@ -134,7 +135,7 @@ def delete_record(id):
         attribute_name = column.key
         attribute_value = getattr(record, attribute_name)
         model_dict[attribute_name] = attribute_value
-    print(model_dict)  # dump to files as temp
+    print(model_dict)  # dump deleted records to files as temp 
 
     if record:
         db.session.delete(record)
