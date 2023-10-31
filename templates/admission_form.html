@@ -25,36 +25,5 @@
     </form>   
 
     <p><a href="{{ url_for('layout') }}">Back to Home</a></p>
-    <script>function validateForm() {
-        var nameInput = document.getElementById("name");
-        var nameError = document.getElementById("nameError");
-        var name = nameInput.value.trim();
-        var namePattern = /^[A-Za-z\s\-']+$/;
     
-        var emailInput = document.getElementById("email");
-        var emailError = document.getElementById("emailError");
-        var email = emailInput.value.trim();
-        var emailPattern = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/;
-    
-        var dobInput = document.getElementById("dob");
-        var dobError = document.getElementById("dobError");
-        var dob = dobInput.value.trim();
-        // You can add date of birth validation here
-    
-        if (!namePattern.test(name)) {
-            nameError.textContent = "Please enter a valid name.";
-            return false;
-        } else if (!emailPattern.test(email)) {
-            emailError.textContent = "Please enter a valid email."
-            return false;
-        }
-        
-        else {
-            nameError.textContent = "";
-        }
-    
-        // Add similar validation for email and date of birth fields
-    
-        return true; // Allow form submission if all fields are valid
-    }</script>
 {% endblock %}
