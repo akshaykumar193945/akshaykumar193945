@@ -103,43 +103,39 @@
     </script>
 
 
-<script>
-    // JavaScript to load "About" section using AJAX
-    document.getElementById('load-service').addEventListener('click', function(e) {
-        e.preventDefault(); // Prevent the default link behavior
-        // Use AJAX to fetch the "About" section content
-        fetch('/service')
-            .then(response => response.text())
-            .then(data => {
-                // Insert the fetched content into the 'content' div
-                document.getElementById('content').innerHTML = data;
-            })
-            .catch(error => {
-                console.error('Error loading "service" content:', error);
-            });
-    });
-</script>
+    <script>
+        // JavaScript to load "About" section using AJAX
+        document.getElementById('load-service').addEventListener('click', function(e) {
+            e.preventDefault(); // Prevent the default link behavior
+            // Use AJAX to fetch the "About" section content
+            fetch('/service')
+                .then(response => response.text())
+                .then(data => {
+                    // Insert the fetched content into the 'content' div
+                    document.getElementById('content').innerHTML = data;
+                })
+                .catch(error => {
+                    console.error('Error loading "service" content:', error);
+                });
+        });
+    </script>
 
-<script>
-    // JavaScript to load "About" section using AJAX
-    document.getElementById('load-contact').addEventListener('click', function(e) {
-        e.preventDefault(); // Prevent the default link behavior
-        // Use AJAX to fetch the "About" section content
-        fetch('/contact')
-            .then(response => response.text())
-            .then(data => {
-                // Insert the fetched content into the 'content' div
-                document.getElementById('content').innerHTML = data;
-            })
-            .catch(error => {
-                console.error('Error loading "contact" content:', error);
-            });
-    });
-</script>
-
-
-
-
+    <script>
+        // JavaScript to load "About" section using AJAX
+        document.getElementById('load-contact').addEventListener('click', function(e) {
+            e.preventDefault(); // Prevent the default link behavior
+            // Use AJAX to fetch the "About" section content
+            fetch('/contact')
+                .then(response => response.text())
+                .then(data => {
+                    // Insert the fetched content into the 'content' div
+                    document.getElementById('content').innerHTML = data;
+                })
+                .catch(error => {
+                    console.error('Error loading "contact" content:', error);
+                });
+        });
+    </script>
 
 </body>
 
