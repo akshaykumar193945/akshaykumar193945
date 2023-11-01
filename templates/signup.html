@@ -1,11 +1,9 @@
-
 {% extends "layout.html" %}
 
 {% block content %}
-
 <div class="container">
     <h1>Sign Up</h1>
-    <form method="POST" action="{{ url_for('signup') }}">
+    <form method="POST" action="{{ url_for('signup') }}" onsubmit="return validateSignup()">
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required>
         <br>
@@ -19,4 +17,33 @@
     <p>Already have an account? <a href="{{ url_for('login') }}">Log In</a></p>
 </div>
 
+<script>
+    function validateSignup() {
+        var username = document.getElementById("username").value;
+        var usernamePattern = /^[A-Za-z\s\-']+$/;
+
+        var password = document.getElementById("password").value;
+
+        if (!usernamePattern.test(username) || username.length < 6) {
+            if (!usernamePattern.test(username)) {
+                alert("Special characters not allowed in username.");
+            }
+
+            if (username.length < 5) {
+                alert("Username must be at least 5 characters long.");
+            }
+
+            return false; // Prevent form submission
+        }
+    
+        if (password.length < 3) {
+            alert("Password must be at least 3 characters long.");
+            return false; // Prevent form submission
+        }
+    
+        // You can add more validation checks as needed
+    
+        return true; // Submit the form if all checks pass
+    }
+    </script>
 {% endblock %}

@@ -21,15 +21,12 @@
                 <li><a href="{{ url_for('find') }}">Sarch/Edit/Delete Record</a></li>
                 
                 <li><a href="{{ url_for('admission_records') }}">Admission Records</a></li>
-                <li><a href="{{ url_for('about') }}">About</a></li>
-                <li><a href="{{ url_for('service') }}">Services</a></li>
-                <li><a href="{{ url_for('contact') }}">Contact</a></li>
+                <li><a id="load-about" href="javascript:void(0)">About</a></li>
+                <li><a id="load-service" href="javascript:void(0)">Service</a></li>
+                <li><a id="load-contact" href="javascript:void(0)">Contact</a></li>
                 <li><a href="{{ url_for('login') }}">Login</a></li>
                 <li><a href="{{ url_for('signup') }}">Signup</a></li>
                 <li><a href="{{ url_for('logout') }}">logout</a></li>
-
-
-
             </ul>
         </nav>
     </header>
@@ -87,6 +84,63 @@
     
         return true; // Allow form submission if all fields are valid
     }</script>
+
+    <script>
+        // JavaScript to load "About" section using AJAX
+        document.getElementById('load-about').addEventListener('click', function(e) {
+            e.preventDefault(); // Prevent the default link behavior
+            // Use AJAX to fetch the "About" section content
+            fetch('/about')
+                .then(response => response.text())
+                .then(data => {
+                    // Insert the fetched content into the 'content' div
+                    document.getElementById('content').innerHTML = data;
+                })
+                .catch(error => {
+                    console.error('Error loading "About" content:', error);
+                });
+        });
+    </script>
+
+
+<script>
+    // JavaScript to load "About" section using AJAX
+    document.getElementById('load-service').addEventListener('click', function(e) {
+        e.preventDefault(); // Prevent the default link behavior
+        // Use AJAX to fetch the "About" section content
+        fetch('/service')
+            .then(response => response.text())
+            .then(data => {
+                // Insert the fetched content into the 'content' div
+                document.getElementById('content').innerHTML = data;
+            })
+            .catch(error => {
+                console.error('Error loading "service" content:', error);
+            });
+    });
+</script>
+
+<script>
+    // JavaScript to load "About" section using AJAX
+    document.getElementById('load-contact').addEventListener('click', function(e) {
+        e.preventDefault(); // Prevent the default link behavior
+        // Use AJAX to fetch the "About" section content
+        fetch('/contact')
+            .then(response => response.text())
+            .then(data => {
+                // Insert the fetched content into the 'content' div
+                document.getElementById('content').innerHTML = data;
+            })
+            .catch(error => {
+                console.error('Error loading "contact" content:', error);
+            });
+    });
+</script>
+
+
+
+
+
 </body>
 
 </html>
