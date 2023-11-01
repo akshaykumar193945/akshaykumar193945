@@ -15,9 +15,11 @@ with app.app_context():
     print("All database created !!!")
 
 app.secret_key = 'your_secret_key'
+
 login_manager = LoginManager()
 login_manager.init_app(app)
 
+app.config['PERMANENT_SESSION_LIFETIME'] = 600  # 30 minutes in seconds
 
 @app.route('/')
 def layout():
@@ -65,6 +67,8 @@ def signup():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     # Check user credentials and log in the user
+    logout_user()
+
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
