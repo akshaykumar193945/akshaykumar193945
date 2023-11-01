@@ -1,6 +1,4 @@
-{% extends "layout.html" %}
 
-{% block content %}
 <h1>Search the Record</h1>
 <form action="{{ url_for('display_record') }}" method="POST">
     <label for="name">Name:</label>
@@ -26,4 +24,3 @@
 
 <p><a href="{{ url_for('layout') }}">Back to Home</a></p>
 
-{% endblock %}
