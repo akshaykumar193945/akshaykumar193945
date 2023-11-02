@@ -17,7 +17,7 @@
         <nav>
             <ul>
                 <li><a href="{{ url_for('layout') }}">Home</a></li>
-                <li><a href="{{ url_for('admission_form') }}">Register</a></li>
+                <li><a id="load-register" href="javascript:void(0)">Register</a></li>
                 <li><a id="load-find" href="javascript:void(0)">Sarch/Edit/Delete Record</a></li>
                 
                 <li><a href="{{ url_for('admission_records') }}">Admission Records</a></li>
@@ -149,10 +149,27 @@
                     document.getElementById('content').innerHTML = data;
                 })
                 .catch(error => {
-                    console.error('Error loading "find" content:', error);
+                    console.error('Error load-register loading "find" content:', error);
                 });
         });
     </script>
+
+<script>
+    // JavaScript to load "About" section using AJAX
+    document.getElementById('load-register').addEventListener('click', function(e) {
+        e.preventDefault(); // Prevent the default link behavior
+        // Use AJAX to fetch the "About" section content
+        fetch('/admission_form')
+            .then(response => response.text())
+            .then(data => {
+                // Insert the fetched content into the 'content' div
+                document.getElementById('content').innerHTML = data;
+            })
+            .catch(error => {
+                console.error('Error loading "find" content:', error);
+            });
+    });
+</script>
 
 </body>
 
