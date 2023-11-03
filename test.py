@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify
 from models import db, AdmissionRecord, User_Credentials
-from flask_login import LoginManager, login_user, login_required, logout_user
+from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 
 import download_records as dwnld_rcds
 
@@ -20,6 +20,16 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 
 app.config['PERMANENT_SESSION_LIFETIME'] = 600  # 30 minutes in seconds
+
+
+@app.route('/check_login_status')
+def check_login_status():
+    # Check if the user is authenticated
+    if current_user.is_authenticated:
+        return jsonify({'authenticated': True})
+    else:
+        return jsonify({'authenticated': False})
+
 
 @app.route('/')
 def layout():

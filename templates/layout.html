@@ -20,13 +20,13 @@
                 <li><a id="load-register" href="javascript:void(0)">Register</a></li>
                 <li><a id="load-find" href="javascript:void(0)">Sarch/Edit/Delete Record</a></li>
                 
-                <li><a href="{{ url_for('admission_records') }}">Admission Records</a></li>
+                <li><a id="load-admission-record" href="{{ url_for('admission_records') }}">Admission Records</a></li>
                 <li><a id="load-about" href="javascript:void(0)">About</a></li>
                 <li><a id="load-service" href="javascript:void(0)">Service</a></li>
                 <li><a id="load-contact" href="javascript:void(0)">Contact</a></li>
-                <li><a href="{{ url_for('login') }}">Login</a></li>
+                <li><a id ="login-link" href="{{ url_for('login') }}">Login</a></li>
                 <li><a href="{{ url_for('signup') }}">Signup</a></li>
-                <li><a href="{{ url_for('logout') }}">logout</a></li>
+                <li><a id ="logout-link" href="{{ url_for('logout') }}">logout</a></li>
             </ul>
         </nav>
     </header>
@@ -169,6 +169,67 @@
                 console.error('Error loading "find" content:', error);
             });
     });
+</script>
+
+<script>
+    // JavaScript function to check user login status and hide/show tabs
+    function checkLoginStatus() {
+        var registerTab = document.getElementById('load-register');
+        var findTab = document.getElementById('load-find');
+        var load_adm_tab = document.getElementById('load-admission-record');
+
+        // Make an AJAX request to the Flask view
+        fetch('/check_login_status')
+            .then(response => response.json())
+            .then(data => {
+                if (!data.authenticated) {
+                    // User is not authenticated, hide the tabs
+                    registerTab.innerHTML = '';
+                    findTab.innerHTML = '';
+                    load_adm_tab.innerHTML = '';
+                } else {
+                    // User is authenticated, show the tabs
+                    registerTab.innerHTML = 'Register';
+                    findTab.innerHTML = 'Search/Edit/Delete Record';
+                    load_adm_tab.innerHTML = 'Admission Records';
+                }
+            })
+            .catch(error => {
+                console.error('Error checking login status:', error);
+            });
+    }
+
+    // Call the function when the page loads
+    checkLoginStatus();
+</script>
+
+<script>
+    // JavaScript function to check user login status and hide/show login/logout links
+    function checkLoginStatus() {
+        var loginLink = document.getElementById('login-link');
+        var logoutLink = document.getElementById('logout-link');
+
+        // Make an AJAX request to the Flask view
+        fetch('/check_login_status')
+            .then(response => response.json())
+            .then(data => {
+                if (data.authenticated) {
+                    // User is authenticated, show the logout link and hide the login link
+                    loginLink.innerHTML = '';
+                    logoutLink.innerHTML= 'Logout';
+                } else {
+                    // User is not authenticated, show the login link and hide the logout link
+                    loginLink.innerHTML = 'Login';
+                    logoutLink.innerHTML = '';
+                }
+            })
+            .catch(error => {
+                console.error('Error checking login status:', error);
+            });
+    }
+
+    // Call the function when the page loads
+    checkLoginStatus();
 </script>
 
 </body>
