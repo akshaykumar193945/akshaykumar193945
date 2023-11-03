@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, jsonify
 from models import db, AdmissionRecord, User_Credentials
 from flask_login import LoginManager, login_user, login_required, logout_user
 
@@ -210,26 +210,27 @@ def update_record(id):
     print(record)
     return render_template('edit_record.html', record=record)
 
-@app.route('/delete_record/<int:id>', methods=['POST'])
+@app.route('/delete_record/<int:id>', methods=['DELETE'])
 @login_required
 def delete_record(id):
     record = AdmissionRecord.query.get(id)
-    model_dict = {}
-    # print(record, type(record))
-    # print(record)
-    for column in record.__table__.columns:
-        attribute_name = column.key
-        attribute_value = getattr(record, attribute_name)
-        model_dict[attribute_name] = attribute_value
-    print(model_dict)  # dump deleted records to files as temp 
 
     if record:
+        model_dict = {}
+        for column in record.__table__.columns:
+            attribute_name = column.key
+            attribute_value = getattr(record, attribute_name)
+            model_dict[attribute_name] = attribute_value
+
         db.session.delete(record)
         db.session.commit()
-        return redirect(url_for('admission_records'))
+
+        # Optionally, return a JSON response to indicate success
+        return jsonify({'message': 'Record deleted successfully', 'deleted_record': model_dict})
     else:
-        return render_template('error.html')
-    # return render_template('contact.html')
+        # Return a JSON response for error
+        return jsonify({'error': 'Record not found'}), 404
+
 
 if __name__ == '__main__':
     app.run(debug=True)

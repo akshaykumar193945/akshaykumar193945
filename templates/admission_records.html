@@ -23,21 +23,57 @@
                     <td>{{ record.dob }}</td>
                      <td>
                         <form method="post" action="{{ url_for('update_record', id=record.id) }}" onclick="return confirm('Are you sure you want to update this record?');">
-                            <input type="submit" value="Update">
+                            <input class="update-button" type="submit" value="Update">
                         </form>
                     </td>
                     <td>
-                        <form method="post" action="{{ url_for('delete_record', id=record.id) }}" onclick="return confirm('Are you sure you want to delete this record?');">
-                            <input type="submit" value="Delete">
-                        </form>
+                        <button class="delete-button" data-record-id="{{ record.id }}">Delete</button>
                     </td>
 
                 </tr>
             {% endfor %}
         </tbody>
     </table>
-    <form method="post" action="/process_form">
-        <button type="submit">Download Records</button>
+    <form class="download-button" method="post" action="/process_form">
+        <button class="download-button" type="submit">Download Records</button>
     </form>
     <p><a href="{{ url_for('layout') }}">Back to Home</a></p>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const deleteButtons = document.querySelectorAll('.delete-button');
+    
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const recordId = this.getAttribute('data-record-id');
+    
+                    if (confirm('Are you sure you want to delete this record?')) {
+                        fetch(`/delete_record/${recordId}`, {
+                            method: 'DELETE',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                        })
+                        .then(response => {
+                            if (response.ok) {
+                                return response.json();
+                            } else {
+                                throw new Error('Failed to delete record');
+                            }
+                        })
+                        .then(data => {
+
+                            console.log(data);
+                        })
+                        .catch(error => {
+
+                            console.error(error);
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+    
+    
 {% endblock %}

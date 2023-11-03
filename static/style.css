@@ -71,17 +71,8 @@ th, td {
     margin-bottom: 20px;
     padding: 5px;
   }
-  
-  /* a {
-    color: #0074D9;
-    text-decoration: none;
-  } */
-  
-  /* a:hover {
-    text-decoration: underline;
-  } */
-  
-  .button {
+    
+  .update-button {
     display: inline-block;
     padding: 10px 20px;
     background-color: #0074D9;
@@ -92,8 +83,39 @@ th, td {
     transition: background-color 0.3s;
   }
   
-  .button:hover {
-    background-color: #0056a4;
+  .update-button:hover {
+    background-color: #00a40e;
+  }
+
+  .delete-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #0074D9;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  .delete-button:hover {
+    background-color: #f52a0f;
+  }
+
+  .download-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #0074D9;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    align-items: center;
+  }
+  
+  .download-button:hover {
+    background-color: #00a40e;
   }
 
   form {
