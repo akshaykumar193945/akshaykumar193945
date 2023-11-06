@@ -1,20 +1,23 @@
 
-<h1>Search the Record</h1>
+
 <form action="{{ url_for('display_record') }}" method="POST">
+    <h2>Search the Record</h2>
     <label for="name">Name:</label>
     <input type="text" id="name" name="name" required>
     <input type="submit" value="Submit">
 </form>
 
-<h1>Edit the Record</h1>
+
 <form action="{{ url_for('edit_record_by_id') }}" method="POST">
+    <h2>Edit the Record</h2>
     <label for="record_id">ID of the Record to be Edited:</label>
     <input type="text" id="record_id" name="record_id" required>
     <input type="submit" value="Submit">
 </form>
 
-<h1>Delete the Record</h1>
+
 <form method="POST" action="{{ url_for('delete_record_by_id') }}">
+    <h2>Delete the Record</h2>
     <label for="record_id">ID of the Record to Delete:</label>
     <input type="text" id="record_id" name="record_id" required>
     <input type="submit" value="Delete">
