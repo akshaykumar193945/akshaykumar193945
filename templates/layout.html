@@ -25,7 +25,7 @@
                 <li><a id="load-service" href="javascript:void(0)">Service</a></li>
                 <li><a id="load-contact" href="javascript:void(0)">Contact</a></li>
                 <li><a id ="login-link" href="{{ url_for('login') }}">Login</a></li>
-                <li><a href="{{ url_for('signup') }}">Signup</a></li>
+                <li><a id ="signup-link" href="{{ url_for('signup') }}">Signup</a></li>
                 <li><a id ="logout-link" href="{{ url_for('logout') }}">logout</a></li>
             </ul>
         </nav>
@@ -208,18 +208,21 @@
     function checkLoginStatus() {
         var loginLink = document.getElementById('login-link');
         var logoutLink = document.getElementById('logout-link');
+        var signupLink = document.getElementById('signup-link');
 
         // Make an AJAX request to the Flask view
         fetch('/check_login_status')
             .then(response => response.json())
             .then(data => {
                 if (data.authenticated) {
-                    // User is authenticated, show the logout link and hide the login link
+                    // User is authenticated, show the logout link and hide the login and signup link
                     loginLink.innerHTML = '';
+                    signupLink.innerHTML = '';
                     logoutLink.innerHTML= 'Logout';
                 } else {
-                    // User is not authenticated, show the login link and hide the logout link
+                    // User is not authenticated, show the login and signup link and hide the logout link
                     loginLink.innerHTML = 'Login';
+                    signupLink.innerHTML = 'Signup';
                     logoutLink.innerHTML = '';
                 }
             })
