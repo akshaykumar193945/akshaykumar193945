@@ -126,7 +126,12 @@ def admit():
         return render_template('admission_success.html', admission_record=admission_record)
     return render_template('error.html')
 
-@app.route('/admission_records')
+@app.route('/courses')
+@login_required
+def courses():
+    return render_template('courses.html')
+
+@app.route('/admission_recordscourses')
 @login_required
 def admission_records():
     records = AdmissionRecord.query.all()

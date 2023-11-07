@@ -17,9 +17,9 @@
         <nav>
             <ul>
                 <li><a href="{{ url_for('layout') }}">Home</a></li>
+                <li><a id="load-course" href="{{ url_for('courses') }}">Course</a></li>             
                 <li><a id="load-register" href="javascript:void(0)">Register</a></li>
-                <li><a id="load-find" href="javascript:void(0)">Sarch/Edit/Delete Record</a></li>
-                
+                <li><a id="load-find" href="javascript:void(0)">Sarch/Edit/Delete Record</a></li>                
                 <li><a id="load-admission-record" href="{{ url_for('admission_records') }}">Admission Records</a></li>
                 <li><a id="load-about" href="javascript:void(0)">About</a></li>
                 <li><a id="load-service" href="javascript:void(0)">Service</a></li>
@@ -171,6 +171,7 @@
     });
 </script>
 
+
 <script>
     // JavaScript function to check user login status and hide/show tabs
     function checkLoginStatus() {
@@ -233,6 +234,23 @@
 
     // Call the function when the page loads
     checkLoginStatus();
+</script>
+
+<script>
+    // JavaScript to load "course" section using AJAX
+    document.getElementById('load-course').addEventListener('click', function(e) {
+        e.preventDefault(); // Prevent the default link behavior
+        // Use AJAX to fetch the "course" section content
+        fetch('/courses')
+            .then(response => response.text())
+            .then(data => {
+                // Insert the fetched content into the 'content' div
+                document.getElementById('content').innerHTML = data;
+            })
+            .catch(error => {
+                console.error('Error loading "find" content:', error);
+            });
+    });
 </script>
 
 </body>
