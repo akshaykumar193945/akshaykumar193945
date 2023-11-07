@@ -26,7 +26,7 @@
                 <li><a id="load-contact" href="javascript:void(0)">Contact</a></li>
                 <li><a id ="login-link" href="{{ url_for('login') }}">Login</a></li>
                 <li><a id ="signup-link" href="{{ url_for('signup') }}">Signup</a></li>
-                <li><a id ="logout-link" href="{{ url_for('logout') }}">logout</a></li>
+                <li><a id ="logout-link" href="{{ url_for('logout') }}" onclick="confirmLogout()">logout</a></li>
             </ul>
         </nav>
     </header>
@@ -251,6 +251,15 @@
                 console.error('Error loading "find" content:', error);
             });
     });
+</script>
+
+<script>
+    function confirmLogout() {
+        if (confirm("Are you sure you want to logout?")) {
+            // Redirect to the logout URL
+            window.location.href = "{{ url_for('logout') }}";
+        }
+    }
 </script>
 
 </body>
