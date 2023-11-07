@@ -127,7 +127,6 @@ def admit():
     return render_template('error.html')
 
 @app.route('/courses')
-@login_required
 def courses():
     return render_template('courses.html')
 
