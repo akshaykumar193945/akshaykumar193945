@@ -3,7 +3,7 @@
 {% block content %}
 
 <style>
- .login-signup-div {
+ .signup-div {
     font-family: Arial, sans-serif;
     background-color: #f7dbdb;
     margin: 0;
@@ -14,7 +14,7 @@
     min-height: 100vh;
 }
 
-.login-signup-form {
+.signup-form {
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 5px;
@@ -24,22 +24,22 @@
     padding-bottom: 20px;
 }
 
-.login-signup-h1 {
+.signup-h1 {
     font-size: 24px;
     color: #333;
     margin: 0;
     margin-bottom: 20px;
 }
 
-.login-signup-label {
+.signup-label {
     display: block;
     font-size: 16px;
     color: #333;
     margin-bottom: 5px;
 }
 
-.login-signup-input[type="text"],
-.login-signup-input[type="password"] {
+.signup-input[type="text"],
+.signup-input[type="password"] {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
@@ -47,7 +47,7 @@
     margin-bottom: 10px;
 }
 
-.login-signup-input[type="submit"] {
+.signup-input[type="submit"] {
     background-color: #0074d9;
     color: #fff;
     border: none;
@@ -58,28 +58,27 @@
     transition: background-color 0.3s;
 }
 
-.login-signup-input[type="submit"]:hover {
+.signup-input[type="submit"]:hover {
     background-color: #0056b3;
 }
 </style>
 
-<div class="login-signup-div">
+<div class="signup-div">
     
-    <form class="login-signup-form" method="POST" action="{{ url_for('signup') }}" onsubmit="return validateSignup()">
+    <form class="signup-form" method="POST" action="{{ url_for('signup') }}" onsubmit="return validateSignup()">
         
-        <h1 class="login-signup-h1">Sign Up</h1>
-        <label class="login-signup-label" for="username">Username:</label>
-        <input class="login-signup-input" type="text" id="username" name="username" required>
+        <h1 class="signup-h1">Sign Up</h1>
+        <label class="signup-label" for="username">Username:</label>
+        <input class="signup-input" type="text" id="username" name="username" required>
         <br>
 
-        <label class="login-signup-label" for="password">Password:</label>
-        <input class="login-signup-input" type="password" id="password" name="password" required>
+        <label class="signup-label" for="password">Password:</label>
+        <input class="signup-input" type="password" id="password" name="password" required>
         <br>
 
-        <input class="login-signup-input" type="submit" value="Sign Up"><br><br>
+        <input class="signup-input" type="submit" value="Sign Up"><br><br>
         <p >Already have an account? <a href="{{ url_for('login') }}">Log In</a></p>
-    </form>
-    
+    </form>  
 
  </div>
 
@@ -112,5 +111,5 @@
         return true; // Submit the form if all checks pass
     }
     </script>
-    
+
 {% endblock %}
