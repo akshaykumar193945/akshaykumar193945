@@ -1,21 +1,87 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<div class="container">
-    <h1>Sign Up</h1>
-    <form method="POST" action="{{ url_for('signup') }}" onsubmit="return validateSignup()">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
+
+<style>
+ .login-signup-div {
+    font-family: Arial, sans-serif;
+    background-color: #f7dbdb;
+    margin: 0;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.login-signup-form {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+.login-signup-h1 {
+    font-size: 24px;
+    color: #333;
+    margin: 0;
+    margin-bottom: 20px;
+}
+
+.login-signup-label {
+    display: block;
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.login-signup-input[type="text"],
+.login-signup-input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.login-signup-input[type="submit"] {
+    background-color: #0074d9;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.login-signup-input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+</style>
+
+<div class="login-signup-div">
+    
+    <form class="login-signup-form" method="POST" action="{{ url_for('signup') }}" onsubmit="return validateSignup()">
+        
+        <h1 class="login-signup-h1">Sign Up</h1>
+        <label class="login-signup-label" for="username">Username:</label>
+        <input class="login-signup-input" type="text" id="username" name="username" required>
         <br>
 
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
+        <label class="login-signup-label" for="password">Password:</label>
+        <input class="login-signup-input" type="password" id="password" name="password" required>
         <br>
 
-        <input type="submit" value="Sign Up">
+        <input class="login-signup-input" type="submit" value="Sign Up"><br><br>
+        <p >Already have an account? <a href="{{ url_for('login') }}">Log In</a></p>
     </form>
-    <p>Already have an account? <a href="{{ url_for('login') }}">Log In</a></p>
-</div>
+    
+
+ </div>
 
 <script>
     function validateSignup() {
