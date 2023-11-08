@@ -89,24 +89,6 @@
         return true; // Allow form submission if all fields are valid
     }</script>
 
-<script>
-    
-    // JavaScript to load "register" section using AJAX
-    document.getElementById('login-link').addEventListener('click', function(e) {
-       e.preventDefault(); // Prevent the default link behavior
-       // Use AJAX to fetch the "About" section content
-       fetch('/login')
-           .then(response => response.text())
-           .then(data => {
-               // Insert the fetched content into the 'content' div
-               document.getElementById('content').innerHTML = data;
-           })
-           .catch(error => {
-               console.error('Error loading "find" content:', error);
-           });
-   });
-</script>
-
     <script>
         // JavaScript to load "About" section using AJAX
         document.getElementById('load-about').addEventListener('click', function(e) {
