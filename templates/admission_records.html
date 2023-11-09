@@ -3,9 +3,8 @@
 {% block content %}
     <div class="record_header">
         <h2>Admission Records</h2>   
-        <form class="download-button" method="post" action="/process_form"> 
-            <button class="download-button" type="submit">Download Records</button>
-        </form> 
+        <button class="download-button" type="submit" formmethod="post" formaction="/process_form">Download Excel</button>
+
     </div>
     <br>
     <table class="admission-table">
