@@ -1,15 +1,55 @@
-{% extends "layout.html" %}
+<style>
+    .service-body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+}
 
-{% block content %}
-    <h2>Our Services</h2>
-    <p>We offer a range of services to make the admission process smooth and efficient:</p>
-    <ul>
-        <li>Online Application Form</li>
-        <li>Document Submission</li>
-        <li>Application Review</li>
-        <li>Admission Confirmation</li>
-    </ul>
-    <p><a href="{{ url_for('layout') }}">Back to Home</a></p>
+.service-content {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 20px;
+}
 
-{% endblock %}
+.service-h1 {
+    font-size: 24px;
+    color: #333;
+    margin: 0;
+    margin-bottom: 10px;
+}
 
+.service-p {
+    font-size: 16px;
+    color: #666;
+}
+
+.service-ul {
+    list-style-type: disc;
+    margin-left: 20px;
+}
+
+.service-li {
+    margin-bottom: 5px;
+}
+
+
+</style>
+
+<body class="service-body">
+    <div class="service-content">
+        <h1 class="service-h1">This is service page!</h1>
+        <p class="service-p">We offer a range of services to make the admission process smooth and efficient:</p>
+        <ul class="service-ul">
+            <li class="service-li">Online Application Form</li>
+            <li class="service-li">Document Submission</li>
+            <li class="service-li">Application Review</li>
+            <li class="service-li">Admission Confirmation</li>
+        </ul>
+        <p><a href="{{ url_for('layout') }}">Back to Home</a></p>
+    </div>
+</body>
+</html>

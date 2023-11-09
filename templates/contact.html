@@ -1,7 +1,57 @@
-{% extends "layout.html" %}
 
-{% block content %}
 
-<p><a href="{{ url_for('layout') }}">Back to Home</a></p>
 
-{% endblock %}
+    
+    <style>
+        .contact-body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        margin: 0;
+        padding: 0;
+    }
+    
+    .contact-content {
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin: 20px;
+    }
+    
+    .contact-h2 {
+        font-size: 24px;
+        color: #333;
+        margin: 0;
+        margin-bottom: 10px;
+    }
+    
+    .contact-p {
+        font-size: 16px;
+        color: #666;
+    }
+    
+    .contact-ul {
+        list-style-type: disc;
+        margin-left: 20px;
+    }
+    
+    .contact-li {
+        margin-bottom: 5px;
+    }
+    
+    
+    </style>
+    
+
+<div class="contact-content">
+    <h2 class="contact-h2">This is Contact page !</h2>
+    <p  class="contact-p">We offer a range of services to make the admission process smooth and efficient:</p>
+    <ul class="contact-ul">
+        <li class="contact-li">Online Application Form</li>
+        <li class="contact-li">Document Submission</li>
+        <li class="contact-li">Application Review</li>
+        <li class="contact-li">Admission Confirmation</li>
+    </ul>
+    <p class="contact-p"><a href="{{ url_for('layout') }}">Back to Home</a></p>
+</div>

@@ -23,8 +23,8 @@ def mkdir():
 
     return directory_name
 
-def download_records():
 
+def download_records():
     current_directory = os.getcwd()
     database_path = current_directory + os.sep + "instance" + os.sep + "mydatabase.db"
     connection = sqlite3.connect(database_path)
@@ -38,22 +38,36 @@ def download_records():
 
     table_names = [table[0] for table in tables]
 
-    # print(table_names)
+    print(table_names)
 
-    sql_query = "SELECT * FROM admission_record"
+    sql_query_admission_record = "SELECT * FROM admission_record"
+    sql_query_user_record = "SELECT * FROM user__credentials"
 
-    # Execute the query and fetch data into a DataFrame
-    data = pd.read_sql(sql_query, connection)
+    # Execute the queries and fetch data into DataFrames
+    data_admission_record = pd.read_sql(sql_query_admission_record, connection)
+    data_user_record = pd.read_sql(sql_query_user_record, connection)
 
-    excel_file = mkdir()+os.sep+rf"{excel_name()}.xlsx"
-    sheet_name = "Sheet1"
+    # print("Admission Record Data:")
+    # print(data_admission_record)
 
-    # print(data)
-    data.to_excel(excel_file, sheet_name=sheet_name, index=False)
+    # print("User Record Data:")
+    # print(data_user_record)
+
+    excel_file = mkdir() + os.sep + rf"{excel_name()}.xlsx"
+
+    admission_record_data = "Admission Data"
+    user_record_data = "User Data"
+
+    # Save data to different sheets in the Excel file
+    # Create an Excel writer to save multiple DataFrames into the same Excel file
+    with pd.ExcelWriter(excel_file, engine='xlsxwriter') as writer:
+        data_admission_record.to_excel(writer, sheet_name=admission_record_data, index=False)
+        data_user_record.to_excel(writer, sheet_name=user_record_data, index=False)
 
     cursor.close()
     connection.close()
 
     return True
+
 
 # download_records()

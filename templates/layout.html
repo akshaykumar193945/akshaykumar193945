@@ -17,18 +17,27 @@
         <nav>
             <ul>
                 <li><a href="{{ url_for('layout') }}">Home</a></li>
-                <li><a href="{{ url_for('admission_form') }}">Register</a></li>
-                <li><a href="{{ url_for('find') }}">Sarch/Edit/Delete Record</a></li>
-                
-                <li><a href="{{ url_for('admission_records') }}">Admission Records</a></li>
-                <li><a href="{{ url_for('about') }}">About</a></li>
-                <li><a href="{{ url_for('service') }}">Services</a></li>
-                <li><a href="{{ url_for('contact') }}">Contact</a></li>
+                <li><a id="load-course" href="{{ url_for('courses') }}">Course</a></li>             
+                <li><a id="load-register" href="javascript:void(0)">Register</a></li>
+                <li><a id="load-find" href="javascript:void(0)">Sarch/Edit/Delete Record</a></li>                
+                <li><a id="load-admission-record" href="{{ url_for('admission_records') }}">Admission Records</a></li>
+                <li><a id="load-about" href="javascript:void(0)">About</a></li>
+                <li><a id="load-service" href="javascript:void(0)">Service</a></li>
+                <li><a id="load-contact" href="javascript:void(0)">Contact</a></li>
+                <li><a id ="login-link" href="{{ url_for('login') }}">Login</a></li>
+                <li><a id ="signup-link" href="{{ url_for('signup') }}">Signup</a></li>
+                <li><a id ="logout-link" href="{{ url_for('logout') }}" onclick="confirmLogout()">logout</a></li>
             </ul>
         </nav>
     </header>
     <div id="content">
-        {% block content %}{% endblock %}
+        <h3 class="h3-heading">
+            {% block content %}
+                "Embark on a transformative journey with us and shape your career. <br> 
+                Learn programming from industry experts who will serve as your mentors, guiding you every step of the way. <br> 
+                Join our courses and gain the knowledge and skills needed to succeed in the world of programming and technology."<br>
+            {% endblock %}
+        </h3>
     </div>
     <footer>
         <div class="footer-content">
@@ -40,15 +49,275 @@
                 <p>Contact us: contact@yourcompany.com</p>
             </div>
             <div class="footer-social">
-                <a href="#"><i class="fa fa-facebook"></i></a>
-                <a href="#"><i class="fa fa-twitter"></i></a>
-                <a href="#"><i class="fa fa-linkedin"></i></a>
+                <a class="footer-links" href="#"><i class="fa fa-facebook"></i></a>
+                <a class="footer-links" href="#"><i class="fa fa-twitter"></i></a>
+                <a class="footer-links" href="#"><i class="fa fa-linkedin"></i></a>
             </div>
         </div>
     </footer>
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+    <script>function validateForm() {
+        var nameInput = document.getElementById("name");
+        var nameError = document.getElementById("nameError");
+        var name = nameInput.value.trim();
+        var namePattern = /^[A-Za-z\s\-']+$/;
+    
+        var emailInput = document.getElementById("email");
+        var emailError = document.getElementById("emailError");
+        var email = emailInput.value.trim();
+        var emailPattern = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/;
+    
+        var dobInput = document.getElementById("dob");
+        var dobError = document.getElementById("dobError");
+        var dob = dobInput.value.trim();
+        // You can add date of birth validation here
+    
+        if (!namePattern.test(name)) {
+            nameError.textContent = "Please enter a valid name.";
+            return false;
+        } else if (!emailPattern.test(email)) {
+            emailError.textContent = "Please enter a valid email."
+            return false;
+        }
+        
+        else {
+            nameError.textContent = "";
+        }
+    
+        // Add similar validation for email and date of birth fields
+    
+        return true; // Allow form submission if all fields are valid
+    }</script>
+
+<script>
+    // JavaScript to load "signup-link" section using AJAX
+    document.getElementById('signup-link').addEventListener('click', function(e) {
+        e.preventDefault(); // Prevent the default link behavior
+        // Use AJAX to fetch the "signup" section content
+        fetch('/signup')
+            .then(response => response.text())
+            .then(data => {
+                // Insert the fetched content into the 'content' div
+                document.getElementById('content').innerHTML = data;
+            })
+            .catch(error => {
+                console.error('Error loading "find" content:', error);
+            });
+    });
+</script>
+
+<script>
+    // JavaScript to load "login-link" section using AJAX
+    document.getElementById('login-link').addEventListener('click', function(e) {
+        e.preventDefault(); // Prevent the default link behavior
+        // Use AJAX to fetch the "login" section content
+        fetch('/login')
+            .then(response => response.text())
+            .then(data => {
+                // Insert the fetched content into the 'content' div
+                document.getElementById('content').innerHTML = data;
+            })
+            .catch(error => {
+                console.error('Error loading "find" content:', error);
+            });
+    });
+</script>
+
+    <script>
+        // JavaScript to load "About" section using AJAX
+        document.getElementById('load-about').addEventListener('click', function(e) {
+            e.preventDefault(); // Prevent the default link behavior
+            // Use AJAX to fetch the "About" section content
+            fetch('/about')
+                .then(response => response.text())
+                .then(data => {
+                    // Insert the fetched content into the 'content' div
+                    document.getElementById('content').innerHTML = data;
+                })
+                .catch(error => {
+                    console.error('Error loading "About" content:', error);
+                });
+        });
+    </script>
+
+
+    <script>
+        // JavaScript to load "service" section using AJAX
+        document.getElementById('load-service').addEventListener('click', function(e) {
+            e.preventDefault(); // Prevent the default link behavior
+            // Use AJAX to fetch the "About" section content
+            fetch('/service')
+                .then(response => response.text())
+                .then(data => {
+                    // Insert the fetched content into the 'content' div
+                    document.getElementById('content').innerHTML = data;
+                })
+                .catch(error => {
+                    console.error('Error loading "service" content:', error);
+                });
+        });
+    </script>
+
+    <script>
+        // JavaScript to load "contact" section using AJAX
+        document.getElementById('load-contact').addEventListener('click', function(e) {
+            e.preventDefault(); // Prevent the default link behavior
+            // Use AJAX to fetch the "About" section content
+            fetch('/contact')
+                .then(response => response.text())
+                .then(data => {
+                    // Insert the fetched content into the 'content' div
+                    document.getElementById('content').innerHTML = data;
+                })
+                .catch(error => {
+                    console.error('Error loading "contact" content:', error);
+                });
+        });
+    </script>
+
+    <script>
+        // JavaScript to load "find" section using AJAX
+        document.getElementById('load-find').addEventListener('click', function(e) {
+            e.preventDefault(); // Prevent the default link behavior
+            // Use AJAX to fetch the "About" section content
+            fetch('/find')
+                .then(response => response.text())
+                .then(data => {
+                    // Insert the fetched content into the 'content' div
+                    document.getElementById('content').innerHTML = data;
+                })
+                .catch(error => {
+                    console.error('Error load-register loading "find" content:', error);
+                });
+        });
+    </script>
+
+<script>
+    // JavaScript to load "register" section using AJAX
+    document.getElementById('load-register').addEventListener('click', function(e) {
+        e.preventDefault(); // Prevent the default link behavior
+        // Use AJAX to fetch the "About" section content
+        fetch('/admission_form')
+            .then(response => response.text())
+            .then(data => {
+                // Insert the fetched content into the 'content' div
+                document.getElementById('content').innerHTML = data;
+            })
+            .catch(error => {
+                console.error('Error loading "find" content:', error);
+            });
+    });
+</script>
+
+
+<script>
+    // JavaScript function to check user login status and hide/show tabs
+    function checkLoginStatus() {
+        var registerTab = document.getElementById('load-register');
+        var findTab = document.getElementById('load-find');
+        var load_adm_tab = document.getElementById('load-admission-record');
+
+        // Make an AJAX request to the Flask view
+        fetch('/check_login_status')
+            .then(response => response.json())
+            .then(data => {
+                if (!data.authenticated) {
+                    // User is not authenticated, hide the tabs
+                    registerTab.innerHTML = '';
+                    findTab.innerHTML = '';
+                    load_adm_tab.innerHTML = '';
+                } else {
+                    // User is authenticated, show the tabs
+                    registerTab.innerHTML = 'Register';
+                    findTab.innerHTML = 'Search/Edit/Delete Record';
+                    load_adm_tab.innerHTML = 'Admission Records';
+                }
+            })
+            .catch(error => {
+                console.error('Error checking login status:', error);
+            });
+    }
+
+    // Call the function when the page loads
+    checkLoginStatus();
+</script>
+
+<script>
+    // JavaScript function to check user login status and hide/show login/logout links
+    function checkLoginStatus() {
+        var loginLink = document.getElementById('login-link');
+        var logoutLink = document.getElementById('logout-link');
+        var signupLink = document.getElementById('signup-link');
+
+        // Make an AJAX request to the Flask view
+        fetch('/check_login_status')
+            .then(response => response.json())
+            .then(data => {
+                if (data.authenticated) {
+                    // User is authenticated, show the logout link and hide the login and signup link
+                    loginLink.innerHTML = '';
+                    signupLink.innerHTML = '';
+                    logoutLink.innerHTML= 'Logout';
+                } else {
+                    // User is not authenticated, show the login and signup link and hide the logout link
+                    loginLink.innerHTML = 'Login';
+                    signupLink.innerHTML = 'Signup';
+                    logoutLink.innerHTML = '';
+                }
+            })
+            .catch(error => {
+                console.error('Error checking login status:', error);
+            });
+    }
+
+    // Call the function when the page loads
+    checkLoginStatus();
+</script>
+
+<script>
+    // JavaScript to load "course" section using AJAX
+    document.getElementById('load-course').addEventListener('click', function(e) {
+        e.preventDefault(); // Prevent the default link behavior
+        // Use AJAX to fetch the "course" section content
+        fetch('/courses')
+            .then(response => response.text())
+            .then(data => {
+                // Insert the fetched content into the 'content' div
+                document.getElementById('content').innerHTML = data;
+            })
+            .catch(error => {
+                console.error('Error loading "find" content:', error);
+            });
+    });
+</script>
+
+<script>
+    function confirmLogout() {
+        if (confirm("Are you sure you want to logout?")) {
+            // Redirect to the logout URL
+            window.location.href = "{{ url_for('logout') }}";
+        }
+    }
+</script>
+
+<script>
+function loadLoginPage() {
+    fetch('/login')
+        .then(response => response.text())  // Parse the response as text
+        .then(data => {
+            // Update the content area with the fetched login form
+            document.getElementById('content').innerHTML = data;
+        })
+        .catch(error => {
+            console.error('Error fetching login form: ', error);
+        });
+}
+
+</script>
+
 </body>
 
 </html>

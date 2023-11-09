@@ -1,0 +1,67 @@
+<style>
+
+.course-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Create three equal columns */
+    gap: 20px; /* Add a gap between cards */
+    justify-items: center; /* Center content within each grid cell */
+}
+    .course-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    width: 300px;
+    margin: 20px;
+}
+
+.course-card h2 {
+    font-size: 24px;
+    color: #333;
+    margin: 0;
+}
+
+.course-card p {
+    font-size: 16px;
+    color: #666;
+    margin-top: 10px;
+}
+
+.course-card a {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #0074d9;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.course-card a:hover {
+    background-color: #0056b3;
+}
+</style>
+
+
+<div id ="course" class="course-grid">
+    <div class="course-card">
+        <h2>Python Course</h2>
+        <p>Learn Python programming from scratch.</p>
+        <a href="#">Enroll Now</a>
+    </div>
+
+    <div class="course-card">
+        <h2>Java Course</h2>
+        <p>Master Java programming and software development.</p>
+        <a href="#">Enroll Now</a>
+    </div>
+
+    <div class="course-card">
+        <h2>C Course</h2>
+        <p>Explore the fundamentals of the C programming language.</p>
+        <a href="#">Enroll Now</a>
+    </div>
+</div>
