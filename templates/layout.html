@@ -16,19 +16,20 @@
         <h1>SSVM PUBLIC SCHOOL</h1>
         <nav>
             <ul>
-                <li><a href="{{ url_for('layout') }}">Home</a></li>
-                <li><a id="load-course" href="{{ url_for('courses') }}">Course</a></li>             
-                <li><a id="load-register" href="javascript:void(0)">Register</a></li>
-                <li><a id="load-find" href="javascript:void(0)">Sarch/Edit/Delete Record</a></li>                
-                <li><a id="load-admission-record" href="{{ url_for('admission_records') }}">Admission Records</a></li>
-                <li><a id="load-about" href="javascript:void(0)">About</a></li>
-                <li><a id="load-service" href="javascript:void(0)">Service</a></li>
-                <li><a id="load-contact" href="javascript:void(0)">Contact</a></li>
-                <li><a id ="login-link" href="{{ url_for('login') }}">Login</a></li>
-                <li><a id ="signup-link" href="{{ url_for('signup') }}">Signup</a></li>
-                <li><a id ="logout-link" href="{{ url_for('logout') }}" onclick="confirmLogout()">logout</a></li>
+                <a href="{{ url_for('layout') }}">Home</a>
+                <a id="load-course" href="{{ url_for('courses') }}">Course</a>
+                <a id="load-register" href="javascript:void(0)">Register</a>
+                <a id="load-find" href="javascript:void(0)">Search/Edit/Delete Record</a>
+                <a id="load-admission-record" href="{{ url_for('admission_records') }}">Admission Records</a>
+                <a id="load-about" href="javascript:void(0)">About</a>
+                <a id="load-service" href="javascript:void(0)">Service</a>
+                <a id="load-contact" href="javascript:void(0)">Contact</a>
+                <a id="login-link" href="{{ url_for('login') }}">Login</a>
+                <a id="signup-link" href="{{ url_for('signup') }}">Signup</a>
+                <a id="logout-link" href="{{ url_for('logout') }}" onclick="confirmLogout()">Logout</a>
             </ul>
         </nav>
+        
     </header>
     <div id="content">
         <h3 class="h3-heading">
