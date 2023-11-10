@@ -1,7 +1,4 @@
 
-
-
-    
     <style>
         .contact-body {
         font-family: Arial, sans-serif;
@@ -38,11 +35,9 @@
     
     .contact-li {
         margin-bottom: 5px;
-    }
+    }    
     
-    
-    </style>
-    
+    </style>    
 
 <div class="contact-content">
     <h2 class="contact-h2">This is Contact page !</h2>
@@ -53,5 +48,5 @@
         <li class="contact-li">Application Review</li>
         <li class="contact-li">Admission Confirmation</li>
     </ul>
-    <p class="contact-p"><a href="{{ url_for('layout') }}">Back to Home</a></p>
+    <p class="contact-p"><a id="load-home" href="javascript:void(0)" onclick="loadHomeContent()">Back to Home</a></p>
 </div>
