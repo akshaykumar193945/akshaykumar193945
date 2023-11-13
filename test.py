@@ -128,7 +128,7 @@ def admit():
 def courses():
     return render_template('courses.html')
 
-@app.route('/admission_recordscourses')
+@app.route('/admission_records')
 @login_required
 def admission_records():
     records = AdmissionRecord.query.all()
