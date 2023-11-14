@@ -33,7 +33,7 @@
                         </form>
                     </td>
                     <td>
-                        <button class="delete-button" data-record-id="{{ record.id }}">Delete</button>
+                        <button class="delete-button" data-record-id="{{ record.id }}" onclick="deleteRecord({{ record.id }})">Delete</button>
                     </td>
 
                 </tr>
@@ -46,7 +46,7 @@
     <p><a id="load-home" href="javascript:void(0)" onclick="loadHomeContent()">Back to Home</a></p>
 
 
-    <script>
+    <!-- <script>
         document.addEventListener('DOMContentLoaded', function () {
             const deleteButtons = document.querySelectorAll('.delete-button');
     
@@ -80,7 +80,7 @@
                 });
             });
         });
-    </script>
+    </script> -->
 </div>
     
 <!-- {% endblock %} -->
