@@ -27,11 +27,11 @@
                     <td>{{ record.name }}</td>
                     <td>{{ record.email }}</td>
                     <td>{{ record.dob }}</td>
-                     <td>
-                        <form method="post" action="{{ url_for('update_record', id=record.id) }}" onclick="return confirm('Are you sure you want to update this record?');">
-                            <input class="update-button" type="submit" value="Update">
-                        </form>
+                     
+                    <td>
+                        <button class="update-button" onclick="updateRecord({{ record.id }})">Update</button>
                     </td>
+                    
                     <td>
                         <button class="delete-button" data-record-id="{{ record.id }}" onclick="deleteRecord({{ record.id }})">Delete</button>
                     </td>

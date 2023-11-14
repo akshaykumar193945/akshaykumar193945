@@ -425,6 +425,22 @@ function loadLoginPage() {
     }
 }
 </script>
+<script>
+    function updateRecord(recordId) {
+        if (confirm('Are you sure you want to update this record?')) {
+            fetch(`/update_record/${recordId}`)
+                .then(response => response.text())
+                .then(data => {
+                    // Insert the fetched content into the 'content' div
+                    document.getElementById('content').innerHTML = data;
+                })
+                .catch(error => {
+                    console.error('Error loading "find" content:', error);
+                });
+        }
+    };
+</script>
+
 
 </body>
 
