@@ -177,8 +177,12 @@ def record_edited(id):
                 'email': request.form['email'],
                 'dob': request.form['dob']
                 }
-            # return jsonify({'message': 'Record updated successfully', 'redirect_url': url_for('admission_success')})
-            return render_template('admission_success.html', admission_record=admission_record)    
+            print("Update done !!", admission_record)
+            # return render_template('admission_success.html', admission_record=admission_record)   
+            return jsonify({'message': 'Record updated successfully', 'admission_record': admission_record})
+        else:
+            return jsonify({'error': 'Record not found'}), 404
+ 
 
 @app.route('/delete_record_by_id', methods=['POST'])
 @login_required
