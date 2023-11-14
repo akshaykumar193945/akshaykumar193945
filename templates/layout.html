@@ -455,6 +455,28 @@ function loadLoginPage() {
 }
 </script>
 
+<script>
+    function downloadExcel() {
+        if (confirm('Are you sure you want to download Excel?')) {
+            fetch('/process_form', {
+                method: 'POST',
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.text();
+            })
+            .then(data => {
+                location.reload();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    }
+</script>
+
 </body>
 
 </html>
