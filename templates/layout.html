@@ -430,25 +430,34 @@ function loadLoginPage() {
 </script>
 
 <script>
+    // record edited
     function submitForm(recordId) {
     if (confirm('Are you sure you want to update this record ??')) {
+        console.log('in recode edited');
         fetch(`/record_edited/${recordId}`, {
             method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
         })
         .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Failed to update record');
             }
-            console.logresponse.json();
-            return response.json();
         })
         .then(data => {
-            const jsonData = JSON.parse(data);
-            document.getElementById('content').innerHTML = `Updated Record: ${JSON.stringify(jsonData.admission_record)}`;
+            console.log(data.message);
+            if (data.admission_record) {
+                document.getElementById('content').innerHTML = `Updated Record: ${JSON.stringify(data.admission_record)}`;
+            } else {
+                // Handle the case where no deleted record information is returned
+                console.log('No deleted record information provided');
+            }
         })
-
         .catch(error => {
-            console.log("inside ");
+            console.log("in error")
             console.error('Error:', error);
         });
     }

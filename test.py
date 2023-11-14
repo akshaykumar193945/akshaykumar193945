@@ -161,27 +161,62 @@ def edit_record_by_id():
         print(record)
     return render_template('edit_record.html', record=record)
 
+from flask import request, jsonify
+
 @app.route('/record_edited/<int:id>', methods=['POST'])
 @login_required
 def record_edited(id):
-    if request.method == 'POST':
-        record = AdmissionRecord.query.get(id)
+    try:
         if request.method == 'POST':
-        # Update the record with the data from the form
-            record.name = request.form['name']
-            record.email = request.form['email']
-            record.dob = request.form['dob']
-            db.session.commit()  # Commit the changes to the database
-            admission_record = {
-                'name': request.form['name'],
-                'email': request.form['email'],
-                'dob': request.form['dob']
+            data = request.json  # Use request.json to parse JSON data
+
+            # Access data properties as needed
+            name = data.get('name')
+            email = data.get('email')
+            dob = data.get('dob')
+
+            record = AdmissionRecord.query.get(id)
+            if record:
+                # Update the record with the data from the JSON request
+                record.name = name
+                record.email = email
+                record.dob = dob
+                db.session.commit()
+
+                admission_record = {
+                    'name': record.name,
+                    'email': record.email,
+                    'dob': record.dob
                 }
-            print("Update done !!", admission_record)
-            # return render_template('admission_success.html', admission_record=admission_record)   
-            return jsonify({'message': 'Record updated successfully', 'admission_record': admission_record})
-        else:
-            return jsonify({'error': 'Record not found'}), 404
+
+                return jsonify({'message': 'Record updated successfully', 'admission_record': admission_record})
+            else:
+                return jsonify({'error': 'Record not found'}), 404
+    except Exception as e:
+        print(f"Error: {str(e)}")
+        return jsonify({'error': 'Internal Server Error'}), 500
+
+# @app.route('/record_edited/<int:id>', methods=['POST'])
+# @login_required
+# def record_edited(id):
+#     if request.method == 'POST':
+#         record = AdmissionRecord.query.get(id)
+#         if request.method == 'POST':
+#         # Update the record with the data from the form
+#             record.name = request.form['name']
+#             record.email = request.form['email']
+#             record.dob = request.form['dob']
+#             db.session.commit()  # Commit the changes to the database
+#             admission_record = {
+#                 'name': request.form['name'],
+#                 'email': request.form['email'],
+#                 'dob': request.form['dob']
+#                 }
+#             print("Update done !!", admission_record)
+#             # return render_template('admission_success.html', admission_record=admission_record)   
+#             return jsonify({'message': 'Record updated successfully', 'admission_record': admission_record})
+#         else:
+#             return jsonify({'error': 'Record not found'}), 404
  
 
 @app.route('/delete_record_by_id', methods=['POST'])
