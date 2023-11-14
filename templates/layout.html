@@ -401,18 +401,6 @@ function loadLoginPage() {
             // Handle successful deletion, e.g., update UI or show a message
             console.log(data.message);
             if (data.deleted_record) {
-                // Assuming 'content' is the ID of the element where you want to display the result
-                // const htmlContent = `
-                //     <p>Deleted Record:</p>
-                //     <ul>
-                //         <li>ID: ${model_dict.id}</li>
-                //         <li>Name: ${model_dict.name}</li>
-                //         <li>Email: ${model_dict.email}</li>
-                //         <li>DoB: ${model_dict.dob}</li>
-                //         <!-- Add other attributes as needed -->
-                //     </ul>
-                // `;
-                // document.getElementById('content').innerHTML = htmlContent;
                 document.getElementById('content').innerHTML = `Deleted Record: ${JSON.stringify(data.deleted_record)}`;
             } else {
                 // Handle the case where no deleted record information is returned
@@ -441,6 +429,27 @@ function loadLoginPage() {
     };
 </script>
 
+<script>
+    function submitForm() {
+        if (confirm('Are you sure you want to update this record ??')) {
+            const form = document.getElementById('updateForm');
+            const formData = new FormData(form);
+
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => response.text())
+                .then(data => {
+                    // Insert the fetched content into the 'content' div
+                    document.getElementById('content').innerHTML = data;
+                })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    }
+</script>
 
 </body>
 
