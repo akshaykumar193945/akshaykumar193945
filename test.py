@@ -162,20 +162,22 @@ def edit_record_by_id():
     return render_template('edit_record.html', record=record)
 
 from flask import request, jsonify
-
+import traceback
 @app.route('/record_edited/<int:id>', methods=['POST'])
 @login_required
 def record_edited(id):
     try:
         if request.method == 'POST':
-            data = request.json  # Use request.json to parse JSON data
-
+            print('This is request !!!!', request)
+            data = request.get_json(force=True)  # Use request.json to parse JSON data
+            print("In record edited :", data)
             # Access data properties as needed
             name = data.get('name')
             email = data.get('email')
             dob = data.get('dob')
 
             record = AdmissionRecord.query.get(id)
+            print('This is db recode', record)
             if record:
                 # Update the record with the data from the JSON request
                 record.name = name
@@ -188,12 +190,13 @@ def record_edited(id):
                     'email': record.email,
                     'dob': record.dob
                 }
-
+                print("Updation Done !!!")
                 return jsonify({'message': 'Record updated successfully', 'admission_record': admission_record})
             else:
                 return jsonify({'error': 'Record not found'}), 404
     except Exception as e:
         print(f"Error: {str(e)}")
+        traceback.print_exc()
         return jsonify({'error': 'Internal Server Error'}), 500
 
 # @app.route('/record_edited/<int:id>', methods=['POST'])
