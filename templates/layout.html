@@ -22,6 +22,7 @@
                 <a id="load-find" href="javascript:void(0)">Search/Edit/Delete Record</a>
                 <a id="load-admission-record" href="{{ url_for('admission_records') }}">Admission Records</a>
                 <a id="load-about" href="javascript:void(0)">About</a>
+                <a id="load-searching" href="javascript:void(0)">Searching</a>
                 <a id="load-service" href="javascript:void(0)">Service</a>
                 <a id="load-contact" href="javascript:void(0)">Contact</a>
                 <a id="login-link" href="{{ url_for('login') }}">Login</a>
@@ -86,6 +87,23 @@
                     console.error('Error loading "home_content" content:', error);
                 });
         }
+    </script>
+    
+    <script>
+        // JavaScript to load "signup-link" section using AJAX
+        document.getElementById('load-searching').addEventListener('click', function(e) {
+            e.preventDefault(); // Prevent the default link behavior
+            // Use AJAX to fetch the "signup" section content
+            fetch('/load_searching')
+                .then(response => response.text())
+                .then(data => {
+                    // Insert the fetched content into the 'content' div
+                    document.getElementById('content').innerHTML = data;
+                })
+                .catch(error => {
+                    console.error('Error loading "find" content:', error);
+                });
+        });
     </script>
 
     <script>function validateForm() {
@@ -379,6 +397,33 @@ function loadLoginPage() {
                 console.error('Error loading "find" content:', error);
             });
     });
+
+</script>
+<!-- <script>
+    function performSearch() {
+        var searchTerm = document.getElementById('searchInput').value.toLowerCase();
+        var listItems = document.querySelectorAll('.searchable-list li');
+        console.log("In searches ")
+
+        listItems.forEach(function (item) {
+            var itemText = item.textContent.toLowerCase();
+            var isVisible = itemText.includes(searchTerm);
+            item.style.display = isVisible ? 'block' : 'none';
+        });
+    }
+</script> -->
+<script>
+    function performTableSearch() {
+        var searchTerm = document.getElementById('tableSearchInput').value.toLowerCase();
+        var tableRows = document.querySelectorAll('.searchable-table tbody tr');
+        console.log("In Table searches ")
+
+        tableRows.forEach(function (row) {
+            var rowText = row.textContent.toLowerCase();
+            var isVisible = rowText.includes(searchTerm);
+            row.style.display = isVisible ? 'table-row' : 'none';
+        });
+    }
 </script>
 
 <script>

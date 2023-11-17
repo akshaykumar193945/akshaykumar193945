@@ -30,6 +30,21 @@ def check_login_status():
     else:
         return jsonify({'authenticated': False})
 
+# Define the 'before_request' hook
+@app.before_request
+def before_request():
+    print("Executing 'before_request' hook")
+    print(f"Request URL: {request.url}  Request Method: {request.method}")
+    # print(f"")
+    print("-----------------------------")
+
+# Define the 'after_request' hook
+@app.after_request
+def after_request(response):
+    print("Executing 'after_request' hook")
+    print(f"Response Status Code: {response.status_code}")
+    print("-----------------------------")
+    return response
 
 @app.route('/')
 def layout():
@@ -140,6 +155,10 @@ def admission_records():
 def find():
     print("Line no 48")
     return render_template('find.html')
+
+@app.route('/load_searching')
+def load_searching():
+    return render_template('searching.html')
 
 @app.route('/display_record', methods=['POST'])
 @login_required

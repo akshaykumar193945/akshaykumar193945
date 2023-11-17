@@ -3,12 +3,14 @@
 {% block content %} -->
 <div id="admission-form">
     <div class="record_header">
-        <h2>Admission Records</h2>   
+        <h2>Admission Records</h2>
+        <input type="text" id="searchInput" placeholder="Search...">   
         <button class="download-button" onclick="downloadExcel()">Download Excel</button>
     </div>
     <br>
     <table class="admission-table">
         <thead>
+            <tr>
                 <th>User_Id</th>
                 <th>Record_ID</th>
                 <th>Name</th>
@@ -34,7 +36,6 @@
                     <td>
                         <button class="delete-button" data-record-id="{{ record.id }}" onclick="deleteRecord({{ record.id }})">Delete</button>
                     </td>
-
                 </tr>
             {% endfor %}
         </tbody>
@@ -45,6 +46,30 @@
     <p><a id="load-home" href="javascript:void(0)" onclick="loadHomeContent()">Back to Home</a></p>
 
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $("#searchInput").on("input", function () {
+            var value = $(this).val().toLowerCase();
+            $("table.admission-table tbody tr").each(function () {
+                var rowVisible = false;
+                $(this).find("td").each(function () {
+                    if ($(this).text().toLowerCase().indexOf(value) > -1) {
+                        rowVisible = true;
+                        return false; // exit the loop if a match is found in this row
+                    }
+                });
+                $(this).toggle(rowVisible);
+            });
+        });
+    });
+
+    // Your existing JavaScript functions (e.g., updateRecord, deleteRecord, loadHomeContent)
+</script>
+
+
     
 <!-- {% endblock %} -->
 
