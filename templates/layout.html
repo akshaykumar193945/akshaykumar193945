@@ -22,7 +22,6 @@
                 <a id="load-find" href="javascript:void(0)">Search/Edit/Delete Record</a>
                 <a id="load-admission-record" href="{{ url_for('admission_records') }}">Admission Records</a>
                 <a id="load-about" href="javascript:void(0)">About</a>
-                <a id="load-searching" href="javascript:void(0)">Searching</a>
                 <a id="load-service" href="javascript:void(0)">Service</a>
                 <a id="load-contact" href="javascript:void(0)">Contact</a>
                 <a id="login-link" href="{{ url_for('login') }}">Login</a>
@@ -399,24 +398,13 @@ function loadLoginPage() {
     });
 
 </script>
-<!-- <script>
-    function performSearch() {
-        var searchTerm = document.getElementById('searchInput').value.toLowerCase();
-        var listItems = document.querySelectorAll('.searchable-list li');
-        console.log("In searches ")
 
-        listItems.forEach(function (item) {
-            var itemText = item.textContent.toLowerCase();
-            var isVisible = itemText.includes(searchTerm);
-            item.style.display = isVisible ? 'block' : 'none';
-        });
-    }
-</script> -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
     function performTableSearch() {
         var searchTerm = document.getElementById('tableSearchInput').value.toLowerCase();
-        var tableRows = document.querySelectorAll('.searchable-table tbody tr');
-        console.log("In Table searches ")
+        var tableRows = document.querySelectorAll('.admission-table tbody tr');
+        console.log("In Table searches admission-table ")
 
         tableRows.forEach(function (row) {
             var rowText = row.textContent.toLowerCase();
