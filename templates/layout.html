@@ -88,23 +88,6 @@
         }
     </script>
     
-    <script>
-        // JavaScript to load "signup-link" section using AJAX
-        document.getElementById('load-searching').addEventListener('click', function(e) {
-            e.preventDefault(); // Prevent the default link behavior
-            // Use AJAX to fetch the "signup" section content
-            fetch('/load_searching')
-                .then(response => response.text())
-                .then(data => {
-                    // Insert the fetched content into the 'content' div
-                    document.getElementById('content').innerHTML = data;
-                })
-                .catch(error => {
-                    console.error('Error loading "find" content:', error);
-                });
-        });
-    </script>
-
     <script>function validateForm() {
         var nameInput = document.getElementById("name");
         var nameError = document.getElementById("nameError");
@@ -378,24 +361,6 @@ function loadLoginPage() {
             console.error('Error fetching login form: ', error);
         });
 }
-
-</script>
-
-<script>
-    // JavaScript to load "register" section using AJAX
-    document.getElementById('admission-form').addEventListener('click', function(e) {
-        e.preventDefault(); // Prevent the default link behavior
-        // Use AJAX to fetch the "About" section content
-        fetch('/admission_records')
-            .then(response => response.text())
-            .then(data => {
-                // Insert the fetched content into the 'content' div
-                document.getElementById('content').innerHTML = data;
-            })
-            .catch(error => {
-                console.error('Error loading "find" content:', error);
-            });
-    });
 
 </script>
 
