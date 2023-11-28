@@ -69,7 +69,12 @@
                 .then(data => {
                     document.getElementById('content').innerHTML = data;
                 })
-                .catch(error => console.error('Error fetching content:', error));
+                .catch(error => {
+                    console.error('Error fetching content:', error);
+                    // Redirect to the error page
+                    window.location.href = '/error';
+                });
+                        
         });        
     </script>
     
@@ -259,56 +264,32 @@
 </script>
 
 
+<!-- Move this script block to the head or before any other script that uses these functions -->
 <script>
-    // JavaScript function to check user login status and hide/show tabs
+    // Combine the two checkLoginStatus functions into one
     function checkLoginStatus() {
+        // Check user login status and hide/show tabs
         var registerTab = document.getElementById('load-register');
         var findTab = document.getElementById('load-find');
         var load_adm_tab = document.getElementById('load-admission-record');
-
-        // Make an AJAX request to the Flask view
-        fetch('/check_login_status')
-            .then(response => response.json())
-            .then(data => {
-                if (!data.authenticated) {
-                    // User is not authenticated, hide the tabs
-                    registerTab.innerHTML = '';
-                    findTab.innerHTML = '';
-                    load_adm_tab.innerHTML = '';
-                } else {
-                    // User is authenticated, show the tabs
-                    registerTab.innerHTML = 'Register';
-                    findTab.innerHTML = 'Search/Edit/Delete Record';
-                    load_adm_tab.innerHTML = 'Admission Records';
-                }
-            })
-            .catch(error => {
-                console.error('Error checking login status:', error);
-            });
-    }
-
-    // Call the function when the page loads
-    checkLoginStatus();
-</script>
-
-<script>
-    // JavaScript function to check user login status and hide/show login/logout links
-    function checkLoginStatus() {
         var loginLink = document.getElementById('login-link');
         var logoutLink = document.getElementById('logout-link');
         var signupLink = document.getElementById('signup-link');
 
-        // Make an AJAX request to the Flask view
         fetch('/check_login_status')
             .then(response => response.json())
             .then(data => {
                 if (data.authenticated) {
-                    // User is authenticated, show the logout link and hide the login and signup link
+                    registerTab.innerHTML = 'Register';
+                    findTab.innerHTML = 'Search/Edit/Delete Record';
+                    load_adm_tab.innerHTML = 'Admission Records';
                     loginLink.innerHTML = '';
                     signupLink.innerHTML = '';
-                    logoutLink.innerHTML= 'Logout';
+                    logoutLink.innerHTML = 'Logout';
                 } else {
-                    // User is not authenticated, show the login and signup link and hide the logout link
+                    registerTab.innerHTML = '';
+                    findTab.innerHTML = '';
+                    load_adm_tab.innerHTML = '';
                     loginLink.innerHTML = 'Login';
                     signupLink.innerHTML = 'Signup';
                     logoutLink.innerHTML = '';
@@ -320,8 +301,9 @@
     }
 
     // Call the function when the page loads
-    checkLoginStatus();
+    document.addEventListener('DOMContentLoaded', checkLoginStatus);
 </script>
+
 
 <script>
     // JavaScript to load "course" section using AJAX
