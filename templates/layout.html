@@ -147,14 +147,15 @@
     // JavaScript to load "login-link" section using AJAX
     document.getElementById('login-link').addEventListener('click', function(e) {
         e.preventDefault(); // Prevent the default link behavior
+        console.log("In Login Part !!!!")
         // Use AJAX to fetch the "login" section content
         fetch('/login')
             .then(response => response.text())
             .then(data => {
-                // Insert the fetched content into the 'content' div
+                // Insert the fetched content into the 'content' div                
                 document.getElementById('content').innerHTML = data;
             })
-            .catch(error => {
+            .catch(error => {                
                 console.error('Error loading "find" content:', error);
             });
     });

@@ -61,7 +61,11 @@
 </style>
 
 <div class="signup-div">
-    
+    {% if login_failed %}
+    <script>
+        alert("Invalid credentials. Please check your username and password.");
+    </script>
+    {% endif %}
     <form class="signup-form" method="POST" action="{{ url_for('signup') }}" onsubmit="return validateSignup()">
         
         <h1 class="signup-h1">Sign Up</h1>

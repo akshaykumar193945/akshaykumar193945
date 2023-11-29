@@ -103,7 +103,7 @@ def login():
             login_user(user)
             return redirect(url_for('layout'))
         else:
-            return render_template('signup.html')
+            return render_template('signup.html', login_failed=True)
 
     return render_template('login.html')
 
