@@ -285,7 +285,3 @@ def delete_record(id):
 @app.route('/home_content')
 def home_content():
     return render_template("home_content.html")
-
-
-if __name__ == '__main__':
-    app.run(debug=True)
