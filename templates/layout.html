@@ -24,6 +24,7 @@
                 <a id="load-about" href="javascript:void(0)">About</a>
                 <a id="load-service" href="javascript:void(0)">Service</a>
                 <a id="load-contact" href="javascript:void(0)">Contact</a>
+                <a id="welcome-user" href="#"></a>
                 <a id="login-link" href="{{ url_for('login') }}">Login</a>
                 <a id="signup-link" href="{{ url_for('signup') }}">Signup</a>
                 <a id="logout-link" href="{{ url_for('logout') }}" onclick="confirmLogout()">Logout</a>
@@ -276,6 +277,7 @@
         var loginLink = document.getElementById('login-link');
         var logoutLink = document.getElementById('logout-link');
         var signupLink = document.getElementById('signup-link');
+        var username = document.getElementById('welcome-user');
 
         fetch('/check_login_status')
             .then(response => response.json())
@@ -287,6 +289,7 @@
                     loginLink.innerHTML = '';
                     signupLink.innerHTML = '';
                     logoutLink.innerHTML = 'Logout';
+                    username.innerHTML = data.username;
                 } else {
                     registerTab.innerHTML = '';
                     findTab.innerHTML = '';
@@ -294,6 +297,7 @@
                     loginLink.innerHTML = 'Login';
                     signupLink.innerHTML = 'Signup';
                     logoutLink.innerHTML = '';
+                    username.innerHTML = '';
                 }
             })
             .catch(error => {

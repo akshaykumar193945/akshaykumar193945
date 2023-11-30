@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, jsonify, g
+from flask import Flask, render_template, request, redirect, url_for, jsonify, g, session
 from models import db, AdmissionRecord, User_Credentials
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 
@@ -26,7 +26,7 @@ app.config['PERMANENT_SESSION_LIFETIME'] = 600  # 30 minutes in seconds
 def check_login_status():
     # Check if the user is authenticated
     if current_user.is_authenticated:
-        return jsonify({'authenticated': True})
+        return jsonify({'authenticated': True, 'username': current_user.username})
     else:
         return jsonify({'authenticated': False})
 
@@ -48,7 +48,9 @@ def after_request(response):
 
 @app.route('/')
 def layout():
-    return render_template('layout.html')
+    username = session.get('username', None)
+    print(username)
+    return render_template('layout.html', username=username)
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -59,6 +61,7 @@ def load_user(user_id):
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
+    session.clear()
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -101,6 +104,7 @@ def login():
 
         if user and username == user.username and password == user.password:
             login_user(user)
+            session['username'] = g.user.username
             return redirect(url_for('layout'))
         else:
             return render_template('signup.html', login_failed=True)
@@ -110,6 +114,7 @@ def login():
 @app.route('/logout')
 def logout():
     logout_user()
+    session.clear()
     return redirect(url_for('layout'))
 
 
