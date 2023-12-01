@@ -3,7 +3,7 @@
 
 <head>
     <title>School Admission</title>
-    <meta charset="utf-8">  
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
@@ -29,15 +29,14 @@
                 <a id="signup-link" href="{{ url_for('signup') }}">Signup</a>
                 <a id="logout-link" href="javascript:void(0)" onclick="confirmLogout()">Logout</a>
             </ul>
-        </nav>        
-    </header>    
+        </nav>
+    </header>
 
     {% block content %}
     
     <div id="content"></div>
-        
-    </div>
-        {% endblock %}
+
+    {% endblock %}
     
     <footer>
         <div class="footer-content">
