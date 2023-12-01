@@ -189,6 +189,10 @@ footer {
   background-color: #0056b3;
 }
 
+.footer-p{
+  font-size: 13px;
+  margin: 0px 0;
+}
 
 .record-header {
   display: flex;
