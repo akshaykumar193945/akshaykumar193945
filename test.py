@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, jsonify, g, session
+from flask import Flask, render_template, request, redirect, url_for, jsonify, session
 from models import db, AdmissionRecord, User_Credentials
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 
@@ -33,9 +33,8 @@ def check_login_status():
 # Define the 'before_request' hook
 @app.before_request
 def before_request():
-    g.user = current_user
     print("Executing 'before_request' hook")
-    print(f"Request URL: {request.url}  Request Method: {request.method} Current_User : {g.user}")
+    print(f"Request URL: {request.url}  Request Method: {request.method} Current_User : {current_user}")
     print("iiiiiiiiiiiiiiiiiiiiiiiiiiiiii")
 
 # Define the 'after_request' hook
@@ -104,7 +103,7 @@ def login():
 
         if user and username == user.username and password == user.password:
             login_user(user)
-            session['username'] = g.user.username
+            session['username'] = current_user.username
             return redirect(url_for('layout'))
         else:
             return render_template('signup.html', login_failed=True)
