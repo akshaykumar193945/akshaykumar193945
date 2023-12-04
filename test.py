@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify, session
-from models import db, AdmissionRecord, User_Credentials
+from models import db, Profiles, User_Credentials
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 
 import download_records as dwnld_rcds
@@ -8,6 +8,8 @@ app = Flask(__name__)
 app.config.from_object('config')
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///mydatabase.db'  # Replace with your database URL
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 db.init_app(app)
 
 with app.app_context():
@@ -130,17 +132,17 @@ def admit():
         email = request.form['email']
         dob = request.form['dob']
 
-        admission_record = AdmissionRecord(name=name, email=email, dob=dob)
+        admission_record = Profiles(name=name, email=email, dob=dob, user_id=current_user.username)
 
         db.session.add(admission_record)
         db.session.commit()
         admission_record = {
             'name': name,
             'email': email,
-            'dob': dob
+            'dob': dob,
+            'user_id': current_user.username
         }
-
-        return render_template('admission_success.html', admission_record=admission_record)
+        return jsonify({'message': 'Record Added successfully', 'admission_record': admission_record})
     return render_template('error.html')
 
 @app.route('/courses')
@@ -150,7 +152,7 @@ def courses():
 @app.route('/admission_records')
 @login_required
 def admission_records():
-    records = AdmissionRecord.query.all()
+    records = Profiles.query.all()
     print(records, "line no 42")
     return render_template('admission_records.html', records=records)
 
@@ -169,7 +171,7 @@ def load_searching():
 def display_record():
     if request.method == 'POST':
         name = request.form['name']
-        records = AdmissionRecord.query.filter(AdmissionRecord.name == name).all()
+        records = Profiles.query.filter(Profiles.name == name).all()
         if len(records):
             return render_template('display_record.html', records=records)
         return render_template('error.html', records="Not Found")
@@ -180,7 +182,7 @@ def display_record():
 def edit_record_by_id():
     if request.method == 'POST':
         record_id = request.form['record_id']
-        record = AdmissionRecord.query.get(record_id)
+        record = Profiles.query.get(record_id)
         print(record)
     return render_template('edit_record.html', record=record)
 
@@ -199,7 +201,7 @@ def record_edited(id):
             email = data.get('email')
             dob = data.get('dob')
 
-            record = AdmissionRecord.query.get(id)
+            record = Profiles.query.get(id)
             print('This is db recode', record)
             if record:
                 # Update the record with the data from the JSON request
@@ -227,7 +229,7 @@ def record_edited(id):
 def delete_record_by_id():
     if request.method == 'POST':
         record_id = request.form['record_id']
-        record = AdmissionRecord.query.get(record_id)
+        record = Profiles.query.get(record_id)
         if record:
             db.session.delete(record)
             db.session.commit()
@@ -261,14 +263,14 @@ def contact():
 @login_required
 def update_record(id):
     # Perform Operation
-    record = AdmissionRecord.query.get(id)
+    record = Profiles.query.get(id)
     print(record)
     return render_template('edit_record.html', record=record)
 
 @app.route('/delete_record/<int:id>', methods=['DELETE'])
 @login_required
 def delete_record(id):
-    record = AdmissionRecord.query.get(id)
+    record = Profiles.query.get(id)
 
     if record:
         model_dict = {}

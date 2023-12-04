@@ -231,7 +231,7 @@
                     document.getElementById('content').innerHTML = data;
                 })
                 .catch(error => {
-                    console.error('Error load-register loading "find" content:', error);
+                    console.error('Error load-find loading "find" content:', error);
                 });
         });
     </script>
@@ -270,6 +270,36 @@
     });
 </script>
 
+<script>
+    function submitAdmissionForm(event) {
+        event.preventDefault();
+    
+        // Get form data
+        const form = document.getElementById('admission-form');
+        const formData = new FormData(form);
+    
+        // Fetch API to submit form data
+        fetch('{{ url_for("admit") }}', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Handle the server response, update content area, etc.
+            console.log(data);
+            if (data.message) {
+                document.getElementById('content').innerHTML = `Record Added: ${JSON.stringify(data.admission_record)}`;
+            } else {
+                // Handle the case where no deleted record information is returned
+                console.log('Not Added');
+            }
+            document.getElementById('content').innerHTML = data;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }        
+</script>
 
 <!-- Move this script block to the head or before any other script that uses these functions -->
 <script>

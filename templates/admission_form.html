@@ -1,5 +1,5 @@
 
-    <form id="admission-form" action="{{ url_for('admit') }}" method="POST" onsubmit="return validateForm()">
+    <form id="admission-form" method="POST" onsubmit="return validateForm() && submitAdmissionForm(event)">
         <h1>School Admission Form</h1>
         <label for="name">Full Name:</label>
         <input type="text" id="name" name="name" required>
@@ -25,4 +25,3 @@
     <!-- <p><a href="{{ url_for('layout') }}">Back to Home</a></p> -->
     <p class="about-p"><a id="load-home" href="javascript:void(0)" onclick="loadHomeContent()">Back to Home</a></p>
     
-    </script>
