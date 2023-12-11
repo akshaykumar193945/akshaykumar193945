@@ -78,7 +78,7 @@ def signup():
         existing_user = User_Credentials.query.filter_by(username=username).first()
         print("kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
         if existing_user:
-            return jsonify({'error': 'Username is already taken'})
+            return jsonify({'status': False, 'message': 'Username is already taken'})
 
         # Create a new user
         new_user = User_Credentials(username=username, password=password, first_name=first_name, last_name=last_name, email=email, mobile_number=mobile_number)
@@ -90,7 +90,7 @@ def signup():
         # Log in the new user after sign-up (optional)
         login_user(new_user)
         # return redirect(url_for('home_content'))
-        return jsonify({'message': 'User registered successfully', 'redirect': '/target_page'})
+        return jsonify({'status' : True, 'message': 'User registered successfully', 'redirect': '/target_page'})
 
     return render_template('signup.html')
 
