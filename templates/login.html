@@ -61,7 +61,7 @@
 </style>
 
 <div class="login-signup-body">
-    <form class="login-signup-form" method="POST" action="{{ url_for('login') }}">
+    <form class="login-signup-form" id="login-form" method="POST"onsubmit="logIn(event)">
         <h1 class="login-signup-h1">Login</h1>
         <label class="login-signup-label" for="username">Username:</label>
         <input class="login-signup-input" type="text" id="username" name="username" required>
@@ -75,6 +75,5 @@
         <br>
 
         <p><a href="javascript:void(0)" onclick="">Forgot Password</a></p>
-
-</form>
-<div>
+    </form>
+</div>

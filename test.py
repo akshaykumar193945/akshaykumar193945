@@ -63,31 +63,34 @@ def load_user(user_id):
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     session.clear()
+    print('in logged_in in logged_in in logged_in in logged_in')
     if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
+        data = request.get_json()
+
+        username = data.get('username')
+        password = data.get('password')
+        first_name = data.get('first_name')
+        last_name = data.get('last_name')
+        email = data.get('email')
+        mobile_number = data.get('mobile_number')
 
         # Check if the username is already in use (you may use your database for this check)
         existing_user = User_Credentials.query.filter_by(username=username).first()
-
+        print("kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
         if existing_user:
-            return render_template('signup.html', error="Username is already taken.")
+            return jsonify({'error': 'Username is already taken'})
 
-        # Create a new user (you need to implement this in your User model)
-        new_user = User_Credentials(username=username, password=password)
+        # Create a new user
+        new_user = User_Credentials(username=username, password=password, first_name=first_name, last_name=last_name, email=email, mobile_number=mobile_number)
 
-        # print all records 
-        records = User_Credentials.query.all()
-        print(records)
-        print('rrrrrrrrrrrrrrrrrrrrr ', username, password, new_user)
         # Add and commit the new user to your database
         db.session.add(new_user)
         db.session.commit()
 
         # Log in the new user after sign-up (optional)
         login_user(new_user)
-
-        return redirect(url_for('login'))  # Redirect to a dashboard or home page
+        # return redirect(url_for('home_content'))
+        return jsonify({'message': 'User registered successfully', 'redirect': '/target_page'})
 
     return render_template('signup.html')
 
@@ -96,21 +99,23 @@ def signup():
 def login():
     # Check user credentials and log in the user
     logout_user()
-
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
 
         user = User_Credentials.query.filter(User_Credentials.username == username).first()
-
+        print("ttttttttttttttttttttttt")
         if user and username == user.username and password == user.password:
             login_user(user)
             session['username'] = current_user.username
-            return redirect(url_for('layout'))
+            return jsonify({'status': 'success', 'redirect': url_for('layout')})
         else:
-            return render_template('signup.html', login_failed=True)
-
+            print('ssssssssssssssssssssssssssssss')
+            return jsonify({'status': 'failure', 'message': 'Invalid credentials'})
+    print("llllllllllllllllllllllllllllll")
     return render_template('login.html')
+
+
 
 @app.route('/logout')
 def logout():
@@ -144,6 +149,8 @@ def admit():
         }
         return jsonify({'message': 'Record Added successfully', 'admission_record': admission_record})
     return render_template('error.html')
+    
+
 
 @app.route('/courses')
 def courses():
@@ -156,15 +163,18 @@ def admission_records():
     print(records, "line no 42")
     return render_template('admission_records.html', records=records)
 
+@app.route('/user_records')
+@login_required
+def user_records():
+    records = User_Credentials.query.all()
+    print(records, "line no 42")
+    return render_template('User_Credentials.html', records=records)
+
 @app.route('/find')
 @login_required
 def find():
     print("Line no 48")
     return render_template('find.html')
-
-@app.route('/load_searching')
-def load_searching():
-    return render_template('searching.html')
 
 @app.route('/display_record', methods=['POST'])
 @login_required
@@ -222,7 +232,55 @@ def record_edited(id):
     except Exception as e:
         print(f"Error: {str(e)}")
         traceback.print_exc()
+        return jsonify({'error': ' 1 Internal Server Error'}), 500
+
+@app.route('/record_user_edited/<int:id>', methods=['POST'])
+@login_required
+def record_user_edited(id):
+    try:
+        if request.method == 'POST':
+            data = request.get_json(force=True)  # Use request.json to parse JSON data
+            print("In record user edited :", data)
+
+            first_name = data.get('first_name')
+            last_name = data.get('last_name')
+            email = data.get('email')
+            password = data.get('password')
+            mobile_number = data.get('mobile_number')
+
+            record = User_Credentials.query.get(id)
+            if record:
+                record.first_name = first_name
+                record.last_name = last_name
+                record.email = email
+                record.password = password
+                record.mobile_number = mobile_number
+
+                db.session.commit()
+
+                user_record = {
+                    'first_name': record.first_name,
+                    'last_name': record.last_name,
+                    'password': record.password,
+                    'email': record.email,
+                    'mobile_number': record.mobile_number
+                }
+
+                print("Updation Done !!!")
+                return jsonify({'message': 'Record updated successfully', 'user_record': user_record})
+            else:
+                return jsonify({'error': 'Record not found'}), 404
+    except Exception as e:
+        print(f"Error: {str(e)}")
+        traceback.print_exc()
         return jsonify({'error': 'Internal Server Error'}), 500
+
+@app.route('/user_profile', methods=['GET'])
+@login_required
+def user_profile():
+    existing_user = User_Credentials.query.filter_by(username=current_user.username).first()
+    return render_template('user_profiles.html', existing_user=existing_user)
+
 
 @app.route('/delete_record_by_id', methods=['POST'])
 @login_required
@@ -235,7 +293,7 @@ def delete_record_by_id():
             db.session.commit()
             print("Record is ", record)
             return render_template('delete_record.html', record=record)
-        else:
+        else: 
             return render_template('error.html')
     print('Error')
     return render_template('error.html')
@@ -264,8 +322,16 @@ def contact():
 def update_record(id):
     # Perform Operation
     record = Profiles.query.get(id)
-    print(record)
+    print(" in edit records", record)
     return render_template('edit_record.html', record=record)
+
+@app.route('/update_user_record/<int:id>', methods=['GET', 'POST'])
+@login_required
+def update_user_record(id):
+    # Perform Operation
+    record = User_Credentials.query.get(id)
+    print(" in edit user records ",record)
+    return render_template('edit_user_record.html', record=record)
 
 @app.route('/delete_record/<int:id>', methods=['DELETE'])
 @login_required
@@ -288,6 +354,28 @@ def delete_record(id):
         # Return a JSON response for error
         return jsonify({'error': 'Record not found'}), 404
     
+    
+@app.route('/delete_user_record/<int:id>', methods=['DELETE'])
+@login_required
+def delete_user_record(id):
+    record = User_Credentials.query.get(id)
+
+    if record:
+        model_dict = {}
+        for column in record.__table__.columns:
+            attribute_name = column.key
+            attribute_value = getattr(record, attribute_name)
+            model_dict[attribute_name] = attribute_value
+
+        db.session.delete(record)
+        db.session.commit()
+
+        # Optionally, return a JSON response to indicate success
+        return jsonify({'message': 'Record deleted successfully', 'deleted_record': model_dict})
+    else:
+        # Return a JSON response for error
+        return jsonify({'error': 'Record not found'}), 404
+        
 @app.route('/home_content')
 def home_content():
     return render_template("home_content.html")

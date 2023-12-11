@@ -1,64 +1,65 @@
 
 <style>
- .signup-div {
-    font-family: Arial, sans-serif;
-    background-color: #f7dbdb;
-    margin: 0;
-    padding: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-}
+    .signup-div {
+        font-family: Arial, sans-serif;
+        background-color: #f7dbdb;
+        margin: 0;
+        padding: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
 
-.signup-form {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    text-align: center;
-    padding-bottom: 20px;
-}
+    .signup-form {
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        text-align: center;
+        padding-bottom: 20px;
+    }
 
-.signup-h1 {
-    font-size: 24px;
-    color: #333;
-    margin: 0;
-    margin-bottom: 20px;
-}
+    .signup-h1 {
+        font-size: 24px;
+        color: #333;
+        margin: 0;
+        margin-bottom: 20px;
+    }
 
-.signup-label {
-    display: block;
-    font-size: 16px;
-    color: #333;
-    margin-bottom: 5px;
-}
+    .signup-label {
+        display: block;
+        font-size: 16px;
+        color: #333;
+        margin-bottom: 5px;
+    }
 
-.signup-input[type="text"],
-.signup-input[type="password"] {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-bottom: 10px;
-}
+    .signup-input {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
 
-.signup-input[type="submit"] {
-    background-color: #0074d9;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
+    .signup-input[type="submit"] {
+        background-color: #0074d9;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
 
-.signup-input[type="submit"]:hover {
-    background-color: #0056b3;
-}
+    .signup-input[type="submit"]:hover {
+        background-color: #0056b3;
+    }
 </style>
+
 
 <div class="signup-div">
     {% if login_failed %}
@@ -66,50 +67,123 @@
         alert("Invalid credentials. Please check your username and password.");
     </script>
     {% endif %}
-    <form class="signup-form" method="POST" action="{{ url_for('signup') }}" onsubmit="return validateSignup()">
+    <form class="signup-form" method="POST" action="{{ url_for('signup') }}">
         
         <h1 class="signup-h1">Sign Up</h1>
+    
+        <label class="signup-label" for="first_name">First Name:</label>
+        <input class="signup-input" type="text" id="first_name" name="first_name" required>
+        <span id="first_name_error" class="error-message"></span>
+        <br>
+    
+        <label class="signup-label" for="last_name">Last Name:</label>
+        <input class="signup-input" type="text" id="last_name" name="last_name" required>
+        <span id="last_name_error" class="error-message"></span>
+        <br>
+    
+        <label class="signup-label" for="email">Email:</label>
+        <input class="signup-input" type="email" id="email" name="email" required>
+        <span id="email_error" class="error-message"></span>
+        <br>
+    
+        <label class="signup-label" for="mobile_number">Mobile Number:</label>
+        <input class="signup-input" type="tel" id="mobile_number" name="mobile_number" required>
+        <span id="mobile_number_error" class="error-message"></span>
+        <br>
+    
         <label class="signup-label" for="username">Username:</label>
         <input class="signup-input" type="text" id="username" name="username" required>
+        <span id="username_error" class="error-message"></span>
         <br>
-
+    
         <label class="signup-label" for="password">Password:</label>
         <input class="signup-input" type="password" id="password" name="password" required>
+        <span id="password_error" class="error-message"></span>
         <br>
-
-        <input class="signup-input" type="submit" value="Sign Up"><br><br>
+    
+        <input class="signup-input" type="submit" value="Sign Up" onclick="loadSignedIn()"><br><br>
         <p>Already have an account? <a href="javascript:void(0)" onclick="loadLoginPage()">Log In</a></p>
 
     </form>  
-
- </div>
+</div>
 
 <script>
     function validateSignup() {
-        var username = document.getElementById("username").value;
-        var usernamePattern = /^[A-Za-z\s\-']+$/;
+        if (!validateName("first_name")) return false;
+        if (!validateName("last_name")) return false;
+        if (!validateEmail("email")) return false;
+        if (!validateMobileNumber("mobile_number")) return false;
+        if (!validateUsername("username")) return false;
+        if (!validatePassword("password")) return false;
 
-        var password = document.getElementById("password").value;
+        // Add more validation checks as needed
 
-        if (!usernamePattern.test(username) || username.length < 6) {
-            if (!usernamePattern.test(username)) {
-                alert("Special characters not allowed in username.");
-            }
-
-            if (username.length < 5) {
-                alert("Username must be at least 5 characters long.");
-            }
-
-            return false; // Prevent form submission
-        }
-    
-        if (password.length < 3) {
-            alert("Password must be at least 3 characters long.");
-            return false; // Prevent form submission
-        }
-    
-        // You can add more validation checks as needed
-    
         return true; // Submit the form if all checks pass
     }
-    </script>
+
+    function validateName(fieldName) {
+        var name = document.getElementById(fieldName).value;
+        var namePattern = /^[A-Za-z\s\-']+$/;
+
+        if (!namePattern.test(name) || name.length < 2) {
+            document.getElementById(fieldName + "_error").innerHTML = "Invalid name. Please enter a valid name.";
+            return false;
+        } else {
+            document.getElementById(fieldName + "_error").innerHTML = "";
+            return true;
+        }
+    }
+
+    function validateEmail(fieldName) {
+        var email = document.getElementById(fieldName).value;
+        var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!emailPattern.test(email)) {
+            document.getElementById(fieldName + "_error").innerHTML = "Invalid email address. Please enter a valid email.";
+            return false;
+        } else {
+            document.getElementById(fieldName + "_error").innerHTML = "";
+            return true;
+        }
+    }
+
+    function validateMobileNumber(fieldName) {
+        var mobileNumber = document.getElementById(fieldName).value;
+        var mobilePattern = /^[0-9]{10}$/;
+
+        if (!mobilePattern.test(mobileNumber)) {
+            document.getElementById(fieldName + "_error").innerHTML = "Invalid mobile number. Please enter a valid 10-digit mobile number.";
+            return false;
+        } else {
+            document.getElementById(fieldName + "_error").innerHTML = "";
+            return true;
+        }
+    }
+
+    function validateUsername(fieldName) {
+        var username = document.getElementById(fieldName).value;
+        var usernamePattern = /^[A-Za-z\s\-']+$/;
+
+        if (!usernamePattern.test(username) || username.length < 6) {
+            document.getElementById(fieldName + "_error").innerHTML = "Invalid username. Username must be at least 6 characters long and should not contain special characters.";
+            return false;
+        } else {
+            document.getElementById(fieldName + "_error").innerHTML = "";
+            return true;
+        }
+    }
+
+    function validatePassword(fieldName) {
+        var password = document.getElementById(fieldName).value;
+
+        if (password.length < 3) {
+            document.getElementById(fieldName + "_error").innerHTML = "Invalid password. Password must be at least 3 characters long.";
+            return false;
+        } else {
+            document.getElementById(fieldName + "_error").innerHTML = "";
+            return true;
+        }
+    }
+
+    // You can add more validation functions as needed
+</script>

@@ -1,0 +1,41 @@
+<!-- Add the Bootstrap stylesheet link in the head of your HTML document -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+<div class="container mt-4">
+
+    <h1 id="user-header" class="card-title">User Profile</h1>
+
+    <div id="user-profile" class="card">
+        <div class="card-body">
+
+            <div id="user-details">
+
+                <p class="card-text">First Name : {{existing_user.first_name}}</p>
+				<p class="card-text">Last Name : {{existing_user.last_name}}</p>
+				<p class="card-text">Email : {{existing_user.email}}</p>
+				<p class="card-text">Mobile : {{existing_user.mobile_number}}</p>
+				<p class="card-text">Password : {{existing_user.password}}</p>
+
+				<button class="update-button" onclick="updateUserRecord({{ existing_user.id }})">Update</button>
+                <button id="logout-button" class="btn btn-danger" onclick="confirmLogout()">Logout</button>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="my-order">
+        <h2 class="card-title">My Orders</h2>
+
+        <!-- Display user's order history or relevant information -->
+        <ul class="list-group">
+            <li class="list-group-item">Order #1234 - Product A</li>
+            <li class="list-group-item">Order #5678 - Product B</li>
+            <!-- Add more order details as needed -->
+        </ul>
+    </div>
+
+</div>
+<!-- Add the Bootstrap JavaScript and Popper.js before the closing body tag -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
