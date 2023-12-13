@@ -328,14 +328,7 @@
                     console.error(data.message);
 					alert('Invalid credentials. Please check your username and password or sign in for new account.');
                     // Fetch and render the signup template in the content area
-                    fetch('{{ url_for('signup') }}')
-                        .then(response => response.text())
-                        .then(signupTemplate => {
-                            document.getElementById('content').innerHTML = signupTemplate;
-                        })
-                        .catch(error => {
-                            console.error('Error fetching signup template:', error);
-                        });
+                    signUp(event);
                 }
             })
         .catch(error => {
