@@ -27,7 +27,7 @@
                 <a id="load-contact" href="javascript:void(0)">Contact</a>
                 <a id="user-profile" href="#"></a>
                 <a id="login-link" href="{{ url_for('login') }}">Login</a>
-                <a id="signup-link" href="{{ url_for('signup') }}">Signup</a>
+                <a id="signup-link" href="javascript:void(0)" onclick="signIn(event)">Signup</a>
                 <a id="logout-link" href="javascript:void(0)" onclick="confirmLogout()">Logout</a>
             </ul>
         </nav>
@@ -135,8 +135,9 @@
 
 <script>
     // JavaScript to load "signup-link" section using AJAX
-    document.getElementById('signup-link').addEventListener('click', function(e) {
-        e.preventDefault(); // Prevent the default link behavior
+    // document.getElementById('signup-link').addEventListener('click', function(e) {
+        function signIn(event){
+            event.preventDefault(); // Prevent the default link behavior
         // Use AJAX to fetch the "signup" section content
 		console.log("in signup in signup;");
         fetch('/signup')
@@ -148,7 +149,7 @@
             .catch(error => {
                 console.error('Error loading "signup" content:', error);
             });
-    });
+    };
 </script>
 
 <script>
