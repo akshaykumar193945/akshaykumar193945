@@ -1,67 +1,68 @@
-<style>
+<style> 
 
-.course-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Create three equal columns */
-    gap: 20px; /* Add a gap between cards */
-    justify-items: center; /* Center content within each grid cell */
-}
-    .course-card {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    text-align: center;
-    width: 300px;
-    margin: 20px;
-}
+.card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Adjust the column width as needed */
+            gap: 20px; /* Adjust the gap between cards */
+        }
 
-.course-card h2 {
-    font-size: 24px;
-    color: #333;
-    margin: 0;
-}
+        .card {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            overflow: hidden;
+        }
 
-.course-card p {
-    font-size: 16px;
-    color: #666;
-    margin-top: 10px;
-}
+        .card img {
+            width: 100%;
+            height: auto;
+        }
 
-.course-card a {
-    display: inline-block;
-    margin-top: 20px;
-    padding: 10px 20px;
-    background-color: #0074d9;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-}
+        .container {
+            padding: 20px;
+        }
+    .card {
+  /* Add shadows to create the "card" effect */
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+    }
 
-.course-card a:hover {
-    background-color: #0056b3;
-}
+    /* On mouse-over, add a deeper shadow */
+    .card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    }
+
+    /* Add some padding inside the card container */
+    .container {
+    padding: 2px 16px;
+    }
 </style>
 
-
-<div id ="course" class="course-grid">
-    <div class="course-card">
-        <h2>Python Course</h2>
-        <p>Learn Python programming from scratch.</p>
-        <a href="#">Enroll Now</a>
+<div class="card-container">
+    <!-- Card 1 -->
+    <div class="card">
+        <img src="{{ url_for('static', filename='python-img.jpg') }}" alt="Python Image">
+        <div class="container">
+            <h4><b>Python</b></h4>
+            <p>Enroll </p>
+        </div>
     </div>
 
-    <div class="course-card">
-        <h2>Java Course</h2>
-        <p>Master Java programming and software development.</p>
-        <a href="#">Enroll Now</a>
+    <!-- Card 2 -->
+    <div class="card">
+        <img src="{{ url_for('static', filename='java-image.jpg') }}" alt="Java Image">
+        <div class="container">
+            <h4><b>Java</b></h4>
+            <p>Enroll </p>
+        </div>
     </div>
 
-    <div class="course-card">
-        <h2>C Course</h2>
-        <p>Explore the fundamentals of the C programming language.</p>
-        <a href="#">Enroll Now</a>
+    <!-- Add more cards as needed -->
+    <div class="card">
+        <img src="{{ url_for('static', filename='js-logo.jpg') }}" alt="Javascript Image">
+        <div class="container">
+            <h4><b>Javascript</b></h4>
+            <p>Enroll </p>
+        </div>
     </div>
+
 </div>
