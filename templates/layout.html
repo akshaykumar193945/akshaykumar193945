@@ -13,11 +13,11 @@
 
 <body>
     <header>
-        <h1>SSVM PUBLIC SCHOOL</h1>
+        <h1>SSVM PUBLIC SCHOOL</h1>        
         <nav>
             <ul>
                 <a href="{{ url_for('layout') }}">Home</a>
-                <a id="load-course" href="{{ url_for('courses') }}">Course</a>
+                <a id="load-course" href="javascript:void(0)" onclick="goToCourse()">Course</a>
                 <a id="load-register" href="javascript:void(0)">Register</a>
                 <a id="load-find" href="javascript:void(0)">Search/Edit/Delete Record</a>
                 <a id="load-admission-record" href="{{ url_for('admission_records') }}">Admission Records</a>
@@ -420,24 +420,6 @@
     document.addEventListener('DOMContentLoaded', checkLoginStatus);
 </script>
 
-
-<script>
-    // JavaScript to load "course" section using AJAX
-    document.getElementById('load-course').addEventListener('click', function(e) {
-        e.preventDefault(); // Prevent the default link behavior
-        // Use AJAX to fetch the "course" section content
-        fetch('/courses')
-            .then(response => response.text())
-            .then(data => {
-                // Insert the fetched content into the 'content' div
-                document.getElementById('content').innerHTML = data;
-            })
-            .catch(error => {
-                console.error('Error loading "find" content:', error);
-            });
-    });
-</script>
-
 <script>
     function confirmLogout() {
         if (confirm("Are you sure you want to logout?")) {
@@ -746,6 +728,82 @@ return true;
             });
         }
     }
+</script>
+
+<script>
+    function goToCourse(){
+        console.log("i am in course page ")
+        fetch('/courses')
+            .then(response => response.text())
+            .then(data => {
+                // Insert the fetched content into the 'content' div
+                document.getElementById('content').innerHTML = data;
+            })
+            .catch(error => {
+                console.error('Error loading "find" content:', error);
+            });
+    };
+</script>
+
+<script>
+    function forgetPassword(){
+
+        fetch('/forgot_password').then(response => response.text())
+            .then(data => {
+                // Insert the fetched content into the 'content' div
+                document.getElementById('content').innerHTML = data;
+            })
+            .catch(error => {
+                console.error('Error loading "find" content:', error);
+            });
+    };
+</script>
+
+<script>
+    function submitPwdRecoveryForm() {
+        var username = document.getElementById('username').value;
+        console.log("inside password recovery : ", username, " ::::: ");
+        fetch(`/update_password_1/${username}`)
+            .then(response => response.text())
+            .then(data => {
+                // Insert the fetched content into the 'content' div
+                document.getElementById('content').innerHTML = data;
+            })
+            .catch(error => {
+                console.error('Error loading "update_password" content:', error);
+                });
+    };
+  </script>
+
+<script>
+    function submitUpdatedPwd(username){
+        event.preventDefault();
+        // "Iterate over the form data of class='new-pwd-form' "
+        const formData = new FormData(document.querySelector('.new-pwd-form'));
+        const formDataObject = {};
+        formData.forEach((value, key) => {
+            formDataObject[key] = value;
+        });
+
+        fetch(`/password_updated/${username}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formDataObject),
+        })
+            .then(response => response.json())
+                .then(data => {
+				if (data.status === 'success') {
+                    document.getElementById('content').innerHTML =`Password Updated: ${JSON.stringify(data.user_password)}`;
+
+				} else {
+                    console.log('Eroroororro');
+            }})
+            .catch(error => {
+                console.error('Error loading "update_password" content:', error);
+                });
+    };
 </script>
 
 </body>
