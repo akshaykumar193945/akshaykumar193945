@@ -41,28 +41,30 @@
 <div class="card-container">
     <!-- Card 1 -->
     <div class="card">
-        <img src="{{ url_for('static', filename='python-img.jpg') }}" alt="Python Image">
+        <!-- <img src="image.jpg" alt="Description" style="max-width: 100%;" srcset="image-2x.jpg 2x, image-3x.jpg 3x"> -->
+        <img src="{{ url_for('static', filename='python-img.jpg') }}" style="max-width: 100%;" alt="Python Image" srcset="image-2x.jpg 2x, image-3x.jpg 3x">
         <div class="container">
             <h4><b>Python</b></h4>
-            <p>Enroll </p>
+            <a href="#">Enroll Now</a>
         </div>
     </div>
 
     <!-- Card 2 -->
     <div class="card">
-        <img src="{{ url_for('static', filename='java-image.jpg') }}" alt="Java Image">
+        <!-- <img src="image.jpg" alt="Description" style="max-width: 100%;" srcset="image-2x.jpg 2x, image-3x.jpg 3x"> -->
+        <img src="{{ url_for('static', filename='java-image.jpg') }}" alt="Java Image" style="max-width: 100%;" srcset="image-2x.jpg 2x, image-3x.jpg 3x">
         <div class="container">
             <h4><b>Java</b></h4>
-            <p>Enroll </p>
+            <a href="#">Enroll Now</a>
         </div>
     </div>
 
     <!-- Add more cards as needed -->
     <div class="card">
-        <img src="{{ url_for('static', filename='js-logo.jpg') }}" alt="Javascript Image">
+        <img src="{{ url_for('static', filename='js-logo.jpg') }}" alt="Javascript Image" style="max-width: 100%;" srcset="image-2x.jpg 2x, image-3x.jpg 3x">
         <div class="container">
             <h4><b>Javascript</b></h4>
-            <p>Enroll </p>
+            <a href="#">Enroll Now</a>
         </div>
     </div>
 
