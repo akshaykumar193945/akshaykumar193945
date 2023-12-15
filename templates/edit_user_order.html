@@ -1,0 +1,24 @@
+<!-- {% extends "layout.html" %}
+
+{% block content %} -->
+
+<h1>Edit Order</h1>
+
+<form method="post" action="{{ url_for('record_user_edited', id=record.id) }}" onsubmit="return validateUserForm()">
+    <label for="course">Program :</label>
+    <input type="text" id="course" name="course" value="{{ record.course }}" required>
+    <span id="nameError" style="color: red;"></span>
+    <br>
+	
+	<label for="course_id">Program ID :</label>
+    <input type="text" id="course_id" name="course_id" value="{{ record.course_id }}" required>
+    <span id="course_idError" style="color: red;"></span>
+    <br>
+
+    <input type="submit" value="Update" onclick="submitUpdateUserOrder({{ record.id }})">
+</form>
+
+<!-- <p><a href="{{ url_for('layout') }}">Back to Home</a></p> -->
+<p><a id="load-home" href="javascript:void(0)" onclick="loadHomeContent()">Back to Home</a></p>
+
+<!-- {% endblock %} -->

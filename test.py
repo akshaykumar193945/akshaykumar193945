@@ -1,3 +1,4 @@
+from datetime import datetime
 from flask import Flask, render_template, request, redirect, url_for, jsonify, session
 from models import db, User_Credentials, Course_DB
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
@@ -159,6 +160,7 @@ def courses():
     return render_template('courses.html')
 
 @app.route('/enroll_Course', methods=['POST'])
+@login_required
 def enroll_Course():
     # username = current_user.username
     # existing_user = User_Credentials.query.filter_by(username=current_user.username).first()
@@ -173,7 +175,9 @@ def enroll_Course():
         
         if existing_enroll:
             return jsonify({'status' : False, 'message': 'Already Enrolled', 'redirect': '/target_page'})
-            
+        
+        current_datetime = datetime.now()
+        formatted_date = current_datetime.strftime("%Y-%m-%d %H:%M:%S")
         new_enroll = Course_DB(course_id='py', course=course, user_id=current_user.username)
 
         # Add and commit the new user to your database
@@ -308,14 +312,47 @@ def record_user_edited(id):
         traceback.print_exc()
         return jsonify({'error': 'Internal Server Error'}), 500
 
+@app.route('/submit_edit_order/<int:id>', methods=['POST'])
+@login_required
+def submit_edit_order(id):
+    try:
+        print("zzzzzzzzzzzzzzzzzzzzzzzz")
+        if request.method == 'POST':
+            data = request.get_json(force=True)  # Use request.json to parse JSON data
+            print("In order edit :", data)
+
+            course = data.get('course')
+            course_id = data.get('course_id')
+
+            record = Course_DB.query.get(id)
+            if record:
+                record.course_id = course_id
+                record.course = course 
+
+                db.session.commit()
+
+                user_order = {
+                    'course_id': record.course_id,
+                    'course': record.course,
+                }
+
+                print("Order Updation Done !!!")
+                return jsonify({'message': 'Record updated successfully', 'user_order': user_order})
+            else:
+                return jsonify({'error': 'Record not found'}), 404
+    except Exception as e:
+        print(f"Error: {str(e)}")
+        traceback.print_exc()
+        return jsonify({'error': 'Internal Server Error'}), 500
+
 @app.route('/user_profile', methods=['GET'])
 @login_required
 def user_profile():
     existing_user = User_Credentials.query.filter_by(username=current_user.username).first()
-    user_order = Course_DB.query.filter_by(user_id=current_user.username).first()
-
+    # user_orders = Course_DB.query.filter_by(user_id=current_user.username).first()
+    user_orders = Course_DB.query.filter_by(user_id=current_user.username).all()
     # enrolled_cources = Course_DB.query.filter_by(user_id=current_user.username)
-    return render_template('user_profiles.html', existing_user=existing_user, user_order=user_order)
+    return render_template('user_profiles.html', existing_user=existing_user, user_orders=user_orders)
 
 
 @app.route('/delete_record_by_id', methods=['POST'])
@@ -404,6 +441,13 @@ def password_updated(username):
         traceback.print_exc()
         return jsonify({'error': 'Internal Server Error'}), 500
 
+@app.route('/edit_user_order/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit_user_order(id):
+    record = Course_DB.query.get(id)
+    print(" in edit user records ",record)
+    return render_template('edit_user_order.html', record=record)
+
 @app.route('/delete_record/<int:id>', methods=['DELETE'])
 @login_required
 def delete_record(id):
@@ -445,7 +489,29 @@ def delete_user_record(id):
     else:
         # Return a JSON response for error
         return jsonify({'error': 'Record not found'}), 404
-        
+        # delete_user_order
+
+@app.route('/delete_user_order/<int:id>', methods=['DELETE'])
+@login_required
+def delete_user_order(id):
+    record = Course_DB.query.get(id)
+
+    if record:
+        model_dict = {}
+        for column in record.__table__.columns:
+            attribute_name = column.key
+            attribute_value = getattr(record, attribute_name)
+            model_dict[attribute_name] = attribute_value
+
+        db.session.delete(record)
+        db.session.commit()
+
+        # Optionally, return a JSON response to indicate success
+        return jsonify({'message': 'Order deleted successfully', 'deleted_record': model_dict})
+    else:
+        # Return a JSON response for error
+        return jsonify({'error': 'Record not found'}), 404
+
 @app.route('/home_content')
 def home_content():
     return render_template("home_content.html")

@@ -25,6 +25,7 @@ class Course_DB(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     course_id = db.Column(db.String(100), nullable=False)
     course = db.Column(db.String(100), nullable=False)
-    
+    # enroll_date = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+
     user_id = db.Column(db.Integer, db.ForeignKey('user_credentials.username'), nullable=False)
     user = db.relationship('User_Credentials', backref=db.backref('course', lazy=True))

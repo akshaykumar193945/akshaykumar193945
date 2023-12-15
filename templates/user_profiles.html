@@ -25,12 +25,14 @@
 
     <div id="my-order">
         <h2 class="card-title">My Orders</h2>
-
+        {% for user_order in user_orders %}
         <!-- Display user's order history or relevant information -->
         <ul class="list-group">
             <li class="list-group-item">Enrolled in : {{user_order.course}}</li>
             <li class="list-group-item">Course ID : {{user_order.course_id}}</li>
+            <li class="list-group-item">Course ID : {{user_order.enroll_date}} </li>
         </ul>
+        {% endfor %}
     </div>
 
 </div>
