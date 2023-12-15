@@ -1,0 +1,50 @@
+<!-- {% extends "layout.html" %}
+
+{% block content %} -->
+<div id="admission-form">
+    <div class="record_header">
+        <h2>Enrolled Cources</h2>
+        <button class="download-button" onclick="downloadExcel()">Download Excel</button>
+    </div>
+    <br>
+    <div class="searching">        
+        <input type="text" id="tableSearchInput" placeholder="Search...">
+        <button id="tableSearchButton" onclick="performTableSearch()">Search</button>
+    </div>
+    <table class="admission-table">
+        <thead>
+            <tr>
+                <th>Course_id</th>
+                <th>Program Name</th>
+                <th>User ID</th>
+				<th>Update</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in records %}
+                <tr>
+                    <td>{{ record.course_id }}</td>
+                    <td>{{ record.course }}</td>                    
+                    <td>{{ record.user_id }}</td>                 
+                    <td>
+                        <button class="update-button" onclick="updateUserRecord({{ record.course_id }})">Update</button>
+                    </td>
+                    
+                    <td>
+                        <button class="delete-button" data-record-id="{{ record.course_id }}" onclick="deleteUserRecord({{ record.course_id }})">Delete</button>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br>
+
+    <!-- <p><a href="{{ url_for('layout') }}">Back to Home</a></p> -->
+    <p><a id="load-home" href="javascript:void(0)" onclick="loadHomeContent()">Back to Home</a></p>
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<!-- {% endblock %} -->

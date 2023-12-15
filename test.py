@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify, session
-from models import db, Profiles, User_Credentials
+from models import db, User_Credentials, Course_DB
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 
 import download_records as dwnld_rcds
@@ -116,7 +116,6 @@ def login():
     return render_template('login.html')
 
 
-
 @app.route('/logout')
 def logout():
     logout_user()
@@ -154,12 +153,41 @@ def admit():
         }
         return jsonify({'message': 'Record Added successfully', 'admission_record': admission_record})
     return render_template('error.html')
-    
-
 
 @app.route('/courses')
 def courses():
     return render_template('courses.html')
+
+@app.route('/enroll_Course', methods=['POST'])
+def enroll_Course():
+    # username = current_user.username
+    # existing_user = User_Credentials.query.filter_by(username=current_user.username).first()
+    # username = Course_DB.query.filter_by(username=current_user.user_id).first()
+    print("vbvbvbvbvbvbvbvbvbvb")
+    if request.method == 'POST':
+        data = request.get_json()
+       
+        course = data.get('course_name')
+        
+        existing_enroll = Course_DB.query.filter_by(course=course, user_id=current_user.username).first()
+        
+        if existing_enroll:
+            return jsonify({'status' : False, 'message': 'Already Enrolled', 'redirect': '/target_page'})
+            
+        new_enroll = Course_DB(course_id='py', course=course, user_id=current_user.username)
+
+        # Add and commit the new user to your database
+        db.session.add(new_enroll)
+        db.session.commit()
+        return jsonify({'status' : True, 'message': 'User enrolled successfully', 'redirect': '/target_page'})
+        
+    return render_template('courses.html')
+    
+@app.route('/show_enrolled_course', methods=['GET'])
+def show_enrolled_course():
+    records = Course_DB.query.all()
+    print(records, "line no 186")
+    return render_template('Course_Enrolled.html', records=records)
 
 @app.route('/admission_records')
 @login_required
@@ -284,7 +312,10 @@ def record_user_edited(id):
 @login_required
 def user_profile():
     existing_user = User_Credentials.query.filter_by(username=current_user.username).first()
-    return render_template('user_profiles.html', existing_user=existing_user)
+    user_order = Course_DB.query.filter_by(user_id=current_user.username).first()
+
+    # enrolled_cources = Course_DB.query.filter_by(user_id=current_user.username)
+    return render_template('user_profiles.html', existing_user=existing_user, user_order=user_order)
 
 
 @app.route('/delete_record_by_id', methods=['POST'])

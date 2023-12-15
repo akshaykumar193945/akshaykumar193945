@@ -22,6 +22,7 @@
                 <a id="load-find" href="javascript:void(0)">Search/Edit/Delete Record</a>
                 <a id="load-admission-record" href="{{ url_for('admission_records') }}">Admission Records</a>
                 <a id="load-user-credential" href="{{ url_for('user_records') }}">User Records</a>
+				<a id="load-enrolled-cources" href="{{ url_for('show_enrolled_course') }}" onclick="showEnrolledCourse(event)">Enroll</a>
                 <a id="load-about" href="javascript:void(0)">About</a>
                 <a id="load-service" href="javascript:void(0)">Service</a>
                 <a id="load-contact" href="javascript:void(0)">Contact</a>
@@ -136,8 +137,8 @@
 <script>
     // JavaScript to load "signup-link" section using AJAX
     // document.getElementById('signup-link').addEventListener('click', function(e) {
-        function signUp(event){
-            event.preventDefault(); // Prevent the default link behavior
+    function signUp(event){
+        event.preventDefault(); // Prevent the default link behavior
         // Use AJAX to fetch the "signup" section content
 		console.log("in signup in signup;");
         fetch('/signup')
@@ -338,6 +339,22 @@
 </script>
 
 <script>
+	function showEnrolledCourse(event){
+		event.preventDefault();
+		
+		fetch('/show_enrolled_course').then(response => response.text())
+            .then(data => {
+                // Insert the fetched content into the 'content' div
+				console.log("in cources !!!!!!!!");
+                document.getElementById('content').innerHTML = data;
+            })
+            .catch(error => {
+                console.error('Error loading "find" content:', error);
+            });
+	}
+</script>
+
+<script>
     function submitAdmissionForm(event) {
         event.preventDefault();
     
@@ -377,6 +394,7 @@
         var findTab = document.getElementById('load-find');
         var load_adm_tab = document.getElementById('load-admission-record');
         var load_user_tab = document.getElementById('load-user-credential');
+		var load_enroll_tab = document.getElementById('load-enrolled-cources');
         var loginLink = document.getElementById('login-link');
         var logoutLink = document.getElementById('logout-link');
         var signupLink = document.getElementById('signup-link');
@@ -390,6 +408,7 @@
                     findTab.innerHTML = 'Search/Edit/Delete Record';
                     load_adm_tab.innerHTML = 'Admission Records';
                     load_user_tab.innerHTML = 'User Records';
+					load_enroll_tab.innerHTML = 'Enroll';
                     loginLink.innerHTML = '';
                     signupLink.innerHTML = '';
                     logoutLink.innerHTML = 'Logout';
@@ -399,6 +418,7 @@
                     findTab.innerHTML = '';
                     load_adm_tab.innerHTML = '';
                     load_user_tab.innerHTML = '';
+					load_enroll_tab.innerHTML = '';
                     loginLink.innerHTML = 'Login';
                     signupLink.innerHTML = 'Signup';
                     logoutLink.innerHTML = '';
@@ -801,6 +821,50 @@ return true;
                 });
     };
 </script>
+
+<script>
+    // JavaScript to check login status and load "enroll Course" section using AJAX
+    function enrollCourse(event, course) {
+    event.preventDefault(); // Prevent the default link behavior
+    //console.log("In enroll courses !!!!!!!!!!!!!!!!!!!!!!! ");
+
+    // Use fetch to check login status
+    fetch('/check_login_status')
+        .then(response => response.json())
+        .then(data => {
+            // Check if the user is authenticated
+            console.log("In enroll courses !!! ");
+            if (data.authenticated) {
+                // If authenticated, proceed to fetch and load course content
+                fetch(`/enroll_Course`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ course_name: course }), // Include the selected course data
+                })
+                .then(response => response.text())
+                .then(courseData => {
+                    // Insert the fetched content into the 'content' div
+                    document.getElementById('content').innerHTML = courseData;
+                })
+                .catch(courseError => {
+                    console.error('Error loading "enroll Course" content:', courseError);
+                });
+            } else {
+                // If not authenticated, redirect to the login page
+                console.log("in errrorororororoo");
+				alert("Please login to Enroll in your cources ");
+                document.getElementById('content').innerHTML = loadLoginPage()
+            }
+        })
+        .catch(error => {
+            console.error('Error checking login status:', error);
+        });
+};
+
+</script>
+
 
 </body>
 

@@ -20,11 +20,11 @@ class User_Credentials(db.Model, UserMixin):
     #     self.password = bcrypt.generate_password_hash(password).decode('utf-8')
 
 
-class Profiles(db.Model):
-    __tablename__ = "profiles"
+class Course_DB(db.Model):
+    __tablename__ = "course"
     id = db.Column(db.Integer, primary_key=True)
     course_id = db.Column(db.String(100), nullable=False)
     course = db.Column(db.String(100), nullable=False)
     
     user_id = db.Column(db.Integer, db.ForeignKey('user_credentials.username'), nullable=False)
-    user = db.relationship('User_Credentials', backref=db.backref('profile', lazy=True))
+    user = db.relationship('User_Credentials', backref=db.backref('course', lazy=True))
