@@ -40,7 +40,7 @@
     <footer>
         <div class="footer-content">
             <div class="footer-logo">
-                <img src="F:\ROTA\static\images.png" alt="Company Logo">
+                <img src="{{ url_for('static', filename='images.jpg') }}" alt="Company Logo">
             </div>
             <div class="footer-info">
                 <p>&copy; 2023 Your Company Name</p>
@@ -339,9 +339,6 @@
             .then(response => response.json())
             .then(data => {
                 if (data.authenticated) {
-                    // registerTab.innerHTML = 'Register';
-                    // findTab.innerHTML = 'Search/Edit/Delete Record';
-                    // load_adm_tab.innerHTML = 'Admission Records';
                     load_user_tab.innerHTML = 'User Records';
 					load_enroll_tab.innerHTML = 'Enroll';
                     loginLink.innerHTML = '';
@@ -349,9 +346,6 @@
                     logoutLink.innerHTML = 'Logout';
                     username.innerHTML = data.username;
                 } else {
-                    // registerTab.innerHTML = '';
-                    // findTab.innerHTML = '';
-                    // load_adm_tab.innerHTML = '';
                     load_user_tab.innerHTML = '';
 					load_enroll_tab.innerHTML = '';
                     loginLink.innerHTML = 'Login';
