@@ -123,6 +123,49 @@ def logout():
 def forgot_password():
     return render_template('forgot_password.html')
 
+@app.route('/update_user_record/<int:id>', methods=['GET', 'POST'])
+@login_required
+def update_user_record(id):
+    record = User_Credentials.query.get(id)
+    print(" in edit user records ",record)
+    return render_template('edit_user_record.html', record=record)
+
+@app.route('/update_password_1/<string:username>', methods=['GET', 'POST'])
+def update_password_1(username):
+    record = User_Credentials.query.filter_by(username=username).first()
+    print(" in edit user records update 2 ", record)
+    return render_template('update_password_1.html', record=record)
+
+@app.route('/password_updated/<string:username>', methods=['POST', 'GET'])
+def password_updated(username):
+    print("ininininininininininin")
+    try:
+        if request.method == 'POST':
+            print("In password updator user edited ::::: ", request.data)
+
+            data = request.get_json()  # Use request.json to parse JSON data
+            print("In password updator user edited :", data)
+
+            new_password = data.get('new_password')
+            print("new passwaord : ", new_password)
+            record = User_Credentials.query.filter_by(username=username).first()
+            if record:
+                record.password = new_password
+                db.session.commit()
+
+                user_password = {
+                    'password': record.password
+                }
+
+                print("Password Updation Done !!!")
+                return jsonify({'status':'success', 'message': 'Password updated successfully', 'user_password': user_password})
+            else:
+                return jsonify({'error': 'Record not found'}), 404
+    except Exception as e:
+        print(f"Error: {str(e)}")
+        traceback.print_exc()
+        return jsonify({'error': 'Internal Server Error'}), 500
+
 @app.route('/')
 def layout():
     username = session.get('username', None)
@@ -287,49 +330,6 @@ def user_profile():
 def process_form():
     dwnld_rcds.download_records()        
     return redirect(url_for('user_records'))
-
-@app.route('/update_user_record/<int:id>', methods=['GET', 'POST'])
-@login_required
-def update_user_record(id):
-    record = User_Credentials.query.get(id)
-    print(" in edit user records ",record)
-    return render_template('edit_user_record.html', record=record)
-
-@app.route('/update_password_1/<string:username>', methods=['GET', 'POST'])
-def update_password_1(username):
-    record = User_Credentials.query.filter_by(username=username).first()
-    print(" in edit user records update 2 ", record)
-    return render_template('update_password_1.html', record=record)
-
-@app.route('/password_updated/<string:username>', methods=['POST', 'GET'])
-def password_updated(username):
-    print("ininininininininininin")
-    try:
-        if request.method == 'POST':
-            print("In password updator user edited ::::: ", request.data)
-
-            data = request.get_json()  # Use request.json to parse JSON data
-            print("In password updator user edited :", data)
-
-            new_password = data.get('new_password')
-            print("new passwaord : ", new_password)
-            record = User_Credentials.query.filter_by(username=username).first()
-            if record:
-                record.password = new_password
-                db.session.commit()
-
-                user_password = {
-                    'password': record.password
-                }
-
-                print("Password Updation Done !!!")
-                return jsonify({'status':'success', 'message': 'Password updated successfully', 'user_password': user_password})
-            else:
-                return jsonify({'error': 'Record not found'}), 404
-    except Exception as e:
-        print(f"Error: {str(e)}")
-        traceback.print_exc()
-        return jsonify({'error': 'Internal Server Error'}), 500
 
 @app.route('/edit_user_order/<int:id>', methods=['GET', 'POST'])
 @login_required
