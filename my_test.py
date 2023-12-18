@@ -132,33 +132,6 @@ def forgot_password():
 
 
 
-# @app.route('/admission_form')
-# @login_required
-# def admission_form():
-#     return render_template('admission_form.html')
-
-@app.route('/admit', methods=['POST'])
-@login_required
-def admit():
-    print("zxzxzxzxzxzxzxzxzxz")
-
-    if request.method == 'POST':
-        name = request.form['name']
-        email = request.form['email']
-        dob = request.form['dob']
-
-        admission_record = Profiles(name=name, email=email, dob=dob, user_id=current_user.username)
-
-        db.session.add(admission_record)
-        db.session.commit()
-        admission_record = {
-            'name': name,
-            'email': email,
-            'dob': dob,
-            'user_id': current_user.username
-        }
-        return jsonify({'message': 'Record Added successfully', 'admission_record': admission_record})
-    return render_template('error.html')
 
 @app.route('/courses')
 def courses():
@@ -201,82 +174,12 @@ def show_enrolled_course():
     print(records, "line no 186")
     return render_template('Course_Enrolled.html', records=records)
 
-# @app.route('/admission_records')
-# @login_required
-# def admission_records():
-#     records = Profiles.query.all()
-#     print(records, "line no 42")
-#     return render_template('admission_records.html', records=records)
-
 @app.route('/user_records')
 @login_required
 def user_records():
     records = User_Credentials.query.all()
     print(records, "line no 42")
     return render_template('User_Credentials.html', records=records)
-
-# @app.route('/find')
-# @login_required
-# def find():
-#     print("Line no 48")
-#     return render_template('find.html')
-
-# @app.route('/display_record', methods=['POST'])
-# @login_required
-# def display_record():
-#     if request.method == 'POST':
-#         name = request.form['name']
-#         records = Profiles.query.filter(Profiles.name == name).all()
-#         if len(records):
-#             return render_template('display_record.html', records=records)
-#         return render_template('error.html', records="Not Found")
-#     return render_template('error.html')
-
-# @app.route('/edit_record_by_id', methods=['POST'])
-# @login_required
-# def edit_record_by_id():
-#     if request.method == 'POST':
-#         record_id = request.form['record_id']
-#         record = Profiles.query.get(record_id)
-#         print(record)
-#     return render_template('edit_record.html', record=record)
-
-
-# @app.route('/record_edited/<int:id>', methods=['POST'])
-# @login_required
-# def record_edited(id):
-#     try:
-#         if request.method == 'POST':
-#             print('This is request !!!!', request)
-#             data = request.get_json(force=True)  # Use request.json to parse JSON data
-#             print("In record edited :", data)
-#             # Access data properties as needed
-#             name = data.get('name')
-#             email = data.get('email')
-#             dob = data.get('dob')
-
-#             record = Profiles.query.get(id)
-#             print('This is db recode', record)
-#             if record:
-#                 # Update the record with the data from the JSON request
-#                 record.name = name
-#                 record.email = email
-#                 record.dob = dob
-#                 db.session.commit()
-
-#                 admission_record = {
-#                     'name': record.name,
-#                     'email': record.email,
-#                     'dob': record.dob
-#                 }
-#                 print("Updation Done !!!")
-#                 return jsonify({'message': 'Record updated successfully', 'admission_record': admission_record})
-#             else:
-#                 return jsonify({'error': 'Record not found'}), 404
-#     except Exception as e:
-#         print(f"Error: {str(e)}")
-#         traceback.print_exc()
-#         return jsonify({'error': ' 1 Internal Server Error'}), 500
 
 @app.route('/record_user_edited/<int:id>', methods=['POST'])
 @login_required
@@ -361,24 +264,6 @@ def user_profile():
     # enrolled_cources = Course_DB.query.filter_by(user_id=current_user.username)
     return render_template('user_profiles.html', existing_user=existing_user, user_orders=user_orders)
 
-
-# @app.route('/delete_record_by_id', methods=['POST'])
-# @login_required
-# def delete_record_by_id():
-#     if request.method == 'POST':
-#         record_id = request.form['record_id']
-#         record = Profiles.query.get(record_id)
-#         if record:
-#             db.session.delete(record)
-#             db.session.commit()
-#             print("Record is ", record)
-#             return render_template('delete_record.html', record=record)
-#         else: 
-#             return render_template('error.html')
-#     print('Error')
-#     return render_template('error.html')
-
-
 @app.route('/process_form', methods=['POST'])
 @login_required
 def process_form():
@@ -396,14 +281,6 @@ def about():
 @app.route('/contact')
 def contact():
     return render_template('contact.html')
-
-# @app.route('/update_record/<int:id>', methods=['GET', 'POST'])
-# @login_required
-# def update_record(id):
-#     # Perform Operation
-#     record = Profiles.query.get(id)
-#     print(" in edit records", record)
-#     return render_template('edit_record.html', record=record)
 
 @app.route('/update_user_record/<int:id>', methods=['GET', 'POST'])
 @login_required
@@ -454,27 +331,6 @@ def edit_user_order(id):
     record = Course_DB.query.get(id)
     print(" in edit user records ",record)
     return render_template('edit_user_order.html', record=record)
-
-# @app.route('/delete_record/<int:id>', methods=['DELETE'])
-# @login_required
-# def delete_record(id):
-#     record = Profiles.query.get(id)
-#     if record:
-#         model_dict = {}
-#         for column in record.__table__.columns:
-#             attribute_name = column.key
-#             attribute_value = getattr(record, attribute_name)
-#             model_dict[attribute_name] = attribute_value
-
-#         db.session.delete(record)
-#         db.session.commit()
-
-#         # Optionally, return a JSON response to indicate success
-#         return jsonify({'message': 'Record deleted successfully', 'deleted_record': model_dict})
-#     else:
-#         # Return a JSON response for error
-#         return jsonify({'error': 'Record not found'}), 404
-    
     
 @app.route('/delete_user_record/<int:id>', methods=['DELETE'])
 @login_required

@@ -219,40 +219,6 @@
         });
     </script>
 
-    <!-- <script>
-        // JavaScript to load "find" section using AJAX
-        document.getElementById('load-find').addEventListener('click', function(e) {
-            e.preventDefault(); // Prevent the default link behavior
-            // Use AJAX to fetch the "About" section content
-            fetch('/find')
-                .then(response => response.text())
-                .then(data => {
-                    // Insert the fetched content into the 'content' div
-                    document.getElementById('content').innerHTML = data;
-                })
-                .catch(error => {
-                    console.error('Error load-find loading "find" content:', error);
-                });
-        });
-    </script> -->
-
-<!-- <script>
-    // JavaScript to load "register" section using AJAX
-    document.getElementById('load-register').addEventListener('click', function(e) {
-        e.preventDefault(); // Prevent the default link behavior
-        // Use AJAX to fetch the "About" section content
-        fetch('/admission_form')
-            .then(response => response.text())
-            .then(data => {
-                // Insert the fetched content into the 'content' div
-                document.getElementById('content').innerHTML = data;
-            })
-            .catch(error => {
-                console.error('Error loading "find" content:', error);
-            });
-    });
-</script> -->
-
 <script>
     // JavaScript to load "register" section using AJAX
     document.getElementById('user-profile').addEventListener('click', function(e) {
@@ -269,23 +235,6 @@
             });
     });
 </script>
-
-<!-- <script>
-    // JavaScript to load "admission record" section using AJAX
-    document.getElementById('load-admission-record').addEventListener('click', function(e) {
-        e.preventDefault(); // Prevent the default link behavior
-        // Use AJAX to fetch the "About" section content
-        fetch('/admission_records')
-            .then(response => response.text())
-            .then(data => {
-                // Insert the fetched content into the 'content' div
-                document.getElementById('content').innerHTML = data;
-            })
-            .catch(error => {
-                console.error('Error loading "find" content:', error);
-            });
-    });
-</script> -->
 
 <script>
     // JavaScript to load "user_credential" section using AJAX
@@ -351,45 +300,11 @@
 	}
 </script>
 
-<!-- <script>
-    function submitAdmissionForm(event) {
-        event.preventDefault();
-    
-        // Get form data
-        const form = document.getElementById('admission-form');
-        const formData = new FormData(form);
-    
-        // Fetch API to submit form data
-        fetch('{{ url_for("admit") }}', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            // Handle the server response, update content area, etc.
-            console.log(data);
-            if (data.message) {
-                document.getElementById('content').innerHTML = `Record Added: ${JSON.stringify(data.admission_record)}`;
-            } else {
-                // Handle the case where no deleted record information is returned
-                console.log('Not Added');
-            }
-            document.getElementById('content').innerHTML = data;
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-    }        
-</script> -->
 
 <!-- Move this script block to the head or before any other script that uses these functions -->
 <script>
     // Combine the two checkLoginStatus functions into one
     function checkLoginStatus() {
-        // Check user login status and hide/show tabs
-        // var registerTab = document.getElementById('load-register');
-        // var findTab = document.getElementById('load-find');
-        // var load_adm_tab = document.getElementById('load-admission-record');
         var load_user_tab = document.getElementById('load-user-credential');
 		var load_enroll_tab = document.getElementById('load-enrolled-cources');
         var loginLink = document.getElementById('login-link');
