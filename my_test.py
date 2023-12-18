@@ -51,12 +51,6 @@ def after_request(response):
     print("ggggggggggggggggggggggggggggggg")
     return response
 
-@app.route('/')
-def layout():
-    username = session.get('username', None)
-    print(username)
-    return render_template('layout.html', username=username)
-
 @login_manager.user_loader
 def load_user(user_id):
     # Implement logic to load a user from your database or user storage
@@ -126,53 +120,15 @@ def logout():
     session.clear()
     return redirect(url_for('layout'))
 
+@app.route('/')
+def layout():
+    username = session.get('username', None)
+    print(username)
+    return render_template('layout.html', username=username)
+
 @app.route('/forgot_password')
 def forgot_password():
     return render_template('forgot_password.html')
-
-
-
-
-@app.route('/courses')
-def courses():
-    return render_template('courses.html')
-
-@app.route('/enroll_Course', methods=['POST'])
-@login_required
-def enroll_Course():
-    # username = current_user.username
-    # existing_user = User_Credentials.query.filter_by(username=current_user.username).first()
-    # username = Course_DB.query.filter_by(username=current_user.user_id).first()
-    print("vbvbvbvbvbvbvbvbvbvb")
-    if request.method == 'POST':
-        data = request.get_json()
-       
-        course = data.get('course_name')
-        course_id = data.get('course_id')
-        
-        existing_enroll = Course_DB.query.filter_by(course=course, user_id=current_user.username).first()
-        
-        if existing_enroll:
-            return jsonify({'status' : False, 'message': 'Already Enrolled', 'redirect': '/target_page'})
-        
-        current_datetime = datetime.now()
-        formatted_date = current_datetime.strftime("%Y-%m-%d %H:%M:%S")
-        enroll_datetime = datetime.strptime(formatted_date, "%Y-%m-%d %H:%M:%S")
-
-        new_enroll = Course_DB(course_id=course_id, course=course, user_id=current_user.username, enroll_date=enroll_datetime)
-
-        # Add and commit the new user to your database
-        db.session.add(new_enroll)
-        db.session.commit()
-        return jsonify({'status' : True, 'message': 'User enrolled successfully', 'redirect': '/target_page'})
-        
-    return render_template('courses.html')
-    
-@app.route('/show_enrolled_course', methods=['GET'])
-def show_enrolled_course():
-    records = Course_DB.query.all()
-    print(records, "line no 186")
-    return render_template('Course_Enrolled.html', records=records)
 
 @app.route('/user_records')
 @login_required
@@ -222,6 +178,69 @@ def record_user_edited(id):
         traceback.print_exc()
         return jsonify({'error': 'Internal Server Error'}), 500
 
+@app.route('/delete_user_record/<int:id>', methods=['DELETE'])
+@login_required
+def delete_user_record(id):
+    record = User_Credentials.query.get(id)
+
+    if record:
+        model_dict = {}
+        for column in record.__table__.columns:
+            attribute_name = column.key
+            attribute_value = getattr(record, attribute_name)
+            model_dict[attribute_name] = attribute_value
+
+        db.session.delete(record)
+        db.session.commit()
+
+        # Optionally, return a JSON response to indicate success
+        return jsonify({'message': 'Record deleted successfully', 'deleted_record': model_dict})
+    else:
+        # Return a JSON response for error
+        return jsonify({'error': 'Record not found'}), 404
+        # delete_user_order
+
+@app.route('/courses')
+def courses():
+    return render_template('courses.html')
+
+@app.route('/show_enrolled_course', methods=['GET'])
+def show_enrolled_course():
+    records = Course_DB.query.all()
+    print(records, "line no 186")
+    return render_template('Course_Enrolled.html', records=records)
+
+@app.route('/enroll_Course', methods=['POST'])
+@login_required
+def enroll_Course():
+    # username = current_user.username
+    # existing_user = User_Credentials.query.filter_by(username=current_user.username).first()
+    # username = Course_DB.query.filter_by(username=current_user.user_id).first()
+    print("vbvbvbvbvbvbvbvbvbvb")
+    if request.method == 'POST':
+        data = request.get_json()
+       
+        course = data.get('course_name')
+        course_id = data.get('course_id')
+        
+        existing_enroll = Course_DB.query.filter_by(course=course, user_id=current_user.username).first()
+        
+        if existing_enroll:
+            return jsonify({'status' : False, 'message': 'Already Enrolled', 'redirect': '/target_page'})
+        
+        current_datetime = datetime.now()
+        formatted_date = current_datetime.strftime("%Y-%m-%d %H:%M:%S")
+        enroll_datetime = datetime.strptime(formatted_date, "%Y-%m-%d %H:%M:%S")
+
+        new_enroll = Course_DB(course_id=course_id, course=course, user_id=current_user.username, enroll_date=enroll_datetime)
+
+        # Add and commit the new user to your database
+        db.session.add(new_enroll)
+        db.session.commit()
+        return jsonify({'status' : True, 'message': 'User enrolled successfully', 'redirect': '/target_page'})
+        
+    return render_template('courses.html')
+
 @app.route('/submit_edit_order/<int:id>', methods=['POST'])
 @login_required
 def submit_edit_order(id):
@@ -269,18 +288,6 @@ def user_profile():
 def process_form():
     dwnld_rcds.download_records()        
     return redirect(url_for('user_records'))
-
-@app.route('/service')
-def service():
-    return render_template('service.html')
-
-@app.route('/about')
-def about():
-    return render_template('about.html')
-
-@app.route('/contact')
-def contact():
-    return render_template('contact.html')
 
 @app.route('/update_user_record/<int:id>', methods=['GET', 'POST'])
 @login_required
@@ -331,28 +338,6 @@ def edit_user_order(id):
     record = Course_DB.query.get(id)
     print(" in edit user records ",record)
     return render_template('edit_user_order.html', record=record)
-    
-@app.route('/delete_user_record/<int:id>', methods=['DELETE'])
-@login_required
-def delete_user_record(id):
-    record = User_Credentials.query.get(id)
-
-    if record:
-        model_dict = {}
-        for column in record.__table__.columns:
-            attribute_name = column.key
-            attribute_value = getattr(record, attribute_name)
-            model_dict[attribute_name] = attribute_value
-
-        db.session.delete(record)
-        db.session.commit()
-
-        # Optionally, return a JSON response to indicate success
-        return jsonify({'message': 'Record deleted successfully', 'deleted_record': model_dict})
-    else:
-        # Return a JSON response for error
-        return jsonify({'error': 'Record not found'}), 404
-        # delete_user_order
 
 @app.route('/delete_user_order/<int:id>', methods=['DELETE'])
 @login_required
@@ -378,3 +363,15 @@ def delete_user_order(id):
 @app.route('/home_content')
 def home_content():
     return render_template("home_content.html")
+
+@app.route('/service')
+def service():
+    return render_template('service.html')
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+@app.route('/contact')
+def contact():
+    return render_template('contact.html')
