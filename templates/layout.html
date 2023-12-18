@@ -18,9 +18,6 @@
             <ul>
                 <a href="{{ url_for('layout') }}">Home</a>
                 <a id="load-course" href="javascript:void(0)" onclick="goToCourse()">Course</a>
-                <a id="load-register" href="javascript:void(0)">Register</a>
-                <a id="load-find" href="javascript:void(0)">Search/Edit/Delete Record</a>
-                <a id="load-admission-record" href="{{ url_for('admission_records') }}">Admission Records</a>
                 <a id="load-user-credential" href="{{ url_for('user_records') }}">User Records</a>
 				<a id="load-enrolled-cources" href="{{ url_for('show_enrolled_course') }}" onclick="showEnrolledCourse(event)">Enroll</a>
                 <a id="load-about" href="javascript:void(0)">About</a>
@@ -222,7 +219,7 @@
         });
     </script>
 
-    <script>
+    <!-- <script>
         // JavaScript to load "find" section using AJAX
         document.getElementById('load-find').addEventListener('click', function(e) {
             e.preventDefault(); // Prevent the default link behavior
@@ -237,9 +234,9 @@
                     console.error('Error load-find loading "find" content:', error);
                 });
         });
-    </script>
+    </script> -->
 
-<script>
+<!-- <script>
     // JavaScript to load "register" section using AJAX
     document.getElementById('load-register').addEventListener('click', function(e) {
         e.preventDefault(); // Prevent the default link behavior
@@ -254,7 +251,7 @@
                 console.error('Error loading "find" content:', error);
             });
     });
-</script>
+</script> -->
 
 <script>
     // JavaScript to load "register" section using AJAX
@@ -273,7 +270,7 @@
     });
 </script>
 
-<script>
+<!-- <script>
     // JavaScript to load "admission record" section using AJAX
     document.getElementById('load-admission-record').addEventListener('click', function(e) {
         e.preventDefault(); // Prevent the default link behavior
@@ -288,7 +285,7 @@
                 console.error('Error loading "find" content:', error);
             });
     });
-</script>
+</script> -->
 
 <script>
     // JavaScript to load "user_credential" section using AJAX
@@ -354,7 +351,7 @@
 	}
 </script>
 
-<script>
+<!-- <script>
     function submitAdmissionForm(event) {
         event.preventDefault();
     
@@ -383,16 +380,16 @@
             console.error('Error:', error);
         });
     }        
-</script>
+</script> -->
 
 <!-- Move this script block to the head or before any other script that uses these functions -->
 <script>
     // Combine the two checkLoginStatus functions into one
     function checkLoginStatus() {
         // Check user login status and hide/show tabs
-        var registerTab = document.getElementById('load-register');
-        var findTab = document.getElementById('load-find');
-        var load_adm_tab = document.getElementById('load-admission-record');
+        // var registerTab = document.getElementById('load-register');
+        // var findTab = document.getElementById('load-find');
+        // var load_adm_tab = document.getElementById('load-admission-record');
         var load_user_tab = document.getElementById('load-user-credential');
 		var load_enroll_tab = document.getElementById('load-enrolled-cources');
         var loginLink = document.getElementById('login-link');
@@ -404,9 +401,9 @@
             .then(response => response.json())
             .then(data => {
                 if (data.authenticated) {
-                    registerTab.innerHTML = 'Register';
-                    findTab.innerHTML = 'Search/Edit/Delete Record';
-                    load_adm_tab.innerHTML = 'Admission Records';
+                    // registerTab.innerHTML = 'Register';
+                    // findTab.innerHTML = 'Search/Edit/Delete Record';
+                    // load_adm_tab.innerHTML = 'Admission Records';
                     load_user_tab.innerHTML = 'User Records';
 					load_enroll_tab.innerHTML = 'Enroll';
                     loginLink.innerHTML = '';
@@ -414,9 +411,9 @@
                     logoutLink.innerHTML = 'Logout';
                     username.innerHTML = data.username;
                 } else {
-                    registerTab.innerHTML = '';
-                    findTab.innerHTML = '';
-                    load_adm_tab.innerHTML = '';
+                    // registerTab.innerHTML = '';
+                    // findTab.innerHTML = '';
+                    // load_adm_tab.innerHTML = '';
                     load_user_tab.innerHTML = '';
 					load_enroll_tab.innerHTML = '';
                     loginLink.innerHTML = 'Login';
