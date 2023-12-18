@@ -270,8 +270,7 @@ def enroll_Course():
         if existing_enroll:
             return jsonify({'status' : False, 'message': 'Already Enrolled', 'redirect': '/target_page'})
         
-        current_datetime = datetime.now()
-        formatted_date = current_datetime.strftime("%Y-%m-%d %H:%M:%S")
+        formatted_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         enroll_datetime = datetime.strptime(formatted_date, "%Y-%m-%d %H:%M:%S")
 
         new_enroll = Course_DB(course_id=course_id, course=course, user_id=current_user.username, enroll_date=enroll_datetime)
