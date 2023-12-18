@@ -25,9 +25,6 @@ app.secret_key = 'your_secret_key'
 login_manager = LoginManager()
 login_manager.init_app(app)
 
-app.config['PERMANENT_SESSION_LIFETIME'] = 600  # 30 minutes in seconds
-
-
 @app.route('/check_login_status')
 def check_login_status():
     # Check if the user is authenticated
@@ -113,11 +110,23 @@ def login():
     print("llllllllllllllllllllllllllllll")
     return render_template('login.html')
 
-@app.route('/logout')
+from flask import redirect, url_for
+
+@app.route('/logout', methods=['GET'])
 def logout():
+    # Check if the logout is due to inactivity
+    if 'inactivity' in request.args:
+        # Perform any additional inactivity-related cleanup if needed
+        # For example: logout_user(), clear_session(), etc.
+
+        # Redirect to the home page after inactivity logout
+        return redirect(url_for('home_content'))
+
+    # Normal logout procedure
     logout_user()
     session.clear()
     return redirect(url_for('layout'))
+
 
 @app.route('/forgot_password')
 def forgot_password():

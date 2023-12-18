@@ -97,7 +97,30 @@
                 });
         }
     </script>
-    
+    <script>
+        // Set the timeout duration (in milliseconds)
+        const inactivityTimeout = 600000; // 5 minutes
+      
+        let logoutTimer;
+      
+        function resetLogoutTimer() {
+          clearTimeout(logoutTimer);
+          logoutTimer = setTimeout(logoutDueToInactivity, inactivityTimeout);
+        }
+      
+        function logoutDueToInactivity() {
+          // Redirect to the logout URL
+          window.location.href = '/logout';
+        }
+      
+        // Add event listeners to reset the timer on user activity
+        document.addEventListener('mousemove', resetLogoutTimer);
+        document.addEventListener('keypress', resetLogoutTimer);
+      
+        // Initial setup
+        resetLogoutTimer();
+      </script>
+      
     <script>function validateForm() {
         var nameInput = document.getElementById("name");
         var nameError = document.getElementById("nameError");
