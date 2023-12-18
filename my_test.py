@@ -113,22 +113,21 @@ def login():
     print("llllllllllllllllllllllllllllll")
     return render_template('login.html')
 
-
 @app.route('/logout')
 def logout():
     logout_user()
     session.clear()
     return redirect(url_for('layout'))
 
+@app.route('/forgot_password')
+def forgot_password():
+    return render_template('forgot_password.html')
+
 @app.route('/')
 def layout():
     username = session.get('username', None)
     print(username)
     return render_template('layout.html', username=username)
-
-@app.route('/forgot_password')
-def forgot_password():
-    return render_template('forgot_password.html')
 
 @app.route('/user_records')
 @login_required
