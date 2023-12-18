@@ -926,7 +926,7 @@ return true;
 
 <script>
     // JavaScript to check login status and load "enroll Course" section using AJAX
-    function enrollCourse(event, course) {
+    function enrollCourse(event, course, course_id) {
     event.preventDefault(); // Prevent the default link behavior
     //console.log("In enroll courses !!!!!!!!!!!!!!!!!!!!!!! ");
 
@@ -943,7 +943,7 @@ return true;
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ course_name: course }), // Include the selected course data
+                    body: JSON.stringify({ course_name : course, course_id : course_id }), // Include the selected course data
                 })
                 .then(response => response.text())
                 .then(courseData => {
