@@ -103,10 +103,13 @@ def login():
         if user and username == user.username and password == user.password:
             login_user(user)
             session['username'] = current_user.username
-            return jsonify({'status': 'success', 'redirect': url_for('layout')})
+            return jsonify({'status': True, 'redirect': url_for('layout')})
         else:
-            print('ssssssssssssssssssssssssssssss')
-            return jsonify({'status': 'failure', 'message': 'Invalid credentials'})
+            if user and username == user.username:
+                print('ssssssssssssssssssssssssssssss kkkkkk', password)
+                return jsonify({'status': False, 'message': 'Incorrect Password !'})
+            # print('ssssssssssssssssssssssssssssss')
+            return jsonify({'status': False, 'message': 'Invalid credentials'})
     print("llllllllllllllllllllllllllllll")
     return render_template('login.html')
 
