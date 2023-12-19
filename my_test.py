@@ -113,8 +113,6 @@ def login():
     print("llllllllllllllllllllllllllllll")
     return render_template('login.html')
 
-from flask import redirect, url_for
-
 @app.route('/logout', methods=['GET'])
 def logout():
     # Check if the logout is due to inactivity
