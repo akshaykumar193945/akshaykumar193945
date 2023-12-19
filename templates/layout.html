@@ -284,21 +284,31 @@
         // Get form data
         const formData = new FormData(event.target);
 		console.log("in login-form iin login-form");
+        document.getElementById('password').addEventListener('focus', function () {
+            document.getElementById('password_error').innerHTML = '';
+        });
+
         // Send login request using Fetch API
         fetch('{{ url_for('login') }}', {
             method: 'POST',
             body: formData,
         }).then(response =>response.json())
             .then(data => {
-				if (data.status === 'success') {
+				if (data.status == true) {
             // Redirect or handle success as needed
 					window.location.href = data.redirect;
-				} else {
+				} else if(data.message === 'Incorrect Password !'){
+                    document.getElementById('password_error').innerHTML = data.message;
+                    document.getElementById('password_error').style.color = 'red';
+                } else {
                     // Handle login failure
                     console.error(data.message);
-					alert('Invalid credentials. Please check your username and password or sign in for new account.');
+					const shouldSignUp = window.confirm('Invalid credentials. Please check your username and password or sign in for new account.');     
+                    // Fetch and render the signup template in the content area
+                    if (shouldSignUp) {
                     // Fetch and render the signup template in the content area
                     signUp(event);
+                    }
                 }
             })
         .catch(error => {
