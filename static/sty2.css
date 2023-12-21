@@ -10,14 +10,11 @@
     box-shadow: 0 0 30px rgba(255, 255, 255, 10);
 }
 
-.content-container {
-  /* Add your desired Bootstrap styles here */
-  margin-right: 30px; /* Example: Adding margin */
-  margin-left: 30px; /* Example: Adding margin */
-  margin-top: 20px; /* Example: Adding margin */
-  margin-bottom: 20px; /* Example: Adding margin */
-  padding: 10px; /* Example: Adding padding */
-}
+.content-container{
+  margin:auto;
+  padding: 20px;
+} 
+
 
 footer {
     background-color: #333;
