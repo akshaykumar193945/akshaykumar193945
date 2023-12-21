@@ -1,0 +1,46 @@
+
+
+<div class="login-container shadow p-4 rounded">
+    <form class="signup-form" method="POST" onsubmit="loadSignedIn()">
+        <div class="login-header">
+            <p class="h2 text-center">Sign Up</p>
+        </div>
+
+        <div class="form-outline mb-4">
+            <input type="text" type="text" id="username" name="username" class="form-control" required />
+            <label class="form-label" for="form2Example1">Username</label>
+        </div>
+
+        <div class="form-outline mb-4">                
+            <input type="password" id="password" name="password" class="form-control" required />                
+            <label class="form-label" for="form2Example2">Password</label>
+        </div>
+
+        <div class="form-outline mb-4">
+            <input type="text" id="first_name" name="first_name" class="form-control" required />
+            <label class="form-label" for="form2Example1">First Name</label>
+        </div>
+
+        <div class="form-outline mb-4">
+            <input type="text" id="last_name" name="last_name" class="form-control" required />
+            <label class="form-label" for="form2Example1">Last Name</label>
+        </div>
+
+        <div class="form-outline mb-4">
+            <input type="email" id="email" name="email" class="form-control" required />
+            <label class="form-label" for="form2Example1">Email</label>
+        </div>
+
+        <div class="form-outline mb-4">
+            <input type="tel" id="mobile_number" name="mobile_number" class="form-control" required />
+            <label class="form-label" for="form2Example1">Mobile Number</label>
+        </div>
+
+        <!-- Submit button -->
+        <button type="submit" class="btn btn-primary mb-4 center-align">Sign Up</button>
+        <div class="text-center"></div>          
+            <p>Already have an account? <a href="javascript:void(0)" onclick="loadLoginPage()">Log In</a></p>
+        </div>
+    </form>
+</div>
+

@@ -34,7 +34,7 @@ def check_login_status():
         return jsonify({'authenticated': False})
 
 # Define the 'before_request' hook
-@app.before_request
+'''@app.before_request
 def before_request():
     print("Executing 'before_request' hook")
     print(f"Request URL: {request.url}  Request Method: {request.method} Current_User : {current_user}")
@@ -47,6 +47,7 @@ def after_request(response):
     print(f"Response Status Code: {response.status_code}")
     print("ggggggggggggggggggggggggggggggg")
     return response
+'''
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -73,6 +74,7 @@ def signup():
         existing_user = User_Credentials.query.filter_by(username=username).first()
         print("kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
         if existing_user:
+            # add more checking for mobile number, email 
             return jsonify({'status': False, 'message': 'Username is already taken'})
 
         # Create a new user
@@ -87,7 +89,7 @@ def signup():
         # return redirect(url_for('home_content'))
         return jsonify({'status' : True, 'message': 'User registered successfully', 'redirect': '/target_page'})
 
-    return render_template('signup.html')
+    return render_template('signup2.html')
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -111,7 +113,7 @@ def login():
             # print('ssssssssssssssssssssssssssssss')
             return jsonify({'status': False, 'message': 'Invalid credentials'})
     print("llllllllllllllllllllllllllllll")
-    return render_template('login.html')
+    return render_template('login_temp.html')
 
 @app.route('/logout', methods=['GET'])
 def logout():
@@ -131,7 +133,7 @@ def logout():
 
 @app.route('/forgot_password')
 def forgot_password():
-    return render_template('forgot_password.html')
+    return render_template('forgot_password2.html')
 
 @app.route('/update_user_record/<int:id>', methods=['GET', 'POST'])
 @login_required
@@ -140,15 +142,19 @@ def update_user_record(id):
     print(" in edit user records ",record)
     return render_template('edit_user_record.html', record=record)
 
-@app.route('/update_password_1/<string:username>', methods=['GET', 'POST'])
+@app.route('/update_password_1/<string:username>')
 def update_password_1(username):
+    print("update_password_2 update_password_2 update_password_2 update_password_2")
     record = User_Credentials.query.filter_by(username=username).first()
-    print(" in edit user records update 2 ", record)
-    return render_template('update_password_1.html', record=record)
+    if record:
+        print(" in edit user records update 2 ", record)
+        return render_template('update_password.html', record=record)
+    else:
+        return jsonify({'status': False, 'message': 'Invalid credentials'})
+
 
 @app.route('/password_updated/<string:username>', methods=['POST', 'GET'])
 def password_updated(username):
-    print("ininininininininininin")
     try:
         if request.method == 'POST':
             print("In password updator user edited ::::: ", request.data)
@@ -159,7 +165,7 @@ def password_updated(username):
             new_password = data.get('new_password')
             print("new passwaord : ", new_password)
             record = User_Credentials.query.filter_by(username=username).first()
-            if record:
+            if record and record.password!=new_password:
                 record.password = new_password
                 db.session.commit()
 
@@ -168,13 +174,15 @@ def password_updated(username):
                 }
 
                 print("Password Updation Done !!!")
-                return jsonify({'status':'success', 'message': 'Password updated successfully', 'user_password': user_password})
+                return jsonify({'status':True, 'message': 'Password updated successfully', 'user_password': user_password})
+            elif record.password==new_password:
+                return jsonify({'status': False, 'message': 'Same Password as previous'})
             else:
-                return jsonify({'error': 'Record not found'}), 404
+                return jsonify({'status': False , 'message':'Record not found'}), 404
     except Exception as e:
         print(f"Error: {str(e)}")
         traceback.print_exc()
-        return jsonify({'error': 'Internal Server Error'}), 500
+        return jsonify({'status': False ,'error': 'Internal Server Error'}), 500
 
 @app.route('/')
 def layout():
@@ -257,6 +265,7 @@ def courses():
     return render_template('courses.html')
 
 @app.route('/show_enrolled_course', methods=['GET'])
+@login_required
 def show_enrolled_course():
     records = Course_DB.query.all()
     print(records, "line no 186")

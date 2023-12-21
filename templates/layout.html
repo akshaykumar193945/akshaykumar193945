@@ -6,37 +6,45 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iKl+uUZ+Kxh/c5Kx63uXtLl4i8/0p1uL7Q9DYgH5o/2n49t4mi4y9p1" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='sty2.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-</head>
+</head> 
 
 <body>
-    <header>
-        <h1>SSVM PUBLIC SCHOOL</h1>        
-        <nav>
-            <ul>
-                <a href="{{ url_for('layout') }}">Home</a>
-                <a id="load-course" href="javascript:void(0)" onclick="goToCourse()">Course</a>
-                <a id="load-user-credential" href="{{ url_for('user_records') }}">User Records</a>
-				<a id="load-enrolled-cources" href="{{ url_for('show_enrolled_course') }}" onclick="showEnrolledCourse(event)">Enroll</a>
-                <a id="load-about" href="javascript:void(0)">About</a>
-                <a id="load-service" href="javascript:void(0)">Service</a>
-                <a id="load-contact" href="javascript:void(0)">Contact</a>
-                <a id="user-profile" href="#"></a>
-                <a id="login-link" href="{{ url_for('login') }}">Login</a>
-                <a id="signup-link" href="javascript:void(0)" onclick="signUp(event)">Signup</a>
-                <a id="logout-link" href="javascript:void(0)" onclick="confirmLogout()">Logout</a>
-            </ul>
-        </nav>
-    </header>
-
+                
+    <nav class="navbar navbar-expand-sm bg-dark py-3 px-4">
+        <div class="container-fluid">
+            <a class="navbar-brand text-white" href="{{ url_for('layout') }}">SSVM PUBLIC SCHOOL</a>
+            <div class="navbar-nav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <!-- <li class="nav-item"><a class="nav-link active text-dark" aria-current="page" href="{{ url_for('layout') }}">Home</a></li> -->
+                    <li class="nav-item"><a class = "nav-link text-white" id="load-user-credential" href="{{ url_for('user_records') }}">User Records</a></li>
+                    <li class="nav-item"><a class = "nav-link text-white" id="load-course" href="javascript:void(0)" onclick="goToCourse()">Course</a></li>
+                    <li class="nav-item"><a class = "nav-link text-white" id="load-enrolled-courses" href="{{ url_for('show_enrolled_course') }}" onclick="showEnrolledCourse(event)">Enroll</a></li>
+                    <li class="nav-item"><a class = "nav-link text-white" id="load-about" href="javascript:void(0)">About</a></li>
+                    <li class="nav-item"><a class = "nav-link text-white" id="load-service" href="javascript:void(0)">Service</a></li>
+                    <li class="nav-item"><a class = "nav-link text-white" id="load-contact" href="javascript:void(0)">Contact</a></li>
+                    <li class="nav-item"><a class = "nav-link text-white" id="user-profile" href="javascript:void(0)">User Name</a></li>
+                    <li class="nav-item"><a class = "nav-link text-white" id="login-link" href="javascript:void(0)" onclick="loadLoginPage()">Login</a></li>
+                    <li class="nav-item"><a class = "nav-link text-white" id="signup-link" href="javascript:void(0)" onclick="signUp(event)">Signup</a></li>
+                    <li class="nav-item"><a class = "nav-link text-white" id="logout-link" href="javascript:void(0)" onclick="confirmLogout()">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+	<div class="bg-light">
     {% block content %}
     
-    <div id="content"></div>
+    <div id="content" class="content-container"></div>
 
     {% endblock %}
-    
+    </div>
     <footer>
         <div class="footer-content">
             <div class="footer-logo">
@@ -59,6 +67,7 @@
             </div>
         </div>
     </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-eed8dfL9W1jwyjjrZvy5VfvXH+L2FTRdflHb8nLlq+9GY5F86QCExl5fwgoyqxfH" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
@@ -173,24 +182,6 @@
     };
 </script>
 
-<script>
-    // JavaScript to load "login-link" section using AJAX
-    document.getElementById('login-link').addEventListener('click', function(e) {
-        e.preventDefault(); // Prevent the default link behavior
-        console.log("In Login Part !!!!")
-        // Use AJAX to fetch the "login" section content
-        fetch('/login')
-            .then(response => response.text())
-            .then(data => {
-                // Insert the fetched content into the 'content' div                
-                document.getElementById('content').innerHTML = data;
-            })
-            .catch(error => {                
-                console.error('Error loading "find" content:', error);
-            });
-    });
-</script>
-
     <script>
         // JavaScript to load "About" section using AJAX
         document.getElementById('load-about').addEventListener('click', function(e) {
@@ -264,6 +255,7 @@
     document.getElementById('load-user-credential').addEventListener('click', function(e) {
         e.preventDefault(); // Prevent the default link behavior
         // Use AJAX to fetch the "About" section content
+		console.log("in user record ###########");
         fetch('/user_records')
             .then(response => response.text())
             .then(data => {
@@ -333,13 +325,12 @@
 	}
 </script>
 
-
 <!-- Move this script block to the head or before any other script that uses these functions -->
 <script>
     // Combine the two checkLoginStatus functions into one
     function checkLoginStatus() {
         var load_user_tab = document.getElementById('load-user-credential');
-		var load_enroll_tab = document.getElementById('load-enrolled-cources');
+		var load_enroll_tab = document.getElementById('load-enrolled-courses');
         var loginLink = document.getElementById('login-link');
         var logoutLink = document.getElementById('logout-link');
         var signupLink = document.getElementById('signup-link');
@@ -424,12 +415,13 @@ function loadLoginPage() {
                 console.log(`Record: ${JSON.stringify(data)}`);
                 if (data.status) {
                     console.log(data.message);
-                    loadLoginLink();
+					alert(`${JSON.stringify(data.message)}`)
+                    loadLoginPage();
                 } else {
                     console.log(`${JSON.stringify(data.message)}`);
                     alert(`${JSON.stringify(data.message)}`);
                     alert('Redirecting to Login')
-                    loadLoginLink();
+                    loadLoginPage();
                 }
             }).catch(error => {
 			console.log("in error in error in error");
@@ -455,8 +447,8 @@ function loadLoginPage() {
 <script>
     function performTableSearch() {
         var searchTerm = document.getElementById('tableSearchInput').value.toLowerCase();
-        var tableRows = document.querySelectorAll('.admission-table tbody tr');
-        console.log("In Table searches admission-table ")
+        var tableRows = document.querySelectorAll('.table tbody tr');
+        console.log("In Table searches ")
 
         tableRows.forEach(function (row) {
             var rowText = row.textContent.toLowerCase();
@@ -815,7 +807,8 @@ return true;
 </script>
 
 <script>
-    function submitPwdRecoveryForm() {
+    function submitPwdRecoveryForm(event) {
+	event.preventDefault();
         var username = document.getElementById('username').value;
         console.log("inside password recovery : ", username, " ::::: ");
         fetch(`/update_password_1/${username}`)
@@ -831,36 +824,58 @@ return true;
   </script>
 
 <script>
-    function submitUpdatedPwd(username){
-        event.preventDefault();
-        // "Iterate over the form data of class='new-pwd-form' "
-        const formData = new FormData(document.querySelector('.new-pwd-form'));
-        const formDataObject = {};
-        formData.forEach((value, key) => {
-            formDataObject[key] = value;
-        });
+    function submitUpdatedPwd(username) {
+    event.preventDefault();
+    console.log("in in in in in in in ");
 
-        fetch(`/password_updated/${username}`, {
+    // Create the line break element
+    var lineBreak = document.createElement("br");
+
+    // "Iterate over the form data of class='new-pwd-form' "
+    const formData = new FormData(document.querySelector('.new-pwd-form'));
+    const formDataObject = {};
+    formData.forEach((value, key) => {
+        formDataObject[key] = value;
+    });
+
+    var newPasswordInput = document.getElementById('new_password');
+    var newPasswordError = document.getElementById('newPasswordError');
+    var oneBreakContainer = document.getElementById('oneBreak');
+
+    // Event listener to clear the error message and remove the line break
+    newPasswordInput.addEventListener('focus', function () {
+        newPasswordError.innerHTML = '';
+        console.log("hjhjhjhjhjhh");
+        if (oneBreakContainer.contains(lineBreak)) {
+            oneBreakContainer.removeChild(lineBreak);
+            console.log("hjhjhjhjhjhh");
+        }
+    });
+
+    fetch(`/password_updated/${username}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify(formDataObject),
-        })
-            .then(response => response.json())
-                .then(data => {
-				if (data.status === 'success') {
-                    document.getElementById('content').innerHTML =`Password Updated: ${JSON.stringify(data.user_password)}`;
-                    setTimeout(() => {
-                        window.location.href = "{{ url_for('layout') }}";  // Replace with your desired URL
-                    }, 5000);  // 5000 milliseconds (5 seconds)
-                    } else {
-                    console.log('Eroroororro');
-            }})
-            .catch(error => {
-                console.error('Error loading "update_password" content:', error);
-                });
-    };
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status) {
+            console.log(data.message);
+            document.getElementById('content').innerHTML = `Password Updated: ${JSON.stringify(data.user_password)}`;
+            // Other actions you want to perform on success
+        } else {
+            console.error(data.message);
+            newPasswordError.innerHTML = data.message;
+            oneBreakContainer.appendChild(lineBreak);
+        }
+    })
+    .catch(error => {
+        console.error('Error loading "update_password" content:', error);
+    });
+};
+
 </script>
 
 <script>

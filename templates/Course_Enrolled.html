@@ -1,26 +1,24 @@
-<!-- {% extends "layout.html" %}
 
-{% block content %} -->
 <div id="admission-form">
     <div class="record_header">
         <h2>Enrolled Cources</h2>
-        <button class="download-button" onclick="downloadExcel()">Download Excel</button>
+        <button type="submit" class="btn btn-primary mb-4 center-align" onclick="downloadExcel()">Download Excel</button>
     </div>
     <br>
-    <div class="searching">        
-        <input type="text" id="tableSearchInput" placeholder="Search...">
-        <button id="tableSearchButton" onclick="performTableSearch()">Search</button>
+    <div class="searching input-group mb-3">
+        <input type="text" id="tableSearchInput" class="form-control" placeholder="Search...">
+        <button id="tableSearchButton" class="btn btn-outline-secondary" onclick="performTableSearch()">Search</button>
     </div>
-    <table class="admission-table">
+    <table class="table">
         <thead>
             <tr>
-                <th>ID</th>
-                <th>Course_id</th>
-                <th>Program Name</th>
-                <th>User ID</th>
-				<th>Enroll Date</th>
-				<th>Update</th>
-                <th>Delete</th>
+                <th scope="col">ID</th>
+                <th scope="col">Course_id</th>
+                <th scope="col">Program Name</th>
+                <th scope="col">User ID</th>
+				<th scope="col">Enroll Date</th>
+				<th scope="col">Update</th>
+                <th scope="col">Delete</th>
             </tr>
         </thead>
         <tbody>
@@ -51,4 +49,3 @@
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
-<!-- {% endblock %} -->
