@@ -25,12 +25,12 @@
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <!-- <li class="nav-item"><a class="nav-link active text-dark" aria-current="page" href="{{ url_for('layout') }}">Home</a></li> -->
                     <li class="nav-item"><a class = "nav-link text-white" id="load-course" href="javascript:void(0)" onclick="goToCourse()">Course</a></li>
-                    <li class="nav-item"><a class = "nav-link text-white" id="load-user-credential" href="javascript:void(0)">User Records</a></li>
+                    <li class="nav-item"><a class = "nav-link text-white" id="load-user-credential" href="javascript:void(0)" onclick="loadUserCredential()">User Records</a></li>
                     <li class="nav-item"><a class = "nav-link text-white" id="load-enrolled-courses" href="{{ url_for('show_enrolled_course') }}" onclick="showEnrolledCourse(event)">Enroll</a></li>
                     <li class="nav-item"><a class = "nav-link text-white" id="load-about" href="javascript:void(0)">About</a></li>
                     <li class="nav-item"><a class = "nav-link text-white" id="load-service" href="javascript:void(0)">Service</a></li>
                     <li class="nav-item"><a class = "nav-link text-white" id="load-contact" href="javascript:void(0)">Contact</a></li>
-                    <li class="nav-item"><a class = "nav-link text-white" id="user-profile" href="javascript:void(0)">User Name</a></li>
+                    <li class="nav-item"><a class = "nav-link text-white" id="user-profile" href="javascript:void(0)" onclick="userProfile()">User Name</a></li>
                     <li class="nav-item"><a class = "nav-link text-white" id="login-link" href="javascript:void(0)" onclick="loadLoginPage()">Login</a></li>
                     <li class="nav-item"><a class = "nav-link text-white" id="signup-link" href="javascript:void(0)" onclick="signUp(event)">Signup</a></li>
                     <li class="nav-item"><a class = "nav-link text-white" id="logout-link" href="javascript:void(0)" onclick="confirmLogout()">Logout</a></li>
@@ -238,8 +238,11 @@
 
 <script>
     // JavaScript to load "register" section using AJAX
-    document.getElementById('user-profile').addEventListener('click', function(e) {
-        e.preventDefault(); // Prevent the default link behavior
+    // document.getElementById('user-profile').addEventListener('click', 
+    
+    function userProfile() {
+
+        // e.preventDefault(); // Prevent the default link behavior
         // Use AJAX to fetch the "About" section content
         fetch('/user_profile')
             .then(response => response.text())
@@ -250,14 +253,16 @@
             .catch(error => {
                 console.error('Error loading "find" content:', error);
             });
-    });
+    };
 </script>
 
 <script>
     // JavaScript to load "user_credential" section using AJAX
-    document.getElementById('load-user-credential').addEventListener('click', function(e) {
-        e.preventDefault(); // Prevent the default link behavior
+    // document.getElementById('load-user-credential').addEventListener('click', function(e) {
+        // 
+        // e.preventDefault(); // Prevent the default link behavior
         // Use AJAX to fetch the "About" section content
+        function loadUserCredential(){
 		console.log("in user record ###########");
         fetch('/user_records')
             .then(response => response.text())
@@ -269,7 +274,7 @@
             .catch(error => {
                 console.error('Error loading "find" content:', error);
             });
-    });
+    };
 </script>
 
 <script>
@@ -557,6 +562,7 @@ function loadLoginPage() {
             if (data.deleted_record) {
                 // document.getElementById('content').innerHTML = `Deleted Record: ${JSON.stringify(data.deleted_record)}`;
                 myDialog(`Deleted Record: ${JSON.stringify(data.deleted_record)}`);
+                loadUserCredential();
             } else {
                 // Handle the case where no deleted record information is returned
                 console.log('No deleted record information provided');
@@ -591,6 +597,7 @@ function loadLoginPage() {
             if (data.deleted_record) {
                 // document.getElementById('content').innerHTML = `Deleted Order: ${JSON.stringify(data.deleted_record)}`;
                 myDialog(`Deleted Order: ${JSON.stringify(data.deleted_record)}`);
+                showEnrolledCourse();
             } else {
                 // Handle the case where no deleted record information is returned
                 console.log('No deleted record information provided');
@@ -688,6 +695,7 @@ function loadLoginPage() {
                 if (data.admission_record) {
                     // document.getElementById('content').innerHTML = `Updated Record: ${JSON.stringify(data.admission_record)}`;
                     myDialog(`Updated Record: ${JSON.stringify(data.admission_record)}`);
+                    loadUserCredential();
                 } else {
                     // Handle the case where no deleted record information is returned
                     console.log('No deleted record information provided');
@@ -735,6 +743,7 @@ function loadLoginPage() {
                 if (data.user_record) {
                     // document.getElementById('content').innerHTML = `Updated User Record: ${JSON.stringify(data.user_record)}`;
                     myDialog(`Updated User Record: ${JSON.stringify(data.user_record)}`);
+                    loadUserCredential();
                 } else {
                     console.log('No updated record information provided');
                 }
@@ -753,8 +762,6 @@ return true;
 }
 </script>
 
-
-<!--  -->
 <script>
     function submitUpdateUserOrder(recordId) {
        event.preventDefault();
@@ -785,6 +792,7 @@ return true;
                    if (data.user_order) {
                     //    document.getElementById('content').innerHTML = `Updated User order: ${JSON.stringify(data.user_order)}`;
                        myDialog(`Updated User order: ${JSON.stringify(data.user_order)}`);
+                       
                    } else {
                        console.log('No updated order information provided');
                    }
