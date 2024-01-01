@@ -203,7 +203,7 @@ def layout():
 @login_required
 def user_records():
     records = User_Credentials.query.all()
-    print(records, "line no 42")
+    # print(records, "line no 42")
     return render_template('User_Credentials.html', records=records)
 
 @app.route('/record_user_edited/<int:id>', methods=['POST'])
