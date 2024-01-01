@@ -16,8 +16,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head> 
 
-<body>
-                
+<body>                
     <nav class="navbar navbar-expand-sm bg-dark py-3 px-4">
         <div class="container-fluid">
             <a class="navbar-brand text-white" href="{{ url_for('layout') }}">SSVM PUBLIC SCHOOL</a>
@@ -1005,13 +1004,12 @@ return true;
         });
 };
 
-
 </script>
 
-
 <script>
-    function onContactSubmit() {
-        const formData = new FormData(document.querySelector('.contact-form'));
+    function onContactSubmit(event) {
+        event.preventDefault();
+        const formData = new FormData(document.querySelector('#contactForm'));
 
         // Create an object from the form data
         const formDataObject = {};
@@ -1021,10 +1019,11 @@ return true;
 
         // Convert the object to a JSON string
         const jsonData = JSON.stringify(formDataObject);
+        console.log(jsonData)
         console.log("Submitting contact form");
 
         // Replace 'YOUR_API_ENDPOINT' with your actual API endpoint
-        fetch('contact_submission', {
+        fetch(`/contact_submission`, {
             method: 'POST', // or 'PUT', 'DELETE', etc.
             headers: {
                 'Content-Type': 'application/json',
@@ -1040,13 +1039,13 @@ return true;
         })
         .then(data => {
             console.log('Server response:', data);
+            myDialog(`${JSON.stringify(data.message)}`, function () { loadLoginPage();});
         })
         .catch(error => {
             console.error('Error during fetch operation:', error);
         });
     }
 </script>
-
 
 </body>
 

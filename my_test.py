@@ -1,6 +1,6 @@
 from datetime import datetime
 from flask import Flask, render_template, request, redirect, url_for, jsonify, session
-from models import db, User_Credentials, Course_DB
+from models import db, User_Credentials, Course_DB, Contact_DB
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from flask_migrate import Migrate
 from flask import request, jsonify
@@ -415,7 +415,7 @@ def contact_submission():
         phone = data.get('phone')
         email = data.get('email')
         message = data.get('message')
-            
+        # print("5555555555555555", name, phone, email, message)
         # Perform further processing or store the data in a database
         contact_entry = Contact_DB(
             visitor_name=name,
@@ -423,6 +423,7 @@ def contact_submission():
             email=email,
             message=message
         )
+        # print("66666666666666666")
 
         db.session.add(contact_entry)
         db.session.commit()

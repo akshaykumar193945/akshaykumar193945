@@ -37,7 +37,6 @@
     .contact-li {
         margin-bottom: 5px;
     }    
-    }
 
     .form-group {
         margin-bottom: 15px;
@@ -81,29 +80,29 @@
 
     <p class="contact-p">Please fill out the form below to get in touch with us:</p>
 
-    <form class="contact-form" id="contactForm" onsubmit="onContactSubmit()">
+    <form class="contact-form" id="contactForm" method="POST" onsubmit="onContactSubmit(event)">
         <div class="form-outline mb-4">
-			<input class="form-control" type="text" id="name" name="name" required>
+            <input class="form-control" type="text" id="name" name="name" required>
             <label for="name">*Name:</label>
         </div>
-		
-		<div class="form-outline mb-4">
-			<input class="form-control" type="tel" id="phone" name="phono" required>
+    
+        <div class="form-outline mb-4">
+            <input class="form-control" type="tel" id="phone" name="phone" required>
             <label for="phone">*Phone Number:</label>
         </div>
-
+    
         <div class="form-outline mb-4">
-			<input class="form-control" type="email" id="email" name="email">
+            <input class="form-control" type="email" id="email" name="email">
             <label for="email">Email:</label>
         </div>
-
+    
         <div class="form-outline mb-4">
-			<textarea class="form-control" id="message" name="message" rows="4"></textarea>
+            <textarea class="form-control" id="message" name="message" rows="4"></textarea>
             <label for="message">Message:</label>
         </div>
-
-        <button type="submit">Submit</button>
+        <button type="submit" class="btn btn-primary mb-4 center-align">Submit</button>
     </form>
+    
 	
 	<br>
     <p class="contact-p"><a id="load-home" href="javascript:void(0)" onclick="loadHomeContent()">Back to Home</a></p>
