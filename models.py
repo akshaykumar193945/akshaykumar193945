@@ -29,3 +29,13 @@ class Course_DB(db.Model):
 
     user_id = db.Column(db.Integer, db.ForeignKey('user_credentials.username'), nullable=False)
     user = db.relationship('User_Credentials', backref=db.backref('course', lazy=True))
+
+class Contact_DB(db.Model):
+    __tablename__ = "contact_info"
+    id = db.Column(db.Integer, primary_key=True)
+    visitor_name = db.Column(db.String(100), nullable=False)
+    mobile_number = db.Column(db.String(15), nullable=False)
+    email = db.Column(db.String(255), nullable=False)
+    message = db.Column(db.String(255), nullable=False)
+
+    

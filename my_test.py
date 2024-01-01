@@ -164,8 +164,12 @@ def password_updated(username):
 
             new_password = data.get('new_password')
             print("new passwaord : ", new_password)
+
+            confirmNewPassword = data.get('confirmNewPassword')
+            print("confirmNewPassword : ", confirmNewPassword)
+
             record = User_Credentials.query.filter_by(username=username).first()
-            if record and record.password!=new_password:
+            if record and record.password!=new_password and confirmNewPassword == new_password:
                 record.password = new_password
                 db.session.commit()
 
@@ -176,8 +180,13 @@ def password_updated(username):
                 print("Password Updation Done !!!")
                 return jsonify({'status':True, 'message': 'Password updated successfully', 'user_password': user_password})
             elif record.password==new_password:
+                print("rrrrrrrrrrrrrrrrrrr")
                 return jsonify({'status': False, 'message': 'Same Password as previous'})
+            elif confirmNewPassword != new_password:
+                print("qqqqqqqqqqqqqqqq")
+                return jsonify({'status': '1', 'message': 'Confirm Password should be same as new password'})
             else:
+                print("sssssssssssssssss")
                 return jsonify({'status': False , 'message':'Record not found'}), 404
     except Exception as e:
         print(f"Error: {str(e)}")
@@ -245,12 +254,14 @@ def delete_user_record(id):
 
     if record:
         model_dict = {}
+        # print("In jhgvjbvgjlbhkljbnjkbnlkj !")
         for column in record.__table__.columns:
             attribute_name = column.key
             attribute_value = getattr(record, attribute_name)
             model_dict[attribute_name] = attribute_value
 
         db.session.delete(record)
+        # print("In delete user record !")
         db.session.commit()
 
         # Optionally, return a JSON response to indicate success
@@ -392,3 +403,31 @@ def about():
 @app.route('/contact')
 def contact():
     return render_template('contact.html')
+    
+@app.route('/contact_submission', methods=['POST'])
+def contact_submission():
+    try:
+        # Assuming the JSON data is sent in the request body
+        data = request.get_json()
+
+        # Process the data as needed
+        name = data.get('name')
+        phone = data.get('phone')
+        email = data.get('email')
+        message = data.get('message')
+            
+        # Perform further processing or store the data in a database
+        contact_entry = Contact_DB(
+            visitor_name=name,
+            mobile_number=phone,
+            email=email,
+            message=message
+        )
+
+        db.session.add(contact_entry)
+        db.session.commit()
+        
+        # Return a response (this is just an example)
+        return jsonify({"success": True, "message": "Form submitted successfully"})
+    except Exception as e:
+        return jsonify({"success": False, "message": str(e)})

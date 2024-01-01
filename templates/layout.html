@@ -25,7 +25,7 @@
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <!-- <li class="nav-item"><a class="nav-link active text-dark" aria-current="page" href="{{ url_for('layout') }}">Home</a></li> -->
                     <li class="nav-item"><a class = "nav-link text-white" id="load-user-credential" href="javascript:void(0)" onclick="loadUserCredential()">User Records</a></li>
-                    <li class="nav-item"><a class = "nav-link text-white" id="load-enrolled-courses" href="{{ url_for('show_enrolled_course') }}" onclick="showEnrolledCourse(event)">Enroll</a></li>
+                    <li class="nav-item"><a class = "nav-link text-white" id="load-enrolled-courses" href="javascript:void(0)" onclick="showEnrolledCourse()">Enroll</a></li>
                     <li class="nav-item"><a class = "nav-link text-white" id="load-course" href="javascript:void(0)" onclick="goToCourse()">Course</a></li>
                     <li class="nav-item"><a class = "nav-link text-white" id="load-about" href="javascript:void(0)">About</a></li>
                     <li class="nav-item"><a class = "nav-link text-white" id="load-service" href="javascript:void(0)">Service</a></li>
@@ -278,6 +278,7 @@
 </script>
 
 <script>
+	var directedFunct;
     function showFloatingDialog(message) {
         var dialog = document.getElementById('floating-dialog');
         var content = document.getElementById('dialog-content');
@@ -292,16 +293,18 @@
         document.getElementById('overlay').style.display = 'none';
         // Restore scrolling when the overlay is closed
         document.body.style.overflow = 'auto';
+		directedFunct();
     }
 
     // Simulate a server response
-    function myDialog(serverResponse) {
+    function myDialog(serverResponse, callBack) {
         // Use setTimeout to simulate a delay before showing the dialog
         setTimeout(function () {
             console.log(serverResponse); // Log the server response to the console
             showFloatingDialog(serverResponse); // Show the floating dialog with the server response
             // Disable scrolling when the overlay is active
             document.body.style.overflow = 'hidden';
+			directedFunct = callBack;
         }, 500);  // Simulating a delay of .5 seconds
     }
 </script>
@@ -347,8 +350,7 @@
 </script>
 
 <script>
-	function showEnrolledCourse(event){
-		event.preventDefault();
+	function showEnrolledCourse(){
 		
 		fetch('/show_enrolled_course').then(response => response.text())
             .then(data => {
@@ -561,8 +563,8 @@ function loadLoginPage() {
             console.log(data.message);
             if (data.deleted_record) {
                 // document.getElementById('content').innerHTML = `Deleted Record: ${JSON.stringify(data.deleted_record)}`;
-                myDialog(`Deleted Record: ${JSON.stringify(data.deleted_record)}`);
-                loadUserCredential();
+                myDialog(`Deleted Record: ${JSON.stringify(data.deleted_record)}`, function () {loadUserCredential();});
+                // loadUserCredential();
             } else {
                 // Handle the case where no deleted record information is returned
                 console.log('No deleted record information provided');
@@ -596,8 +598,8 @@ function loadLoginPage() {
             console.log(data.message);
             if (data.deleted_record) {
                 // document.getElementById('content').innerHTML = `Deleted Order: ${JSON.stringify(data.deleted_record)}`;
-                myDialog(`Deleted Order: ${JSON.stringify(data.deleted_record)}`);
-                showEnrolledCourse();
+                myDialog(`Deleted Order: ${JSON.stringify(data.deleted_record)}`, function () {showEnrolledCourse();});
+                // showEnrolledCourse();
             } else {
                 // Handle the case where no deleted record information is returned
                 console.log('No deleted record information provided');
@@ -694,8 +696,8 @@ function loadLoginPage() {
                 console.log(data.message);
                 if (data.admission_record) {
                     // document.getElementById('content').innerHTML = `Updated Record: ${JSON.stringify(data.admission_record)}`;
-                    myDialog(`Updated Record: ${JSON.stringify(data.admission_record)}`);
-                    loadUserCredential();
+                    myDialog(`Updated Record: ${JSON.stringify(data.admission_record)}`, function(){loadUserCredential();});
+                    // loadUserCredential();
                 } else {
                     // Handle the case where no deleted record information is returned
                     console.log('No deleted record information provided');
@@ -742,8 +744,8 @@ function loadLoginPage() {
                 console.log(data.message);
                 if (data.user_record) {
                     // document.getElementById('content').innerHTML = `Updated User Record: ${JSON.stringify(data.user_record)}`;
-                    myDialog(`Updated User Record: ${JSON.stringify(data.user_record)}`);
-                    loadUserCredential();
+                    myDialog(`Updated User Record: ${JSON.stringify(data.user_record)}`, function() {userProfile();});
+                    // loadUserCredential();
                 } else {
                     console.log('No updated record information provided');
                 }
@@ -791,7 +793,7 @@ return true;
                    console.log(data.message);
                    if (data.user_order) {
                     //    document.getElementById('content').innerHTML = `Updated User order: ${JSON.stringify(data.user_order)}`;
-                       myDialog(`Updated User order: ${JSON.stringify(data.user_order)}`);
+                       myDialog(`Updated User order: ${JSON.stringify(data.user_order)}`, function(){showEnrolledCourse();});
                        
                    } else {
                        console.log('No updated order information provided');
@@ -897,18 +899,34 @@ return true;
 
     var newPasswordInput = document.getElementById('new_password');
     var newPasswordError = document.getElementById('newPasswordError');
+    var confirmNewPassword = document.getElementById('confirmNewPassword');
     var oneBreakContainer = document.getElementById('oneBreak');
+    var oneBreak_1_Container = document.getElementById('oneBreak_1');
+    
+
+    var confirmPasswordInputError = document.getElementById('confirmNewPasswordError');
 
     // Event listener to clear the error message and remove the line break
     newPasswordInput.addEventListener('focus', function () {
         newPasswordError.innerHTML = '';
-        console.log("hjhjhjhjhjhh");
+        // console.log("hjhjhjhjhjhh");
         if (oneBreakContainer.contains(lineBreak)) {
             oneBreakContainer.removeChild(lineBreak);
             console.log("hjhjhjhjhjhh");
         }
     });
-
+	
+	    confirmNewPassword.addEventListener('focus', function () {
+        confirmNewPasswordError.innerHTML = '';
+        // console.log("hjhjhjhjhjhh");
+        if (oneBreak_1_Container.contains(lineBreak)) {
+            oneBreak_1_Container.removeChild(lineBreak);
+            console.log("hjhjhjhjhjhh");
+        }
+    });
+	
+	
+	console.log(newPasswordInput.value, confirmNewPassword.value);
     fetch(`/password_updated/${username}`, {
         method: 'POST',
         headers: {
@@ -918,13 +936,19 @@ return true;
     })
     .then(response => response.json())
     .then(data => {
-        if (data.status) {
+		console.log('7777777777777777777');
+		console.log(data.status);
+        if (data.status == true && data.status !== '1') {
             console.log(data.message);
             // document.getElementById('content').innerHTML = `Password Updated: ${JSON.stringify(data.user_password)}`;
             // Other actions you want to perform on success
-            myDialog(`Password Updated: ${JSON.stringify(data.user_password)} Succesfully`);
+            myDialog(`Password Updated: ${JSON.stringify(data.user_password)} Succesfully`, function () {loadLoginPage();});
 
             // loadLoginPage();
+        } else if (data.status === '1') {
+            console.warn(data.message);
+            confirmPasswordInputError.innerHTML = data.message;
+            oneBreak_1_Container.appendChild(lineBreak);
         } else {
             console.error(data.message);
             newPasswordError.innerHTML = data.message;
@@ -962,7 +986,9 @@ return true;
                 .then(response => response.text())
                 .then(courseData => {
                     // Insert the fetched content into the 'content' div
-                    document.getElementById('content').innerHTML = courseData;
+                    //document.getElementById('content').innerHTML = courseData;
+					console.log(courseData);
+					myDialog(`Enrolled successful: ${JSON.stringify(courseData.message)}`, function () { userProfile();});
                 })
                 .catch(courseError => {
                     console.error('Error loading "enroll Course" content:', courseError);
@@ -981,6 +1007,47 @@ return true;
 
 
 </script>
+
+
+<script>
+    function onContactSubmit() {
+        const formData = new FormData(document.querySelector('.contact-form'));
+
+        // Create an object from the form data
+        const formDataObject = {};
+        formData.forEach((value, key) => {
+            formDataObject[key] = value;
+        });
+
+        // Convert the object to a JSON string
+        const jsonData = JSON.stringify(formDataObject);
+        console.log("Submitting contact form");
+
+        // Replace 'YOUR_API_ENDPOINT' with your actual API endpoint
+        fetch('contact_submission', {
+            method: 'POST', // or 'PUT', 'DELETE', etc.
+            headers: {
+                'Content-Type': 'application/json',
+                // Add any other headers you may need, e.g., authorization headers
+            },
+            body: jsonData,
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json(); // Parse the JSON from the response
+        })
+        .then(data => {
+            console.log('Server response:', data);
+        })
+        .catch(error => {
+            console.error('Error during fetch operation:', error);
+        });
+    }
+</script>
+
+
 </body>
 
 </html>

@@ -37,17 +37,74 @@
     .contact-li {
         margin-bottom: 5px;
     }    
-    
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    label {
+        display: block;
+        font-size: 16px;
+        color: #333;
+        margin-bottom: 5px;
+    }
+
+    input,
+    textarea {
+        width: 100%;
+        padding: 10px;
+        font-size: 14px;
+        border: 1px solid #ddd;
+        border-radius: 3px;
+        box-sizing: border-box;
+    }
+
+    button {
+        background-color: #86bbdf;
+        color: #fff;
+        padding: 10px 20px;
+        font-size: 16px;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #5a8ea5;
+    }
+
     </style>    
 
-<div class="contact-content">
-    <h2 class="contact-h2">This is Contact page !</h2>
-    <p  class="contact-p">We offer a range of services to make the admission process smooth and efficient:</p>
-    <ul class="contact-ul">
-        <li class="contact-li">Online Application Form</li>
-        <li class="contact-li">Document Submission</li>
-        <li class="contact-li">Application Review</li>
-        <li class="contact-li">Admission Confirmation</li>
-    </ul>
+<div class="login-container shadow p-4 rounded">
+    <h2 class="contact-h2">Contact Us</h2>
+
+    <p class="contact-p">Please fill out the form below to get in touch with us:</p>
+
+    <form class="contact-form" id="contactForm" onsubmit="onContactSubmit()">
+        <div class="form-outline mb-4">
+			<input class="form-control" type="text" id="name" name="name" required>
+            <label for="name">*Name:</label>
+        </div>
+		
+		<div class="form-outline mb-4">
+			<input class="form-control" type="tel" id="phone" name="phono" required>
+            <label for="phone">*Phone Number:</label>
+        </div>
+
+        <div class="form-outline mb-4">
+			<input class="form-control" type="email" id="email" name="email">
+            <label for="email">Email:</label>
+        </div>
+
+        <div class="form-outline mb-4">
+			<textarea class="form-control" id="message" name="message" rows="4"></textarea>
+            <label for="message">Message:</label>
+        </div>
+
+        <button type="submit">Submit</button>
+    </form>
+	
+	<br>
     <p class="contact-p"><a id="load-home" href="javascript:void(0)" onclick="loadHomeContent()">Back to Home</a></p>
 </div>
