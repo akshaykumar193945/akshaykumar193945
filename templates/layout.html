@@ -844,11 +844,9 @@
                 console.error('Error loading "find" content:', error);
             });
     };
-</script>
 
-<script>
     function submitPwdRecoveryForm(event) {
-	event.preventDefault();
+        event.preventDefault();
         var username = document.getElementById('username').value;
         console.log("inside password recovery : ", username, " ::::: ");
         fetch(`/update_password_1/${username}`)
@@ -859,11 +857,9 @@
             })
             .catch(error => {
                 console.error('Error loading "update_password" content:', error);
-                });
+            });
     };
-  </script>
 
-<script>
     function submitUpdatedPwd(username) {
         event.preventDefault();
         console.log("in in in in in in in ");
@@ -939,7 +935,6 @@
             console.error('Error loading "update_password" content:', error);
         });
     };
-
 </script>
 
 <script>
