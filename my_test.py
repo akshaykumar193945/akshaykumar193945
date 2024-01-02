@@ -403,6 +403,12 @@ def about():
 @app.route('/contact')
 def contact():
     return render_template('contact.html')
+
+@app.route('/contact_records')
+def contact_records():
+    records = Contact_DB.query.all()
+    # print(records, "line no 42")
+    return render_template('contact_info.html', records=records)
     
 @app.route('/contact_submission', methods=['POST'])
 def contact_submission():

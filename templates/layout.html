@@ -25,6 +25,7 @@
                     <!-- <li class="nav-item"><a class="nav-link active text-dark" aria-current="page" href="{{ url_for('layout') }}">Home</a></li> -->
                     <li class="nav-item"><a class = "nav-link text-white" id="load-user-credential" href="javascript:void(0)" onclick="loadUserCredential()">User Records</a></li>
                     <li class="nav-item"><a class = "nav-link text-white" id="load-enrolled-courses" href="javascript:void(0)" onclick="showEnrolledCourse()">Enroll</a></li>
+                    <li class="nav-item"><a class = "nav-link text-white" id="load-contact-info" href="javascript:void(0)" onclick="showContact()">Contacts Info</a></li>
                     <li class="nav-item"><a class = "nav-link text-white" id="load-course" href="javascript:void(0)" onclick="goToCourse()">Course</a></li>
                     <li class="nav-item"><a class = "nav-link text-white" id="load-about" href="javascript:void(0)">About</a></li>
                     <li class="nav-item"><a class = "nav-link text-white" id="load-service" href="javascript:void(0)">Service</a></li>
@@ -1004,6 +1005,22 @@ return true;
         });
 };
 
+</script>
+
+<script>
+    function showContact(){
+        fetch(`/contact_records`)
+            .then(response => response.text())
+            .then(data => {
+                // Insert the fetched content into the 'content' div
+				console.log("in user_records");
+                document.getElementById('content').innerHTML = data;
+            })
+            .catch(error => {
+                console.error('Error loading "find" content:', error);
+                }
+            );
+    };
 </script>
 
 <script>
