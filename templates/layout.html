@@ -76,7 +76,11 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            fetch('home_content')
+            loadHomeContent();
+        });
+    
+        function loadHomeContent() {
+            fetch('/home_content')
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
@@ -91,24 +95,9 @@
                     // Redirect to the error page
                     window.location.href = '/error';
                 });
-                        
-        });        
+        };
     </script>
     
-    <script>
-        function loadHomeContent() {
-            // Use AJAX to fetch the "home_content" page content
-            fetch('/home_content')
-                .then(response => response.text())
-                .then(data => {
-                    // Insert the fetched content into the 'content' div
-                    document.getElementById('content').innerHTML = data;
-                })
-                .catch(error => {
-                    console.error('Error loading "home_content" content:', error);
-                });
-        }
-    </script>
     <script>
         // Set the timeout duration (in milliseconds)
         const inactivityTimeout = 600000; // 5 minutes
@@ -523,37 +512,37 @@
    }
 
     function deleteUserOrder(recordId) {
-    if (confirm('Are you sure you want to delete this order?')) {
-        fetch(`/delete_user_order/${recordId}`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            } else {
-                throw new Error('Failed to delete record');
-            }
-        })
-        .then(data => {
-            // Handle successful deletion, e.g., update UI or show a message
-            console.log(data.message);
-            if (data.deleted_record) {
-                // document.getElementById('content').innerHTML = `Deleted Order: ${JSON.stringify(data.deleted_record)}`;
-                myDialog(`Deleted Order: ${JSON.stringify(data.deleted_record)}`, function () {showEnrolledCourse();});
-                // showEnrolledCourse();
-            } else {
-                // Handle the case where no deleted record information is returned
-                console.log('No deleted record information provided');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
+        if (confirm('Are you sure you want to delete this order?')) {
+            fetch(`/delete_user_order/${recordId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Failed to delete record');
+                }
+            })
+            .then(data => {
+                // Handle successful deletion, e.g., update UI or show a message
+                console.log(data.message);
+                if (data.deleted_record) {
+                    // document.getElementById('content').innerHTML = `Deleted Order: ${JSON.stringify(data.deleted_record)}`;
+                    myDialog(`Deleted Order: ${JSON.stringify(data.deleted_record)}`, function () {showEnrolledCourse();});
+                    // showEnrolledCourse();
+                } else {
+                    // Handle the case where no deleted record information is returned
+                    console.log('No deleted record information provided');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
     }
-}
 
 </script>
 
