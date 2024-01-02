@@ -357,7 +357,10 @@ def user_profile():
 @app.route('/process_form', methods=['POST'])
 @login_required
 def process_form():
-    dwnld_rcds.download_records()        
+    table_name = request.json.get('tableName')
+    print("ggggggggggggggggg",table_name)
+    # Now you can use the 'table_name' variable in your logic
+    dwnld_rcds.download_records(table_name)       
     return redirect(url_for('user_records'))
 
 @app.route('/edit_user_order/<int:id>', methods=['GET', 'POST'])

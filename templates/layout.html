@@ -790,10 +790,15 @@
 </script>
 
 <script>
-    function downloadExcel() {
+    function downloadExcel(tableName) {
         if (confirm('Are you sure you want to download Excel?')) {
+            console.log(tableName);
             fetch('/process_form', {
                 method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ tableName: tableName }),
             })
             .then(response => {
                 if (!response.ok) {
@@ -809,6 +814,7 @@
             });
         }
     }
+
 </script>
 
 <script>

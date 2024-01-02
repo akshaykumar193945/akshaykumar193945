@@ -24,7 +24,7 @@ def mkdir():
     return directory_name
 
 
-def download_records():
+def download_records(table_name):
     current_directory = os.getcwd()
     database_path = current_directory + os.sep + "instance" + os.sep + "mydatabase.db"
     connection = sqlite3.connect(database_path)
@@ -41,7 +41,7 @@ def download_records():
     print(table_names)
 
     # sql_query_admission_record = "SELECT * FROM profiles"
-    sql_query_user_record = "SELECT * FROM user_credentials"
+    sql_query_user_record = f"SELECT * FROM {table_name}"
 
     # Execute the queries and fetch data into DataFrames
     # profiles_data_df = pd.read_sql(sql_query_admission_record, connection)
@@ -53,7 +53,7 @@ def download_records():
     # print("User Record Data:")
     # print(data_user_record)
 
-    excel_file = mkdir() + os.sep + rf"{excel_name()}.xlsx"
+    excel_file = mkdir() + os.sep + rf"{excel_name()} {table_name}.xlsx"
 
     # profiles_data = "Profile Data"
     user_record_data = "User Data"
