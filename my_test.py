@@ -251,7 +251,7 @@ def record_user_edited(id):
 @login_required
 def delete_user_record(id):
     record = User_Credentials.query.get(id)
-
+    
     if record:
         model_dict = {}
         # print("In jhgvjbvgjlbhkljbnjkbnlkj !")
@@ -279,7 +279,7 @@ def courses():
 @login_required
 def show_enrolled_course():
     records = Course_DB.query.all()
-    print(records, "line no 186")
+    # print(records, "line no 186")
     return render_template('Course_Enrolled.html', records=records)
 
 @app.route('/enroll_Course', methods=['POST'])
