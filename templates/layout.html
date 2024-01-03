@@ -1097,12 +1097,13 @@
                 if (data.status){
                     console.log("in execute contact_records");
                     console.log(data.message);
-                    myDialog(`Updated Contact Record : ${JSON.stringify(data.message)}`, function () {showContact();});
+                    myDialog(`${JSON.stringify(data.message)} Updated`, function () {showContact();});
                 }
                 else{
                     console.log(data.message);
+                    myDialog(`${JSON.stringify(data.message)}`, function () {showContact();});
+
                 }
-                // document.getElementById('content').innerHTML = data;
             })
             .catch(error => {
                 console.error('Error loading content:', error);
