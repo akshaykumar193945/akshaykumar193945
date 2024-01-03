@@ -32,11 +32,11 @@
                     <td>{{ record.email }}</td>
                     <td>{{ record.message }}</td>
                     <td>
-                        <button class="update-button" onclick="updateVisitorRecord({{ record.id }})">Update</button>
+                        <button class="update-button" onclick="updateContactRecord({{ record.id }})">Update</button>
                     </td>
                     
                     <td>
-                        <button class="delete-button" data-record-id="{{ record.id }}" onclick="deleteVisitorRecord({{ record.id }})">Delete</button>
+                        <button class="delete-button" data-record-id="{{ record.id }}" onclick="deleteContactRecord({{ record.id }})">Delete</button>
                     </td>
                 </tr>
             {% endfor %}

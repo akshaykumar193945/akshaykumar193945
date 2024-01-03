@@ -556,6 +556,7 @@
         var signupLink = document.getElementById('signup-link');
         var username = document.getElementById('user-profile');
         var contactInfo = document.getElementById('load-contact-info');
+        var contact = document.getElementById('load-contact');
 
         function removeElement(element) {
             if (element && element.parentNode) {
@@ -571,8 +572,10 @@
                     load_enroll_tab.innerHTML = 'Enroll';
                     // loginLink.innerHTML = '';
                     // signupLink.innerHTML = '';
+                    
                     removeElement(loginLink);
                     removeElement(signupLink);
+                    removeElement(contact);
                     logoutLink.innerHTML = 'Logout';
                     username.innerHTML = data.username;
                 } else {
@@ -1036,11 +1039,11 @@
         });
     }
 
-    function updateVisitorRecord(contact_id){
+    function updateContactRecord(contact_id){
 
     }
 
-    function deleteVisitorRecord(contactId){
+    function deleteContactRecord(contactId){
         if (confirm('Are you sure you want to Delete this Contact?')) {
             console.log("in delete delete");
             console.log(contactId);
