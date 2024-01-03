@@ -1039,8 +1039,41 @@
         });
     }
 
-    function updateContactRecord(contact_id){
+    function updateContactRecord(contactId){
+        if (confirm('Are you sure you want to Update this Contact?')) {
+            console.log("in update contact form");
+            console.log(contactId);
 
+            var contactId = {
+                contactId: contactId,
+            };
+            var jsonString = JSON.stringify(contactId);
+            console.log(jsonString);
+            fetch(`/update_contact`,  {
+                method: 'POST',            
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: jsonString,
+            })            
+            .then(response => response.text())
+            .then(data => {
+                // Insert the fetched content into the 'content' div
+				console.log("in contact_records");
+                document.getElementById('content').innerHTML = data;
+            })
+            .catch(error => {
+                console.error('Error loading "find" content:', error);
+                }
+            );
+        }
+    }
+
+    function submitUpdateContact(contactID) {
+        if (confirm('Are you sure you want to Delete this Contact?')) {
+
+
+        }
     }
 
     function deleteContactRecord(contactId){

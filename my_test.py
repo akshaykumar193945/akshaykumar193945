@@ -443,7 +443,18 @@ def contact_submission():
         return jsonify({"success": True, "message": "Form submitted successfully"})
     except Exception as e:
         return jsonify({"success": False, "message": str(e)})
-    
+
+@app.route('/update_contact', methods=['POST'])
+def update_contact():
+    data = request.get_json()
+    if data:
+        contactId = data.get('contactId')
+        record = Contact_DB.query.get(contactId)
+        if record:
+            return render_template('contact_update.html', record=record)
+        return None
+    return None
+
 @app.route('/delete_contact', methods=['POST'])
 def delete_contact():
     data = request.get_json()

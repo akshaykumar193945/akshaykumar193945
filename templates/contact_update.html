@@ -1,0 +1,35 @@
+
+<div class="login-container shadow p-4 rounded">
+    <div class="container">
+        <form method="post" class="update-contact-form" action="{{ url_for('record_user_edited', id=record.id) }}"  onsubmit="submitUpdateContact({{ record.id }})">
+            <div class="login-header">
+                <p class="h2 text-center">Update Contact Info</p>
+            </div>
+            <div class="form-outline mb-4">
+                <input class="form-control" type="text" id="name" name="name" value ="{{record.visitor_name}}" required>
+                <label for="name">*Name:</label>
+            </div>
+        
+            <div class="form-outline mb-4">
+                <input class="form-control" type="tel" id="phone" name="phone" value ="{{record.mobile_number}}" required>
+                <label for="phone">*Phone Number:</label>
+            </div>
+        
+            <div class="form-outline mb-4">
+                <input class="form-control" type="email" id="email" name="email" value ="{{record.email}}">
+                <label for="email">Email:</label>
+            </div>
+        
+            <div class="form-outline mb-4">
+                <textarea class="form-control" id="message" name="message" rows="4" value ="{{record.message}}"></textarea>
+                <label for="message">Message:</label>
+            </div>
+
+            <button type="submit" class="btn btn-primary mb-4 center-align">Update</button>
+        </form>
+    </div>
+</div>
+
+
+<!-- <p><a href="{{ url_for('layout') }}">Back to Home</a></p> -->
+<p><a id="load-home" href="javascript:void(0)" onclick="loadHomeContent()">Back to Home</a></p>
