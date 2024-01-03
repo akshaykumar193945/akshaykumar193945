@@ -449,11 +449,51 @@ def update_contact():
     data = request.get_json()
     if data:
         contactId = data.get('contactId')
-        record = Contact_DB.query.get(contactId)
+        record = Contact_DB.query.get(contactId) 
         if record:
             return render_template('contact_update.html', record=record)
         return None
     return None
+
+@app.route('/execute_update_contact', methods=['POST'])
+def execute_update_contact():
+    try:
+        data = request.get_json()
+        if data:
+            name = data.get('name')
+            phone = data.get('phone')
+            email = data.get('email')
+            message = data.get('message')
+
+            id = data.get('contactId')
+
+            # print("yhyhyhyhyhyhyyhyhy", id, name, phone, email, message)
+
+            record = Contact_DB.query.get(id)
+
+            if record:
+                record.visitor_name = name
+                record.email = email
+                record.mobile_number = phone
+                record.message = message
+
+                db.session.commit()
+                print('Updation of contact done ')
+                my_dict = {
+                    "name" : record.visitor_name,
+                    "email" : record.email,
+                    "phone" : record.mobile_number,
+                    "message" : record.message
+                    
+                }
+
+                return jsonify({"status": True, "message": my_dict})
+            return jsonify({"status": False, "message": " Record Not Found "})
+        return jsonify({'error': 'Invalid Request'}), 404
+    except Exception as e:
+        print(f"Error: {str(e)}")
+        traceback.print_exc()
+        return jsonify({'error': 'Internal Server Error'}), 500
 
 @app.route('/delete_contact', methods=['POST'])
 def delete_contact():

@@ -1069,10 +1069,46 @@
         }
     }
 
-    function submitUpdateContact(contactID) {
+    function submitUpdateContact(contactId) {
+        event.preventDefault();
         if (confirm('Are you sure you want to Delete this Contact?')) {
+            const formData = new FormData(document.querySelector('.update-contact-form'));
+            const formDataObject = {};
+            formData.forEach((value, key) => {
+                formDataObject[key] = value;
+            });
 
+            formDataObject['contactId'] = contactId;
+            // console.log(formDataObject['contactId'] );
 
+            // Convert the object to a JSON string
+            const jsonData = JSON.stringify(formDataObject);
+            
+            fetch(`/execute_update_contact`,  {
+                method: 'POST',            
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: jsonData,
+            })            
+            .then(response => response.json())
+            .then(data => {
+                // Insert the fetched content into the 'content' div
+                if (data.status){
+                    console.log("in execute contact_records");
+                    console.log(data.message);
+                    myDialog(`Updated Contact Record : ${JSON.stringify(data.message)}`, function () {showContact();});
+                }
+                else{
+                    console.log(data.message);
+                }
+                // document.getElementById('content').innerHTML = data;
+            })
+            .catch(error => {
+                console.error('Error loading content:', error);
+                console.log(data.message);
+                }
+            )
         }
     }
 
