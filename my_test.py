@@ -423,12 +423,15 @@ def contact_submission():
         phone = data.get('phone')
         email = data.get('email')
         message = data.get('message')
-        # print("5555555555555555", name, phone, email, message)
-        # Perform further processing or store the data in a database
+
+        formatted_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        contact_date = datetime.strptime(formatted_date, "%Y-%m-%d %H:%M:%S")
+        
         contact_entry = Contact_DB(
             visitor_name=name,
             mobile_number=phone,
             email=email,
+            contact_date=contact_date,
             message=message
         )
         # print("66666666666666666")
