@@ -358,7 +358,6 @@ def user_profile():
 @login_required
 def process_form():
     table_name = request.json.get('tableName')
-    print("ggggggggggggggggg",table_name)
     # Now you can use the 'table_name' variable in your logic
     dwnld_rcds.download_records(table_name)       
     return redirect(url_for('user_records'))
@@ -441,3 +440,31 @@ def contact_submission():
         return jsonify({"success": True, "message": "Form submitted successfully"})
     except Exception as e:
         return jsonify({"success": False, "message": str(e)})
+    
+@app.route('/delete_contact', methods=['POST'])
+def delete_contact():
+    data = request.get_json()
+    if data:
+        contactId = data.get('contactId')
+        record = Contact_DB.query.get(contactId)
+        print("bbbbbbbbbbb")
+        if record:
+
+            model_dict = {}
+            # print("In jhgvjbvgjlbhkljbnjkbnlkj !")
+            for column in record.__table__.columns:
+                attribute_name = column.key
+                attribute_value = getattr(record, attribute_name)
+                model_dict[attribute_name] = attribute_value
+
+            db.session.delete(record)
+            # print("In delete user record !")
+            db.session.commit()
+
+            # Optionally, return a JSON response to indicate success
+            return jsonify({'message': 'Contact deleted successfully', 'deleted_contact': model_dict})
+        else:
+            # Return a JSON response for error
+            return jsonify({'error': 'Record not found'}), 404
+    else:
+        return jsonify({'error': 'Invalid Request'}), 404

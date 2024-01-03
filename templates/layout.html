@@ -988,7 +988,7 @@
             .then(response => response.text())
             .then(data => {
                 // Insert the fetched content into the 'content' div
-				console.log("in user_records");
+				console.log("in contact_records");
                 document.getElementById('content').innerHTML = data;
             })
             .catch(error => {
@@ -1040,8 +1040,50 @@
 
     }
 
-    function deleteVisitorRecord(contact_id){
+    function deleteVisitorRecord(contactId){
+        if (confirm('Are you sure you want to Delete this Contact?')) {
+            console.log("in delete delete");
+            console.log(contactId);
 
+            var contactId = {
+                contactId: contactId,
+            };
+
+            // Convert the JavaScript object to a JSON string
+            var jsonString = JSON.stringify(contactId);
+
+            // Output the JSON string
+            console.log(jsonString);
+            fetch(`/delete_contact`,  {
+                method: 'POST',            
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: jsonString,
+            })
+            .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('Failed to delete record');
+                    }
+                })
+                .then(data => {
+                    // Handle successful deletion, e.g., update UI or show a message
+                    console.log(data.message);
+                    if (data.deleted_contact) {
+                        // document.getElementById('content').innerHTML = `Deleted Record: ${JSON.stringify(data.deleted_record)}`;
+                        myDialog(`Deleted Record: ${JSON.stringify(data.deleted_contact)}`, function () {showContact();});
+                        // loadUserCredential();
+                    } else {
+                        // Handle the case where no deleted record information is returned
+                        console.log('No deleted record information provided'+ (data.error ?? ''));
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
     }
 
 </script>
