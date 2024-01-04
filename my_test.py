@@ -289,7 +289,6 @@ def enroll_Course():
     # username = current_user.username
     # existing_user = User_Credentials.query.filter_by(username=current_user.username).first()
     # username = Course_DB.query.filter_by(username=current_user.user_id).first()
-    print("vbvbvbvbvbvbvbvbvbvb")
     if request.method == 'POST':
         data = request.get_json()
        

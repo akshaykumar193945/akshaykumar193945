@@ -11,6 +11,11 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iKl+uUZ+Kxh/c5Kx63uXtLl4i8/0p1uL7Q9DYgH5o/2n49t4mi4y9p1" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+    <script src="{{ url_for('static', filename='js/contactScript.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/forgotPassword.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/enrolledCources.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/userCredentials.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/myDialogue.js') }}"></script>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='sty2.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -172,6 +177,47 @@
                 console.error('Error loading "signup" content:', error);
             });
     };
+
+    function loadSignedIn() {
+        event.preventDefault();
+        // Get the form data
+        const formData = new FormData(document.querySelector('.signup-form'));
+		
+        // Create an object from the form data
+        const formDataObject = {};
+        formData.forEach((value, key) => {
+            formDataObject[key] = value;
+        });
+
+        // Convert the object to a JSON string
+        const jsonData = JSON.stringify(formDataObject);
+		console.log("in submiting signup form");
+        // Make a POST request to the /logged_in endpoint with the form data
+        fetch('/signup', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: jsonData,
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(`Record: ${JSON.stringify(data)}`);
+                if (data.status) {
+                    console.log(data.message);
+					alert(`${JSON.stringify(data.message)}`)
+                    loadLoginPage();
+                } else {
+                    console.log(`${JSON.stringify(data.message)}`);
+                    alert(`${JSON.stringify(data.message)}`);
+                    alert('Redirecting to Login')
+                    loadLoginPage();
+                }
+            }).catch(error => {
+			console.log("in error in error in error");
+                console.error('Error fetching login form: ', error);
+            });
+    }
 </script>
 
     <script>
@@ -208,23 +254,6 @@
         });
     </script>
 
-    <script>
-        // JavaScript to load "contact" section using AJAX
-        document.getElementById('load-contact').addEventListener('click', function(e) {
-            e.preventDefault(); // Prevent the default link behavior
-            // Use AJAX to fetch the "About" section content
-            fetch('/contact')
-                .then(response => response.text())
-                .then(data => {
-                    // Insert the fetched content into the 'content' div
-                    document.getElementById('content').innerHTML = data;
-                })
-                .catch(error => {
-                    console.error('Error loading "contact" content:', error);
-                });
-        });
-    </script>
-
 <script>
     // JavaScript to load "register" section using AJAX
     // document.getElementById('user-profile').addEventListener('click', 
@@ -246,153 +275,19 @@
 </script>
 
 <script>
-    // JavaScript to load "user_credential" section using AJAX
-    // document.getElementById('load-user-credential').addEventListener('click', function(e) {
-    function loadUserCredential(){
-		console.log("in user record ###########");
-        fetch('/user_records')
-            .then(response => response.text())
+    function loadLoginPage() {
+        console.log("In log in page ")
+        fetch('/login')
+            .then(response => response.text())  // Parse the response as text
             .then(data => {
-                // Insert the fetched content into the 'content' div
-				console.log("in user_records");
+                // Update the content area with the fetched login form
                 document.getElementById('content').innerHTML = data;
             })
             .catch(error => {
-                console.error('Error loading "find" content:', error);
+                console.error('Error fetching login form: ', error);
             });
-    };
-
-    function updateUserRecord(recordId) {
-        if (confirm('Are you sure you want to update this record?')) {
-            fetch(`/update_user_record/${recordId}`)
-                .then(response => response.text())
-                .then(data => {
-                    // Insert the fetched content into the 'content' div
-					console.log("in edit user record ");
-                    document.getElementById('content').innerHTML = data;
-                })
-                .catch(error => {
-                    console.error('Error loading "find" content:', error);
-                });
-        }
-    };
-
-    function submitUpdateUserData(recordId) {
-        event.preventDefault();
-        if (validateUserForm()) {
-            var formData = {
-                first_name: document.getElementById('first_name').value,
-                last_name: document.getElementById('last_name').value,
-                email: document.getElementById('email').value,
-                password: document.getElementById('password').value,
-                mobile_number: document.getElementById('mobile_number').value,
-            };
-            if (confirm('Are you sure you want to update this record ??')) {
-                event.preventDefault();
-                console.log('in record user edited');
-                fetch(`/record_user_edited/${recordId}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json', // Set the Content-Type header
-                    },
-                    body: JSON.stringify(formData),
-                })
-                .then(response => {
-                    if (response.ok) {
-                        return response.json();
-                    } else {
-                        throw new Error('Failed to update record');
-                    }
-                })
-                .then(data => {
-                    console.log(data.message);
-                    if (data.user_record) {
-                        // document.getElementById('content').innerHTML = `Updated User Record: ${JSON.stringify(data.user_record)}`;
-                        myDialog(`Updated User Record: ${JSON.stringify(data.user_record)}`, function() {loadUserCredential();});                        
-                    } else {
-                        console.log('No updated record information provided');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-            }
-        }
-        return false;
-    };
-
-    function validateUserForm(){
-        // add your form validation here
-    return true;
     }
 
-    function deleteUserRecord(recordId) {
-        if (confirm('Are you sure you want to delete this record?')) {
-            fetch(`/delete_user_record/${recordId}`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            })
-            .then(response => {
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    throw new Error('Failed to delete record');
-                }
-            })
-            .then(data => {
-                // Handle successful deletion, e.g., update UI or show a message
-                console.log(data.message);
-                if (data.deleted_record) {
-                    // document.getElementById('content').innerHTML = `Deleted Record: ${JSON.stringify(data.deleted_record)}`;
-                    myDialog(`Deleted Record: ${JSON.stringify(data.deleted_record)}`, function () {loadUserCredential();});
-                    // loadUserCredential();
-                } else {
-                    // Handle the case where no deleted record information is returned
-                    console.log('No deleted record information provided');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-        }
-    };
-</script>
-
-<script>
-	var directedFunct;
-    function showFloatingDialog(message) {
-        var dialog = document.getElementById('floating-dialog');
-        var content = document.getElementById('dialog-content');
-        content.innerHTML = message;
-        dialog.style.display = 'block';
-        document.getElementById('overlay').style.display = 'block';
-    }
-
-    function closeDialog() {
-        var dialog = document.getElementById('floating-dialog');
-        dialog.style.display = 'none';
-        document.getElementById('overlay').style.display = 'none';
-        // Restore scrolling when the overlay is closed
-        document.body.style.overflow = 'auto';
-		directedFunct();
-    }
-
-    // Simulate a server response
-    function myDialog(serverResponse, callBack) {
-        // Use setTimeout to simulate a delay before showing the dialog
-        setTimeout(function () {
-            console.log(serverResponse); // Log the server response to the console
-            showFloatingDialog(serverResponse); // Show the floating dialog with the server response
-            // Disable scrolling when the overlay is active
-            document.body.style.overflow = 'hidden';
-			directedFunct = callBack;
-        }, 500);  // Simulating a delay of .5 seconds
-    }
-</script>
-
-<script>
     function logIn(event){
         event.preventDefault(); // Prevent the default form submission
 		console.log("in login-form iiiiiiiiiiiiiiin login-form");
@@ -404,7 +299,7 @@
         });
 
         // Send login request using Fetch API
-        fetch('{{ url_for('login') }}', {
+        fetch(`/login`, {
             method: 'POST',
             body: formData,
         }).then(response =>response.json())
@@ -430,117 +325,6 @@
             console.error('Error during login:', error);
         });
     };
-</script>
-
-<script>
-	function showEnrolledCourse(){
-		
-		fetch('/show_enrolled_course').then(response => response.text())
-            .then(data => {
-                // Insert the fetched content into the 'content' div
-				console.log("in cources !!!!!!!!");
-                document.getElementById('content').innerHTML = data;
-            })
-            .catch(error => {
-                console.error('Error loading "find" content:', error);
-            });
-	};
-
-    function updateUserOrder(recordId){
-        if (confirm('Are you sure you want to update this record?')) {
-            fetch(`/edit_user_order/${recordId}`)
-                .then(response => response.text())
-                .then(data => {
-                    // Insert the fetched content into the 'content' div
-					console.log("in edit user record ");
-                    document.getElementById('content').innerHTML = data;
-                })
-                .catch(error => {
-                    console.error('Error loading "find" content:', error);
-                });
-        }
-    };
-
-    function submitUpdateUserOrder(recordId) {
-       event.preventDefault();
-       if (validateUserForm()) {
-           var formData = {
-               course: document.getElementById('course').value,
-               course_id: document.getElementById('course_id').value,
-           };
-           if (confirm('Are you sure you want to update this record ??')) {
-               event.preventDefault();
-               console.log('in edit user order');
-               fetch(`/submit_edit_order/${recordId}`, {
-                   method: 'POST',
-                   headers: {
-                       'Content-Type': 'application/json', // Set the Content-Type header
-                   },
-                   body: JSON.stringify(formData),
-               })
-               .then(response => {
-                   if (response.ok) {
-                       return response.json();
-                   } else {
-                       throw new Error('Failed to update order');
-                   }
-               })
-               .then(data => {
-                   console.log(data.message);
-                   if (data.user_order) {
-                    //    document.getElementById('content').innerHTML = `Updated User order: ${JSON.stringify(data.user_order)}`;
-                       myDialog(`Updated User order: ${JSON.stringify(data.user_order)}`, function(){showEnrolledCourse();});
-                       
-                   } else {
-                       console.log('No updated order information provided');
-                   }
-               })
-               .catch(error => {
-                   console.error('Error:', error);
-               });
-           }
-       }
-       return false;
-   };
-   
-   function validateUserForm(){
-       // add your form validation here
-   return true;
-   }
-
-    function deleteUserOrder(recordId) {
-        if (confirm('Are you sure you want to delete this order?')) {
-            fetch(`/delete_user_order/${recordId}`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            })
-            .then(response => {
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    throw new Error('Failed to delete record');
-                }
-            })
-            .then(data => {
-                // Handle successful deletion, e.g., update UI or show a message
-                console.log(data.message);
-                if (data.deleted_record) {
-                    // document.getElementById('content').innerHTML = `Deleted Order: ${JSON.stringify(data.deleted_record)}`;
-                    myDialog(`Deleted Order: ${JSON.stringify(data.deleted_record)}`, function () {showEnrolledCourse();});
-                    // showEnrolledCourse();
-                } else {
-                    // Handle the case where no deleted record information is returned
-                    console.log('No deleted record information provided');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-        }
-    }
-
 </script>
 
 <!-- Move this script block to the head or before any other script that uses these functions -->
@@ -599,74 +383,6 @@
             document.addEventListener('DOMContentLoaded', checkLoginStatus);
         }
     }
-
-    function loadLoginPage() {
-        fetch('/login')
-            .then(response => response.text())  // Parse the response as text
-            .then(data => {
-                // Update the content area with the fetched login form
-                document.getElementById('content').innerHTML = data;
-            })
-            .catch(error => {
-                console.error('Error fetching login form: ', error);
-            });
-    }
-</script>
-
-<script>
-    function loadSignedIn() {
-        event.preventDefault();
-        // Get the form data
-        const formData = new FormData(document.querySelector('.signup-form'));
-		
-        // Create an object from the form data
-        const formDataObject = {};
-        formData.forEach((value, key) => {
-            formDataObject[key] = value;
-        });
-
-        // Convert the object to a JSON string
-        const jsonData = JSON.stringify(formDataObject);
-		console.log("in submiting signup form");
-        // Make a POST request to the /logged_in endpoint with the form data
-        fetch('/signup', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: jsonData,
-        })
-            .then(response => response.json())
-            .then(data => {
-                console.log(`Record: ${JSON.stringify(data)}`);
-                if (data.status) {
-                    console.log(data.message);
-					alert(`${JSON.stringify(data.message)}`)
-                    loadLoginPage();
-                } else {
-                    console.log(`${JSON.stringify(data.message)}`);
-                    alert(`${JSON.stringify(data.message)}`);
-                    alert('Redirecting to Login')
-                    loadLoginPage();
-                }
-            }).catch(error => {
-			console.log("in error in error in error");
-                console.error('Error fetching login form: ', error);
-            });
-    }
-
-    // Function to load the login-link content
-    // function loadLoginLink() {
-    //     fetch('/login')  // Assuming 'login' is the route to fetch login-link content
-    //         .then(response => response.text())
-    //         .then(data => {
-    //             // Update the login-link area with the fetched login-link content
-    //             document.getElementById('content').innerHTML = data;
-    //         })
-    //         .catch(error => {
-    //             console.error('Error fetching login-link content: ', error);
-    //         });
-    // }
 </script>
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
@@ -682,105 +398,6 @@
             row.style.display = isVisible ? 'table-row' : 'none';
         });
     }
-</script>
-
-<script>
-    function deleteRecord(recordId) {
-    if (confirm('Are you sure you want to delete this record?')) {
-        fetch(`/delete_record/${recordId}`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            } else {
-                throw new Error('Failed to delete record');
-            }
-        })
-        .then(data => {
-            // Handle successful deletion, e.g., update UI or show a message
-            console.log(data.message);
-            if (data.deleted_record) {
-                // document.getElementById('content').innerHTML = `Deleted Record: ${JSON.stringify(data.deleted_record)}`;
-                myDialog(`Deleted Record: ${JSON.stringify(data.deleted_record)}`);
-            } else {
-                // Handle the case where no deleted record information is returned
-                console.log('No deleted record information provided');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-    }
-}
-</script>
-
-<script>
-    function updateRecord(recordId) {
-        if (confirm('Are you sure you want to update this record?')) {
-            fetch(`/update_record/${recordId}`)
-                .then(response => response.text())
-                .then(data => {
-                    // Insert the fetched content into the 'content' div
-					console.log("in edit user record ");
-                    document.getElementById('content').innerHTML = data;
-                })
-                .catch(error => {
-                    console.error('Error loading "find" content:', error);
-                });
-        }
-    };
-</script>
-
-<script>
-    // record edited
-    function submitRegistrationForm(recordId) {
-    // Collect form data or create your data object
-    if (validateForm()){
-        var formData = {
-            name: document.getElementById('name').value,
-            email: document.getElementById('email').value,
-            dob: document.getElementById('dob').value
-            // Add more fields as needed
-        };
-        event.preventDefault();
-        if (confirm('Are you sure you want to update this record ??')) {
-            console.log('in record edited');
-            fetch(`/record_edited/${recordId}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData), // Convert data to JSON
-            })
-            .then(response => {
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    throw new Error('Failed to update record');
-                }
-            })
-            .then(data => {
-                console.log(data.message);
-                if (data.admission_record) {
-                    // document.getElementById('content').innerHTML = `Updated Record: ${JSON.stringify(data.admission_record)}`;
-                    myDialog(`Updated Record: ${JSON.stringify(data.admission_record)}`, function(){loadUserCredential();});
-                    // loadUserCredential();
-                } else {
-                    // Handle the case where no deleted record information is returned
-                    console.log('No deleted record information provided');
-                }
-            })
-            .catch(error => {
-                console.log("in error")
-                console.error('Error:', error);
-            });
-        }}
-        return False;
-}
 </script>
 
 <script>
@@ -808,7 +425,6 @@
             });
         }
     }
-
 </script>
 
 <script>
@@ -824,328 +440,6 @@
                 console.error('Error loading "find" content:', error);
             });
     };
-</script>
-
-<script>
-    function forgetPassword(){
-
-        fetch('/forgot_password').then(response => response.text())
-            .then(data => {
-                // Insert the fetched content into the 'content' div
-                document.getElementById('content').innerHTML = data;
-            })
-            .catch(error => {
-                console.error('Error loading "find" content:', error);
-            });
-    };
-
-    function submitPwdRecoveryForm(event) {
-        event.preventDefault();
-        var username = document.getElementById('username').value;
-        console.log("inside password recovery : ", username, " ::::: ");
-        fetch(`/update_password_1/${username}`)
-            .then(response => response.text())
-            .then(data => {
-                // Insert the fetched content into the 'content' div
-                document.getElementById('content').innerHTML = data;
-            })
-            .catch(error => {
-                console.error('Error loading "update_password" content:', error);
-            });
-    };
-
-    function submitUpdatedPwd(username) {
-        event.preventDefault();
-        console.log("in in in in in in in ");
-
-        // Create the line break element
-        var lineBreak = document.createElement("br");
-
-        // "Iterate over the form data of class='new-pwd-form' "
-        const formData = new FormData(document.querySelector('.new-pwd-form'));
-        const formDataObject = {};
-        formData.forEach((value, key) => {
-            formDataObject[key] = value;
-        });
-
-        var newPasswordInput = document.getElementById('new_password');
-        var newPasswordError = document.getElementById('newPasswordError');
-        var confirmNewPassword = document.getElementById('confirmNewPassword');
-        var oneBreakContainer = document.getElementById('oneBreak');
-        var oneBreak_1_Container = document.getElementById('oneBreak_1');
-        
-
-        var confirmPasswordInputError = document.getElementById('confirmNewPasswordError');
-
-        // Event listener to clear the error message and remove the line break
-        newPasswordInput.addEventListener('focus', function () {
-            newPasswordError.innerHTML = '';
-            // console.log("hjhjhjhjhjhh");
-            if (oneBreakContainer.contains(lineBreak)) {
-                oneBreakContainer.removeChild(lineBreak);
-                console.log("hjhjhjhjhjhh");
-            }
-        });
-        
-        confirmNewPassword.addEventListener('focus', function () {
-            confirmNewPasswordError.innerHTML = '';
-            // console.log("hjhjhjhjhjhh");
-            if (oneBreak_1_Container.contains(lineBreak)) {
-                oneBreak_1_Container.removeChild(lineBreak);
-                console.log("hjhjhjhjhjhh");
-            }
-        });        
-        
-        console.log(newPasswordInput.value, confirmNewPassword.value);
-        fetch(`/password_updated/${username}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formDataObject),
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log('7777777777777777777');
-            console.log(data.status);
-            if (data.status == true && data.status !== '1') {
-                console.log(data.message);
-                // document.getElementById('content').innerHTML = `Password Updated: ${JSON.stringify(data.user_password)}`;
-                // Other actions you want to perform on success
-                myDialog(`Password Updated: ${JSON.stringify(data.user_password)} Succesfully`, function () {loadLoginPage();});
-
-                // loadLoginPage();
-            } else if (data.status === '1') {
-                console.warn(data.message);
-                confirmPasswordInputError.innerHTML = data.message;
-                oneBreak_1_Container.appendChild(lineBreak);
-            } else {
-                console.error(data.message);
-                newPasswordError.innerHTML = data.message;
-                oneBreakContainer.appendChild(lineBreak);
-            }
-        })
-        .catch(error => {
-            console.error('Error loading "update_password" content:', error);
-        });
-    };
-</script>
-
-<script>
-    function enrollCourse(event, course, course_id) {
-        event.preventDefault(); // Prevent the default link behavior
-
-        // Use fetch to check login status
-        fetch('/check_login_status')
-            .then(response => response.json())
-            .then(data => {
-                // Check if the user is authenticated
-                console.log("In enroll courses !!! ");
-                if (data.authenticated) {
-                    // If authenticated, proceed to fetch and load course content
-                    fetch(`/enroll_Course`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ course_name : course, course_id : course_id }), // Include the selected course data
-                    })
-                    .then(response => response.text())
-                    .then(courseData => {
-                        // Insert the fetched content into the 'content' div
-                        //document.getElementById('content').innerHTML = courseData;
-                        console.log(courseData);
-                        myDialog(`Enrolled successful: ${JSON.stringify(courseData.message)}`, function () { userProfile();});
-                    })
-                    .catch(courseError => {
-                        console.error('Error loading "enroll Course" content:', courseError);
-                    });
-                } else {
-                    // If not authenticated, redirect to the login page
-                    console.log("not authenticated ");
-                    alert("Please login to Enroll in your cource ");
-                    document.getElementById('content').innerHTML = loadLoginPage()
-                }
-            })
-            .catch(error => {
-                console.error('Error checking login status:', error);
-            });
-    };
-
-</script>
-
-<script>
-    function showContact(){
-        fetch(`/contact_records`)
-            .then(response => response.text())
-            .then(data => {
-                // Insert the fetched content into the 'content' div
-				console.log("in contact_records");
-                document.getElementById('content').innerHTML = data;
-            })
-            .catch(error => {
-                console.error('Error loading "find" content:', error);
-                }
-            );
-    };
-
-    function onContactSubmit(event) {
-        event.preventDefault();
-        const formData = new FormData(document.querySelector('#contactForm'));
-
-        // Create an object from the form data
-        const formDataObject = {};
-        formData.forEach((value, key) => {
-            formDataObject[key] = value;
-        });
-
-        // Convert the object to a JSON string
-        const jsonData = JSON.stringify(formDataObject);
-        console.log(jsonData)
-        console.log("Submitting contact form");
-
-        // Replace 'YOUR_API_ENDPOINT' with your actual API endpoint
-        fetch(`/contact_submission`, {
-            method: 'POST', // or 'PUT', 'DELETE', etc.
-            headers: {
-                'Content-Type': 'application/json',
-                // Add any other headers you may need, e.g., authorization headers
-            },
-            body: jsonData,
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json(); // Parse the JSON from the response
-        })
-        .then(data => {
-            console.log('Server response:', data);
-            myDialog(`${JSON.stringify(data.message)}`, function () { loadLoginPage();});
-        })
-        .catch(error => {
-            console.error('Error during fetch operation:', error);
-        });
-    }
-
-    function updateContactRecord(contactId){
-        if (confirm('Are you sure you want to Update this Contact?')) {
-            console.log("in update contact form");
-            console.log(contactId);
-
-            var contactId = {
-                contactId: contactId,
-            };
-            var jsonString = JSON.stringify(contactId);
-            console.log(jsonString);
-            fetch(`/update_contact`,  {
-                method: 'POST',            
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: jsonString,
-            })            
-            .then(response => response.text())
-            .then(data => {
-                // Insert the fetched content into the 'content' div
-				console.log("in contact_records");
-                document.getElementById('content').innerHTML = data;
-            })
-            .catch(error => {
-                console.error('Error loading "find" content:', error);
-                }
-            );
-        }
-    }
-
-    function submitUpdateContact(contactId) {
-        event.preventDefault();
-        if (confirm('Are you sure you want to Delete this Contact?')) {
-            const formData = new FormData(document.querySelector('.update-contact-form'));
-            const formDataObject = {};
-            formData.forEach((value, key) => {
-                formDataObject[key] = value;
-            });
-
-            formDataObject['contactId'] = contactId;
-            // console.log(formDataObject['contactId'] );
-
-            // Convert the object to a JSON string
-            const jsonData = JSON.stringify(formDataObject);
-            
-            fetch(`/execute_update_contact`,  {
-                method: 'POST',            
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: jsonData,
-            })            
-            .then(response => response.json())
-            .then(data => {
-                if (data.status){
-                    console.log("in execute contact_records");
-                    console.log(data.message);
-                    myDialog(`${JSON.stringify(data.message)} Updated`, function () {showContact();});
-                }
-                else{
-                    console.log(data.message);
-                    myDialog(`${JSON.stringify(data.message)}`, function () {showContact();});
-                }
-            })
-            .catch(error => {
-                console.error('Error loading content:', error);
-                console.log(data.message);
-                }
-            )
-        }
-    }
-
-    function deleteContactRecord(contactId){
-        if (confirm('Are you sure you want to Delete this Contact?')) {
-            console.log("in delete delete");
-            console.log(contactId);
-
-            var contactId = {
-                contactId: contactId,
-            };
-
-            // Convert the JavaScript object to a JSON string
-            var jsonString = JSON.stringify(contactId);
-
-            // Output the JSON string
-            console.log(jsonString);
-            fetch(`/delete_contact`,  {
-                method: 'POST',            
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: jsonString,
-            })
-            .then(response => {
-                    if (response.ok) {
-                        return response.json();
-                    } else {
-                        throw new Error('Failed to delete record');
-                    }
-                })
-                .then(data => {
-                    // Handle successful deletion, e.g., update UI or show a message
-                    console.log(data.message);
-                    if (data.deleted_contact) {
-                        // document.getElementById('content').innerHTML = `Deleted Record: ${JSON.stringify(data.deleted_record)}`;
-                        myDialog(`Deleted Record: ${JSON.stringify(data.deleted_contact)}`, function () {showContact();});
-                        // loadUserCredential();
-                    } else {
-                        // Handle the case where no deleted record information is returned
-                        console.log('No deleted record information provided'+ (data.error ?? ''));
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-        }
-    }
-
 </script>
 
 </body>
