@@ -1,3 +1,16 @@
+function goToCourse(){
+    console.log("i am in course page ")
+    fetch('/courses')
+        .then(response => response.text())
+        .then(data => {
+            // Insert the fetched content into the 'content' div
+            document.getElementById('content').innerHTML = data;
+        })
+        .catch(error => {
+            console.error('Error loading "find" content:', error);
+        });
+};
+
 function enrollCourse(event, course, course_id) {
     event.preventDefault(); // Prevent the default link behavior
 
