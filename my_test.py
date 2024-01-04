@@ -121,7 +121,8 @@ def logout():
     if 'inactivity' in request.args:
         # Perform any additional inactivity-related cleanup if needed
         # For example: logout_user(), clear_session(), etc.
-
+        logout_user()
+        session.clear()
         # Redirect to the home page after inactivity logout
         return redirect(url_for('home_content'))
 
@@ -450,11 +451,12 @@ def update_contact():
     if data:
         contactId = data.get('contactId')
         record = Contact_DB.query.get(contactId) 
+        print('uuuuuuuuuuuuuuuuu',record.message)
         if record:
             return render_template('contact_update.html', record=record)
         return None
     return None
-
+ 
 @app.route('/execute_update_contact', methods=['POST'])
 def execute_update_contact():
     try:
@@ -466,8 +468,6 @@ def execute_update_contact():
             message = data.get('message')
 
             id = data.get('contactId')
-
-            # print("yhyhyhyhyhyhyyhyhy", id, name, phone, email, message)
 
             record = Contact_DB.query.get(id)
 

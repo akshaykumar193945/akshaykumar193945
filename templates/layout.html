@@ -248,9 +248,6 @@
 <script>
     // JavaScript to load "user_credential" section using AJAX
     // document.getElementById('load-user-credential').addEventListener('click', function(e) {
-        // 
-        // e.preventDefault(); // Prevent the default link behavior
-        // Use AJAX to fetch the "About" section content
     function loadUserCredential(){
 		console.log("in user record ###########");
         fetch('/user_records')
@@ -569,22 +566,15 @@
             .then(data => {
                 if (data.authenticated) {
                     load_user_tab.innerHTML = 'User Records';
-                    load_enroll_tab.innerHTML = 'Enroll';
-                    // loginLink.innerHTML = '';
-                    // signupLink.innerHTML = '';
-                    
+                    load_enroll_tab.innerHTML = 'Enroll';                    
                     removeElement(loginLink);
                     removeElement(signupLink);
                     removeElement(contact);
                     logoutLink.innerHTML = 'Logout';
                     username.innerHTML = data.username;
                 } else {
-                    // load_user_tab.innerHTML = '';
-                    // load_enroll_tab.innerHTML = '';
                     loginLink.innerHTML = 'Login';
                     signupLink.innerHTML = 'Signup';
-                    // logoutLink.innerHTML = '';
-                    // username.innerHTML = '';
                     removeElement(load_user_tab);
                     removeElement(load_enroll_tab);
                     removeElement(logoutLink);
@@ -606,6 +596,7 @@
         if (confirm("Are you sure you want to logout?")) {
             // Redirect to the logout URL
             window.location.href = "{{ url_for('logout') }}";
+            document.addEventListener('DOMContentLoaded', checkLoginStatus);
         }
     }
 
@@ -941,47 +932,45 @@
 </script>
 
 <script>
-    // JavaScript to check login status and load "enroll Course" section using AJAX
     function enrollCourse(event, course, course_id) {
-    event.preventDefault(); // Prevent the default link behavior
-    //console.log("In enroll courses !!!!!!!!!!!!!!!!!!!!!!! ");
+        event.preventDefault(); // Prevent the default link behavior
 
-    // Use fetch to check login status
-    fetch('/check_login_status')
-        .then(response => response.json())
-        .then(data => {
-            // Check if the user is authenticated
-            console.log("In enroll courses !!! ");
-            if (data.authenticated) {
-                // If authenticated, proceed to fetch and load course content
-                fetch(`/enroll_Course`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ course_name : course, course_id : course_id }), // Include the selected course data
-                })
-                .then(response => response.text())
-                .then(courseData => {
-                    // Insert the fetched content into the 'content' div
-                    //document.getElementById('content').innerHTML = courseData;
-					console.log(courseData);
-					myDialog(`Enrolled successful: ${JSON.stringify(courseData.message)}`, function () { userProfile();});
-                })
-                .catch(courseError => {
-                    console.error('Error loading "enroll Course" content:', courseError);
-                });
-            } else {
-                // If not authenticated, redirect to the login page
-                console.log("in errrorororororoo");
-				alert("Please login to Enroll in your cources ");
-                document.getElementById('content').innerHTML = loadLoginPage()
-            }
-        })
-        .catch(error => {
-            console.error('Error checking login status:', error);
-        });
-};
+        // Use fetch to check login status
+        fetch('/check_login_status')
+            .then(response => response.json())
+            .then(data => {
+                // Check if the user is authenticated
+                console.log("In enroll courses !!! ");
+                if (data.authenticated) {
+                    // If authenticated, proceed to fetch and load course content
+                    fetch(`/enroll_Course`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ course_name : course, course_id : course_id }), // Include the selected course data
+                    })
+                    .then(response => response.text())
+                    .then(courseData => {
+                        // Insert the fetched content into the 'content' div
+                        //document.getElementById('content').innerHTML = courseData;
+                        console.log(courseData);
+                        myDialog(`Enrolled successful: ${JSON.stringify(courseData.message)}`, function () { userProfile();});
+                    })
+                    .catch(courseError => {
+                        console.error('Error loading "enroll Course" content:', courseError);
+                    });
+                } else {
+                    // If not authenticated, redirect to the login page
+                    console.log("not authenticated ");
+                    alert("Please login to Enroll in your cource ");
+                    document.getElementById('content').innerHTML = loadLoginPage()
+                }
+            })
+            .catch(error => {
+                console.error('Error checking login status:', error);
+            });
+    };
 
 </script>
 
@@ -1093,7 +1082,6 @@
             })            
             .then(response => response.json())
             .then(data => {
-                // Insert the fetched content into the 'content' div
                 if (data.status){
                     console.log("in execute contact_records");
                     console.log(data.message);
@@ -1102,7 +1090,6 @@
                 else{
                     console.log(data.message);
                     myDialog(`${JSON.stringify(data.message)}`, function () {showContact();});
-
                 }
             })
             .catch(error => {
