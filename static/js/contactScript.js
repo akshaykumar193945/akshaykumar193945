@@ -1,6 +1,5 @@
         // JavaScript to load "contact" section using AJAX
-document.getElementById('load-contact').addEventListener('click', function(e) {
-    e.preventDefault(); // Prevent the default link behavior
+function contactForm() {
     // Use AJAX to fetch the "About" section content
     fetch('/contact')
         .then(response => response.text())
@@ -11,7 +10,7 @@ document.getElementById('load-contact').addEventListener('click', function(e) {
         .catch(error => {
             console.error('Error loading "contact" content:', error);
         });
-});
+}
 
 function showContact(){
     console.log("i am in separte js file but included in layout.html");
