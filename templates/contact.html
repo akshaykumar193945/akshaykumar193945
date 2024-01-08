@@ -1,109 +1,69 @@
 
     <style>
-        .contact-body {
-        font-family: Arial, sans-serif;
-        background-color: #f0f0f0;
-        margin: 0;
-        padding: 0;
-    }
-    
-    .contact-content {
-        background-color: #fff;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        padding: 20px;
-        margin-left: 10%;
-        margin-right: 10%;
-    }
-    
-    .contact-h2 {
-        font-size: 24px;
-        color: #333;
-        margin: 0;
-        margin-bottom: 10px;
-    }
-    
-    .contact-p {
-        font-size: 16px;
-        color: #666;
-    }
-    
-    .contact-ul {
-        list-style-type: disc;
-        margin-left: 20px;
-    }
-    
-    .contact-li {
-        margin-bottom: 5px;
-    }    
+        .contact-information-container{
+            padding-left:10%;
+            padding-bottom:10%;
+            align-self: center;
+        }
+        .contact-container {
+            display: flex;
+            justify-content:space-around;
+            align-items:normal;
+        }
 
-    .form-group {
-        margin-bottom: 15px;
-    }
+        .contact-details {
+            flex: 1;
+            margin-right: 20px; /* Adjust the margin based on your design */
+        }
 
-    label {
-        display: block;
-        font-size: 16px;
-        color: #333;
-        margin-bottom: 5px;
-    }
-
-    input,
-    textarea {
-        width: 100%;
-        padding: 10px;
-        font-size: 14px;
-        border: 1px solid #ddd;
-        border-radius: 3px;
-        box-sizing: border-box;
-    }
-
-    button {
-        background-color: #86bbdf;
-        color: #fff;
-        padding: 10px 20px;
-        font-size: 16px;
-        border: none;
-        border-radius: 3px;
-        cursor: pointer;
-    }
-
-    button:hover {
-        background-color: #5a8ea5;
-    }
-
+        .contact-info {
+            flex: 1;
+        }
     </style>    
 
-<div class="login-container shadow p-4 rounded">
-    <h2 class="contact-h2">Contact Us</h2>
 
-    <p class="contact-p">Please fill out the form below to get in touch with us:</p>
+<div class="contact-container">
+    <div class="contact-information-container">
+        <h2 class="contact-h2">Call Us</h2>
+        <p class="contact-p">Phone: Your Phone Number</p>
 
-    <form class="contact-form" id="contactForm" method="POST" onsubmit="onContactSubmit(event)">
-        <div class="form-outline mb-4">
-            <input class="form-control" type="text" id="name" name="name" required>
-            <label for="name">*Name:</label>
-        </div>
-    
-        <div class="form-outline mb-4">
-            <input class="form-control" type="tel" id="phone" name="phone" required>
-            <label for="phone">*Phone Number:</label>
-        </div>
-    
-        <div class="form-outline mb-4">
-            <input class="form-control" type="email" id="email" name="email">
-            <label for="email">Email:</label>
-        </div>
-    
-        <div class="form-outline mb-4">
-            <textarea class="form-control" id="message" name="message" rows="4"></textarea>
-            <label for="message">Message:</label>
-        </div>
-        <button type="submit" class="btn btn-primary mb-4 center-align">Submit</button>
-    </form>
-    
-	
-	<br>
-    <p class="contact-p"><a id="load-home" href="javascript:void(0)" onclick="loadHomeContent()">Back to Home</a></p>
+        <h2 class="contact-h2">Address</h2>
+        <p class="contact-p">Your Address</p>
+    </div>
+
+    <div class="login-container shadow p-4 rounded">
+        <h2 class="contact-h2">Contact Us</h2>
+
+        <p class="contact-p">Please fill out the form below to get in touch with us:</p>
+
+        <form class="contact-form" id="contactForm" method="POST" onsubmit="onContactSubmit(event)">
+            <div class="form-outline mb-4">
+                <input class="form-control" type="text" id="name" name="name" required>
+                <label for="name">*Name:</label>
+            </div>
+        
+            <div class="form-outline mb-4">
+                <input class="form-control" type="tel" id="phone" name="phone" required>
+                <label for="phone">*Phone Number:</label>
+            </div>
+        
+            <div class="form-outline mb-4">
+                <input class="form-control" type="email" id="email" name="email">
+                <label for="email">Email:</label>
+            </div>
+        
+            <div class="form-outline mb-4">
+                <textarea class="form-control" id="message" name="message" rows="4"></textarea>
+                <label for="message">Message:</label>
+            </div>
+            <button type="submit" class="btn btn-primary mb-4 center-align">Submit</button>
+        </form>
+        
+        
+        <br>
+        <p class="contact-p"><a id="load-home" href="javascript:void(0)" onclick="loadHomeContent()">Back to Home</a></p>
+    </div> 
+
 </div>
+
+
