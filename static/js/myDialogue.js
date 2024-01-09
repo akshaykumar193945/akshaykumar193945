@@ -13,7 +13,10 @@ function closeDialog() {
     document.getElementById('overlay').style.display = 'none';
     // Restore scrolling when the overlay is closed
     document.body.style.overflow = 'auto';
-    directedFunct();
+    console.log('in close dialoge box function ');
+    if (typeof directedFunct === 'function') {
+        directedFunct();
+    }
 }
 
 // Simulate a server response

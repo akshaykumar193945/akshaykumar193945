@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, redirect, url_for, jsonify, s
 from models import db, User_Credentials, Course_DB, Contact_DB
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from flask_migrate import Migrate
+from flask import jsonify
 from flask import request, jsonify
 import traceback
 import download_records as dwnld_rcds
@@ -336,7 +337,7 @@ def submit_edit_order(id):
                     'course': record.course,
                 }
 
-                print("Order Updation Done !!!")
+                print("Order Updation Done !!!", user_order)
                 return jsonify({'message': 'Record updated successfully', 'user_order': user_order})
             else:
                 return jsonify({'error': 'Record not found'}), 404

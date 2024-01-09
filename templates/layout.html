@@ -50,8 +50,9 @@
 
     <div id="floating-dialog">
         <div id="dialog-content"></div>
-        <button onclick="closeDialog()">Close</button>
+        <button onclick="closeDialog()">Close</button>        
     </div>
+    
     {% endblock %}
     <footer>
         <div class="footer-content">
@@ -94,6 +95,8 @@
                 })
                 .then(data => {
                     document.getElementById('content').innerHTML = data;
+                    console.log("rrrrrrrrrrrrrrrrrrrrrrrr");
+                    showFloatingMessage();
                 })
                 .catch(error => {
                     console.error('Error fetching content:', error);
@@ -101,6 +104,26 @@
                     window.location.href = '/error';
                 });
         };
+    </script>
+
+    <script>
+        function showFloatingMessage() {
+            // Check if the user has visited before by checking a local storage variable
+            console.log("bbbbbbbbbbb");
+            if (!localStorage.getItem('visitedBefore')) {
+                // Set the local storage variable to indicate that the user has visited
+                localStorage.setItem('visitedBefore', true);
+
+                // Show the floating message dialog
+                var floatingDialog = document.getElementById('floating-dialog');
+                if (floatingDialog) {
+                    floatingDialog.style.display = 'block';
+                    // You can customize the content of the ad here
+                    document.getElementById('dialog-content').innerHTML = '<h2>Special Offer!</h2><p>Don\'t miss our new course promotion!</p>';
+                    console.log("ccccccccccccccccc");
+                }
+            }
+        }
     </script>
     
     <script>

@@ -86,14 +86,15 @@ function updateUserOrder(recordId){
     }
 };
 
-function submitUpdateUserOrder(recordId) {
-   if (validateUserForm()) {
+function submitUpdateUserOrder(event, recordId) {
+    event.preventDefault();
+    if (validateUserForm()) {
        var formData = {
            course: document.getElementById('course').value,
            course_id: document.getElementById('course_id').value,
        };
        if (confirm('Are you sure you want to update this record ??')) {
-           console.log('in edit user order');
+           console.log('in edit user order', formData);
            fetch(`/submit_edit_order/${recordId}`, {
                method: 'POST',
                headers: {
