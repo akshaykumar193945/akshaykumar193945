@@ -1,7 +1,7 @@
 
 <div class="login-container shadow p-4 rounded">
         <div class="container">
-            <form method="post" action="{{ url_for('record_user_edited', id=record.id) }}"  onsubmit="submitUpdateUserOrder({{ record.id }})">
+            <form method="post" action="{{ url_for('record_user_edited', id=record.id) }}"  onsubmit="submitUpdateUserOrder(event, {{ record.id }})">
                 <div class="login-header">
                     <p class="h2 text-center">Edit Order</p>
                 </div>
