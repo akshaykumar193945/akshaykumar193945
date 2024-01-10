@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, redirect, url_for, jsonify, s
 from models import db, User_Credentials, Course_DB, Contact_DB
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from flask_migrate import Migrate
+from random import randint
 from flask import jsonify
 from flask import request, jsonify
 import traceback
@@ -522,3 +523,88 @@ def delete_contact():
             return jsonify({'error': 'Record not found'}), 404
     else:
         return jsonify({'error': 'Invalid Request'}), 404
+
+otp_db = {}
+def generate_otp():
+    return str(randint(1000, 9999))
+
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+
+def send_otp_email(sender_email, sender_password, recipient_email, subject, body):           
+    try:
+        message = MIMEMultipart()
+        message["From"] = sender_email
+        message["To"] = recipient_email
+        message["Subject"] = subject
+        message.attach(MIMEText(body, "plain"))
+        
+        smtp_server = "smtp.gmail.com"
+        smtp_port = 587
+        
+        # Establish a connection to the SMTP server
+        with smtplib.SMTP(smtp_server, smtp_port) as server:
+            # Start TLS encryption
+            server.starttls()
+        
+            # Log in to the email account
+            server.login(sender_email, sender_password)
+        
+            # Send the email
+            server.send_message(message)
+        
+        return f"OTP send to Email - {recipient_email} sent successfully!", True
+    except Exception as e: 
+        print(f"Error: {str(e)}")
+        traceback.print_exc()
+        return "Can't Reach to email or email is invalid", False
+    
+# Update the send_otp function for email verification
+@app.route('/send_otp', methods=['POST'])
+def send_otp():
+    try:
+        if request.method == 'POST':
+            data = request.get_json()
+            email = data.get('email')
+            print('in send otp')
+            if email:
+                # Generate OTP
+                otp = generate_otp()
+
+                sender_email = "akshaykumar18755@gmail.com"
+                sender_password = "htvs zbws oqyz kxmd"
+                recipient_email = email
+                subject = "Welcome to SSVM "
+                body = f"Your Email Verification OTP is {otp}"
+
+                msg, status = send_otp_email(sender_email, sender_password, recipient_email, subject, body)
+                if status:
+                    print('sent otp')
+                    # Store OTP in the session for validation
+                    session['otp'] = otp
+
+                    # Simulate storing OTP in the database (In a real application, use a database)
+                    otp_db[email] = otp
+                    
+                    return jsonify({'status' : True, 'message': msg, 'redirect': '/target_page'})
+                return jsonify({'status' : False, 'error': msg, 'redirect': '/target_page'})
+    except Exception as e:
+        print(f"Error: {str(e)}")
+        traceback.print_exc()
+        return jsonify({'status' : False, 'error': 'mail server error', 'redirect': '/target_page'}), 500
+
+@app.route('/verify_otp', methods=['POST'])
+def verify_otp():
+    if request.method == 'POST':
+        data = request.get_json()
+        entered_otp = data.get('otp')
+        print('vvvvvvvvvvvvvbbbbbbbbb', entered_otp)
+        if 'otp' in session and entered_otp == session['otp']:
+            # Valid OTP
+            return jsonify({'status' : True, 'message': 'OTP verification successful', 'redirect': '/target_page'})
+        else:
+            # Invalid OTP
+            return jsonify({'status' : False, 'error': "OTP verification failed", 'redirect': '/target_page'})
+    
+    return redirect(url_for('index'))

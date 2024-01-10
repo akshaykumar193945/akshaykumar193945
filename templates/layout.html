@@ -16,6 +16,7 @@
     <script src="{{ url_for('static', filename='js/enrolledCources.js') }}"></script>
     <script src="{{ url_for('static', filename='js/userCredentials.js') }}"></script>
     <script src="{{ url_for('static', filename='js/myDialogue.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/verifyEmail.js') }}"></script>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='sty2.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -129,7 +130,7 @@
     <script>
         // Set the timeout duration (in milliseconds)
         const inactivityTimeout = 600000; // 5 minutes
-      
+        
         let logoutTimer;
       
         function resetLogoutTimer() {

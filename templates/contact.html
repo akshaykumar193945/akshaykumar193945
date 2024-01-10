@@ -41,11 +41,26 @@
                 <input class="form-control" type="tel" id="phone" name="phone" required>
                 <label for="phone">*Phone Number:</label>
             </div>
-        
+
             <div class="form-outline mb-4">
-                <input class="form-control" type="email" id="email" name="email">
-                <label for="email">Email:</label>
+                <input class="form-control" type="email" id="email" name="email" required> 
+                <label for="email">*Email :
+                    <span id="email-verification-icon" style="display: none; color: green;"></span>                        </span>
+                </label>
             </div>
+
+            <form id="otpForm">
+
+                <div id='btn-sendOtp' class="form-outline mb-4">                
+                    <button type="button" class="btn btn-primary mb-4 center-align" onclick="sendOTP()">Send OTP</button>
+                </div>
+                
+                <div id="otpContainer" class="form-outline mb-4" style="display: none;">
+                    <input type="text" id="otp" name="otp" required>
+                    <label for="otp">Enter OTP:</label>            
+                    <button id='btn-verifyOTP' type="button" class="btn btn-primary center-align" onclick="verifyOTP()">Verify OTP</button>
+                </div>
+            </form>
         
             <div class="form-outline mb-4">
                 <textarea class="form-control" id="message" name="message" rows="4"></textarea>
